@@ -2,6 +2,8 @@ import glob
 import polars as pl
 import numpy as np
 
+from tqdm.notebook import tqdm
+
 
 class SensorLoggerData:
     """
@@ -40,7 +42,11 @@ class SensorLoggerData:
         data = None
 
         # for each file, read the json and append to data
-        for file in files:
+        for file in tqdm(
+            files,
+            desc="Reading Files",
+            unit="files",
+        ):
             # error handling
             try:
                 # read json
