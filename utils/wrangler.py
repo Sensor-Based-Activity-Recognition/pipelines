@@ -81,6 +81,18 @@ class SensorLoggerData:
                     values="value",
                 )
 
+                # Feature Selection
+                cols = [
+                    "time",
+                    "Accelerometer_x",
+                    "Accelerometer_y",
+                    "Accelerometer_z",
+                ]
+                temp = temp[cols]
+
+                # remove empty rows where all values except time are nan
+                temp = temp.filter(pl.all(set(cols) - {"time"}).is_not_null())
+
                 # add file name to columns as id
                 temp = temp.with_columns(
                     pl.lit(file.split("/")[-1].split(".")[0]).alias("id")
@@ -92,8 +104,6 @@ class SensorLoggerData:
                 # add activity name to columns as activity
                 temp = temp.with_columns(pl.lit(file.split("/")[-3]).alias("activity"))
 
-                # TODO: Implement Feature Selection
-
                 # append to data
                 ## if data is empty, set data to temp
                 if type(data) == type(None):
@@ -102,7 +112,6 @@ class SensorLoggerData:
                 else:
                     data = pl.concat([data, temp], how="diagonal")
 
-            # if error, print info
             except Exception as e:
                 print(f"Error processing {file}: {e}")
 

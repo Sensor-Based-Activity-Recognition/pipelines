@@ -48,9 +48,9 @@ class PipelineRunner:
 
         # run pipeline
         if self.pipeline == "Alpha":
-            data = pipelines.AlphaPipeline(self.sample_freq_hz).run(data)
+            data = pipelines.Alpha(self.sample_freq_hz).run(data)
         elif self.pipeline == "Beta":
-            data = pipelines.BetaPipeline(self.sample_freq_hz).run(data)
+            data = pipelines.Beta(self.sample_freq_hz).run(data)
         elif self.pipeline != None:
             raise ValueError("Invalid pipeline")
 
