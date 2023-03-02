@@ -16,13 +16,14 @@ class SensorLoggerData:
         get_data: Returns the data as a polars DataFrame
     """
 
-    def __init__(self, path):
+    def __init__(self, path, sensors):
         """
         Args:
             path (str): Path to the dataset
         """
 
         self.path = path
+        self.sensors = sensors
 
     def get_data(self):
         """
@@ -49,17 +50,11 @@ class SensorLoggerData:
         ):
             # error handling
             try:
-                # read json
-                temp = pl.read_json(file)
-
-                # melt data grouped by time and sensor
-                temp = temp.fill_null(value=np.nan)
+                # read json + lazy
+                temp = pl.read_json(file).lazy()
 
                 # melt data grouped by time and sensor
                 temp = temp.melt(id_vars=["time", "sensor"])
-
-                # drop nan values
-                temp = temp.drop_nulls()
 
                 # rename variable to sensor_variable
                 temp = temp.with_columns(
@@ -69,35 +64,36 @@ class SensorLoggerData:
                 # drop sensor column
                 temp = temp.drop(["sensor"])
 
-                # convert time to datetime
-                temp = temp.with_columns(pl.from_epoch("time", unit="ns").alias("time"))
+                # time to int
+                temp = temp.with_columns(pl.col("time").cast(pl.Int64).alias("time"))
+
+                # change resolution of data to 10ms
+                temp = temp.with_columns(
+                    (pl.col("time") // 10000000 * 10).cast(pl.Int64).alias("time")
+                )
 
                 # change time measurements from nanoseconds to milliseconds
                 temp = temp.with_columns(pl.from_epoch("time", unit="ms").alias("time"))
 
                 # convert values to float if possible
                 temp = temp.with_columns(
-                    pl.col("value").cast(pl.Float64, strict=False).alias("value")
+                    pl.col("value").cast(pl.Float32, strict=False).alias("value")
                 )
 
-                # pivot on time
+                # filter sensors
+                temp = temp.filter(pl.col("variable").is_in(self.sensors))
+
+                # collect 1
+                temp = temp.collect()
+
+                # pivot the data + lazy
                 temp = temp.pivot(
                     index="time",
                     columns="variable",
                     values="value",
-                )
-
-                # Feature Selection
-                cols = [
-                    "time",
-                    "Accelerometer_x",
-                    "Accelerometer_y",
-                    "Accelerometer_z",
-                ]
-                temp = temp[cols]
-
-                # remove empty rows where all values except time are nan
-                temp = temp.filter(pl.all(set(cols) - {"time"}).is_not_null())
+                    aggregate_function="mean",
+                    sort_columns=True,
+                ).lazy()
 
                 # add file name to columns as id
                 temp = temp.with_columns(
@@ -109,6 +105,9 @@ class SensorLoggerData:
 
                 # add activity name to columns as activity
                 temp = temp.with_columns(pl.lit(file.split("/")[-3]).alias("activity"))
+
+                # collect 2
+                temp = temp.collect()
 
                 # append to data
                 ## if data is empty, set data to temp

@@ -13,7 +13,7 @@ class PipelineRunner:
         origin (str): Origin of the data
     """
 
-    def __init__(self, path, pipeline, sample_freq_hz, origin):
+    def __init__(self, path, origin, sensors, pipeline, resample_freq_hz):
         """
         Args:
             path (str): Path to the dataset
@@ -22,10 +22,13 @@ class PipelineRunner:
             origin (str): Origin of the data
         """
 
+        # wrangler
         self.path = path
-        self.pipeline = pipeline
-        self.resample_freq_hz = sample_freq_hz
         self.origin = origin
+        self.sensors = sensors
+        # pipeline
+        self.pipeline = pipeline
+        self.resample_freq_hz = resample_freq_hz
 
     def run(self):
         """
@@ -40,7 +43,7 @@ class PipelineRunner:
 
         # get data
         if self.origin == "SensorLogger":
-            data = wrangler.SensorLoggerData(self.path).get_data()
+            data = wrangler.SensorLoggerData(self.path, self.sensors).get_data()
         elif self.origin == "App":
             data = wrangler.AppData(self.path).get_data()
         else:
