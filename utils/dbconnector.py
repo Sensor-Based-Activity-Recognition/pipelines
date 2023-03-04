@@ -33,13 +33,6 @@ class Database:
         # read data into polars dataframe
         data = pl.read_csv(io.StringIO(r.text))
 
-        # convert time to datetime
-        data = data.with_column(
-            pl.col("time")
-            .str.strptime(pl.Datetime, fmt="%Y-%m-%dT%H:%M:%S.%6fZ")
-            .alias("time")
-        )
-
         # convert timestamp to datetime
         data = data.with_column(
             pl.col("timestamp")
@@ -52,8 +45,8 @@ class Database:
             if data[col].dtype == pl.Float64:
                 data = data.with_column(pl.col(col).cast(pl.Float32).alias(col))
 
-        # sort by activity, person, filename and time
-        data = data.sort(["activity", "person", "filename", "time"])
+        # sort by insert hash and time
+        data = data.sort(["hash", "timestamp"])
 
         # return data
         return data
