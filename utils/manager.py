@@ -1,5 +1,12 @@
-from . import wrangler
+import json
+
+from . import dbconnector
 from . import pipelines
+
+# get config
+with open("config.json") as f:
+    config = json.load(f)
+table_name = "dev" if config["dev"] else "prod"
 
 
 class PipelineRunner:
@@ -13,7 +20,7 @@ class PipelineRunner:
         origin (str): Origin of the data
     """
 
-    def __init__(self, path, origin, sensors, pipeline, resample_freq_hz):
+    def __init__(self, pipeline, resample_freq_hz):
         """
         Args:
             path (str): Path to the dataset
@@ -21,11 +28,6 @@ class PipelineRunner:
             resample_freq_hz (int): Resample frequency
             origin (str): Origin of the data
         """
-
-        # wrangler
-        self.path = path
-        self.origin = origin
-        self.sensors = sensors
         # pipeline
         self.pipeline = pipeline
         self.resample_freq_hz = resample_freq_hz
@@ -42,12 +44,7 @@ class PipelineRunner:
         """
 
         # get data
-        if self.origin == "SensorLogger":
-            data = wrangler.SensorLoggerData(self.path, self.sensors).get_data()
-        elif self.origin == "App":
-            data = wrangler.AppData(self.path).get_data()
-        else:
-            raise ValueError("Invalid origin")
+        data = dbconnector.Database().get_data(f"SELECT * FROM {table_name}")
 
         # run pipeline
         if self.pipeline == "Alpha":
