@@ -26,17 +26,34 @@ class Database:
         """
         # prepare url with db config and query
         url = f"http://{questdb_settings['host']}:{questdb_settings['port']}/exp?query={query}"
+
         # get data
         r = requests.get(url)
+
         # read data into polars dataframe
         data = pl.read_csv(io.StringIO(r.text))
-        # convert time to datetime 2023-02-24T17:31:54.190Z
+
+        # convert time to datetime
         data = data.with_column(
             pl.col("time")
             .str.strptime(pl.Datetime, fmt="%Y-%m-%dT%H:%M:%S.%6fZ")
             .alias("time")
         )
-        # sort by time
-        data = data.sort(["filename", "time"])
+
+        # convert timestamp to datetime
+        data = data.with_column(
+            pl.col("timestamp")
+            .str.strptime(pl.Datetime, fmt="%Y-%m-%dT%H:%M:%S.%6fZ")
+            .alias("timestamp")
+        )
+
+        # change columns with Float64 to Float32
+        for col in data.columns:
+            if data[col].dtype == pl.Float64:
+                data = data.with_column(pl.col(col).cast(pl.Float32).alias(col))
+
+        # sort by activity, person, filename and time
+        data = data.sort(["activity", "person", "filename", "time"])
+
         # return data
         return data
