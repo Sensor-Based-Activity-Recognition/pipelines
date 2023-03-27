@@ -1,68 +1,49 @@
-# TODO: Implement Pipelines (Data Cleaning, Data Resampling, Feature Extraction)
-import polars as pl
+""" Pipelines """
+
+# Base Modules
+import sys
+from abc import ABCMeta, abstractmethod
+
+# Internal Modules
+from .modules import Resampler, FFT
 
 
-class Alpha:
-    """
-    Class to run the Alpha Pipeline
-
-    Attributes:
-        resample_freq_hz (int): Resample frequency
-
-    Methods:
-        run: Runs the pipeline on the data
-    """
-
-    def __init__(self, resample_freq_hz):
-        """
-        Args:
-            resample_freq_hz (int): Resample frequenc
-        """
-
-        self.resample_freq_hz = resample_freq_hz
-
-    def run(self, data):
-        """
-        Runs the pipeline on the data
-
-        Args:
-            data (polars.DataFrame): Dataframe with the data
-
-        Returns:
-            data (polars.DataFrame): Dataframe with the data
-        """
-
-        return None
+def get_pipeline(pipeline_name):
+    """Returns the pipeline class based on the pipeline name"""
+    return getattr(sys.modules[__name__], pipeline_name)
 
 
-class Beta:
-    """
-    Class to run the Beta Pipeline
-
-    Attributes:
-        resample_freq_hz (int): Resample frequency
-
-    Methods:
-        run: Runs the pipeline on the data
-    """
+class IPipeline(metaclass=ABCMeta):
+    """Abstract class for pipelines"""
 
     def __init__(self, resample_freq_hz):
-        """
-        Args:
-            resample_freq_hz (int): Resample frequency
-        """
-
         self.resample_freq_hz = resample_freq_hz
 
+    @staticmethod
+    @abstractmethod
+    def run():
+        """Pipelines must be implemented in child classes!"""
+        raise NotImplementedError
+
+
+class Alpha(IPipeline):
+    """Alpha Pipeline"""
+
     def run(self, data):
-        """
-        Runs the pipeline on the data
+        # TODO: Implement Alpha Pipeline using modules.py
 
-        Args:
-            data (polars.DataFrame): Dataframe with the data
+        # Example:
+        # data = Resampler(self.resample_freq_hz).run(data)
+        # data = FFT().run(data)
+        # return data
 
-        Returns:
-            data (polars.DataFrame): Dataframe with the data
-        """
+        raise NotImplementedError
 
-        return None
+
+class Beta(IPipeline):
+    """Beta Pipeline"""
+
+    def run(self, data):
+        # TODO: Implement Beta Pipeline using modules.py
+
+        raise NotImplementedError
