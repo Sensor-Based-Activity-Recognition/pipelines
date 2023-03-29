@@ -1,0 +1,9 @@
+stages:
+  pull_data:
+    cmd: python src/pull_data.py data/db_pull.parquet
+    deps:
+    - config.json
+    - src/pull_data.py
+    - src/utils/dbconnector.py
+    outs:
+    - data/db_pull.parquet

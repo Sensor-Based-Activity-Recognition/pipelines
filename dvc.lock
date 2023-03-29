@@ -1,0 +1,18 @@
+schema: '2.0'
+stages:
+  pull_data:
+    cmd: python src/pull_data.py data/db_pull.parquet
+    deps:
+    - path: config.json
+      md5: 6f7b9219e965d4f2dcbacf730754c2d1
+      size: 117
+    - path: src/pull_data.py
+      md5: e461d178f702866c3f936ea22d7f20b8
+      size: 362
+    - path: src/utils/dbconnector.py
+      md5: d8cdfbd865f4be459db74714762cd9b5
+      size: 1336
+    outs:
+    - path: data/db_pull.parquet
+      md5: e428ed1cf87be1ffbd338a2113826bd5
+      size: 12057
