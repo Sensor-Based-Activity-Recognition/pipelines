@@ -3,5 +3,5 @@
         "host": "docker.caracal-lime.ts.net",
         "port": 9000
     },
-    "dev": true
+    "dev": false
 }
