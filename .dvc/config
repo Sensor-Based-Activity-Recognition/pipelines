@@ -1,0 +1,7 @@
+[core]
+    remote = webdav_florin
+['remote "webdav_florin"']
+    url = webdavs://nas.tail3123.ts.net:5006/home/sensor-based-activity-recognition
+    user = webdav
+    password = 664YCkCB8gvm7v9MDgJBUwu6YMjcG4joUWqaYFeqCkzXgDmtKTGgCi78ak5c96EP
+    ssl_verify = false
