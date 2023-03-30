@@ -26,9 +26,22 @@ stages:
       md5: d30e256f1a00d82ece6f07422261055a
       size: 135521717
     - path: src/resample.py
-      md5: 6c4343a6391615bd4fd8bf43f83d1a31
-      size: 870
+      md5: d7aa9a33b8d48635e9ae6a508e28b2c9
+      size: 820
     outs:
     - path: data/resample.parquet
-      md5: 1b14d74f9061b9af0b8075897b1a3828
-      size: 85490052
+      md5: 0b13bd6bc234b1dffaaf498a3ddfa89b
+      size: 88310491
+  segmentate:
+    cmd: python src/segmentate.py data/resample.parquet 5 0
+    deps:
+    - path: data/resample.parquet
+      md5: 0b13bd6bc234b1dffaaf498a3ddfa89b
+      size: 88310491
+    - path: src/segmentate.py
+      md5: 276f4fb5a58884d1eb659fde3678bb62
+      size: 1883
+    outs:
+    - path: data/segmentate.dill
+      md5: dc9d2fd82e863c76a5ccb69a4ba49be4
+      size: 124896710
