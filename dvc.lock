@@ -1,21 +1,24 @@
 schema: '2.0'
 stages:
   pull_data:
-    cmd: python src/pull_data.py data/db_pull.parquet
+    cmd: python src/pull_data.py data/db_pull_calibrated.parquet data/db_pull_uncalibrated.parquet
     deps:
     - path: config.json
       md5: 357921b10542363ba763e9f5620c573f
-      size: 170
+      size: 177
     - path: src/pull_data.py
-      md5: 77b231853fd874d13243d9fa5ac68800
-      size: 784
+      md5: 4a87cb5ffbed506f25cab8e0eacce5dc
+      size: 1402
     - path: src/utils/dbconnector.py
       md5: 56d58baa8389a51a2fbae9065b05dd47
-      size: 1494
+      size: 1553
     outs:
-    - path: data/db_pull.parquet
+    - path: data/db_pull_calibrated.parquet
       md5: d30e256f1a00d82ece6f07422261055a
       size: 135521717
+    - path: data/db_pull_uncalibrated.parquet
+      md5: b4ad3b344690ea627e5df2083596ec09
+      size: 127964382
   resample:
     cmd: python src/resample.py data/db_pull.parquet 50 linear
     deps:

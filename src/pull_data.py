@@ -10,10 +10,11 @@ with open("config.json", encoding="utf-8") as f:
 TABLENAME = "dev" if config["dev"] else "prod"
 
 # get args
-output_filename = sys.argv[1]
+output_calibrated_filename = sys.argv[1]
+output_uncalibrated_filename = sys.argv[2]
 
 # process
-query = f"""
+data_calibrated = dbconnector.Database().get_data(quote(f"""
     SELECT  
         timestamp,
         Accelerometer_x,
@@ -30,13 +31,27 @@ query = f"""
         person
     FROM 
         {TABLENAME};
-    """
+    """))
 
-# convert query to url format
-query = quote(query)
-
-# get data
-data = dbconnector.Database().get_data(query)
+data_uncalibrated = dbconnector.Database().get_data(quote(f"""
+    SELECT
+        timestamp,
+        AccelerometerUncalibrated_x,
+        AccelerometerUncalibrated_y,
+        AccelerometerUncalibrated_z,
+        GyroscopeUncalibrated_x,
+        GyroscopeUncalibrated_y,
+        GyroscopeUncalibrated_z,
+        MagnetometerUncalibrated_x,
+        MagnetometerUncalibrated_y,
+        MagnetometerUncalibrated_z,
+        activity,
+        hash,
+        person
+    FROM
+        {TABLENAME};
+    """))
 
 # save data as parquet
-data.write_parquet(output_filename)
+data_calibrated.write_parquet(output_calibrated_filename)
+data_uncalibrated.write_parquet(output_uncalibrated_filename)
