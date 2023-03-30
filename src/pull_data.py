@@ -9,7 +9,10 @@ with open("config.json", encoding="utf-8") as f:
     config = json.load(f)
 TABLENAME = "dev" if config["dev"] else "prod"
 
+# get args
+output_filename = sys.argv[1]
 
+# process
 query = f"""
     SELECT  
         timestamp,
@@ -35,5 +38,4 @@ query = quote(query)
 data = dbconnector.Database().get_data(query)
 
 # save data as parquet
-out_filename = sys.argv[1]
-data.write_parquet(out_filename)
+data.write_parquet(output_filename)

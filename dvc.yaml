@@ -7,3 +7,10 @@ stages:
     - src/utils/dbconnector.py
     outs:
     - data/db_pull.parquet
+  resample:
+    cmd: python src/resample.py data/db_pull.parquet 50 linear
+    deps:
+    - data/db_pull.parquet
+    - src/resample.py
+    outs:
+    - data/resample.parquet
