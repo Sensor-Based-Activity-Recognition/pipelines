@@ -4,15 +4,28 @@ stages:
     cmd: python src/pull_data.py data/db_pull.parquet
     deps:
     - path: config.json
-      md5: 6f7b9219e965d4f2dcbacf730754c2d1
-      size: 117
+      md5: 357921b10542363ba763e9f5620c573f
+      size: 170
     - path: src/pull_data.py
-      md5: d26b03dbe74e65aab0ceb6cd88290044
-      size: 779
+      md5: 77b231853fd874d13243d9fa5ac68800
+      size: 784
     - path: src/utils/dbconnector.py
       md5: 56d58baa8389a51a2fbae9065b05dd47
-      size: 1553
+      size: 1494
     outs:
     - path: data/db_pull.parquet
-      md5: a50ce2e5218af7d6c060c56a464bc4a5
-      size: 134965167
+      md5: d30e256f1a00d82ece6f07422261055a
+      size: 135521717
+  resample:
+    cmd: python src/resample.py data/db_pull.parquet 50 linear
+    deps:
+    - path: data/db_pull.parquet
+      md5: d30e256f1a00d82ece6f07422261055a
+      size: 135521717
+    - path: src/resample.py
+      md5: 84d7a60cbcebdde5315aaf30596788c9
+      size: 925
+    outs:
+    - path: data/resample.parquet
+      md5: 86f6560271b267ff4fb868b0bd42f3a3
+      size: 85490052

@@ -3,5 +3,6 @@
         "host": "docker.caracal-lime.ts.net",
         "port": 9000
     },
+    "metadata_attributes": ["hash", "person", "activity"],
     "dev": false
 }

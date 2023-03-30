@@ -1,0 +1,4 @@
+outs:
+- md5: 84d7a60cbcebdde5315aaf30596788c9
+  size: 925
+  path: resample.py
