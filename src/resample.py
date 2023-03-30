@@ -6,7 +6,6 @@ input_filename = sys.argv[1]
 resample_frequency_hz = int(sys.argv[2])
 interpolation_method = sys.argv[3]
 
-
 print(f"Resampling {input_filename} to {resample_frequency_hz}Hz using {interpolation_method} interpolation")
 
 # read parquet file
