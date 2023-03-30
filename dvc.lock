@@ -7,8 +7,8 @@ stages:
       md5: 6f7b9219e965d4f2dcbacf730754c2d1
       size: 111
     - path: src/pull_data.py
-      md5: d26b03dbe74e65aab0ceb6cd88290044
-      size: 741
+      md5: 874342db5276794cff3cb28e985a079f
+      size: 768
     - path: src/utils/dbconnector.py
       md5: 56d58baa8389a51a2fbae9065b05dd47
       size: 1494
@@ -16,3 +16,16 @@ stages:
     - path: data/db_pull.parquet
       md5: a50ce2e5218af7d6c060c56a464bc4a5
       size: 134965167
+  resample:
+    cmd: python src/resample.py data/db_pull.parquet 50 linear
+    deps:
+    - path: data/db_pull.parquet
+      md5: a50ce2e5218af7d6c060c56a464bc4a5
+      size: 134965167
+    - path: src/resample.py
+      md5: ff28d6f4ef025585ee156d1180eb23c6
+      size: 964
+    outs:
+    - path: data/resample.parquet
+      md5: 6b7b8f21b0c5a84cdb0461261b148515
+      size: 85488357
