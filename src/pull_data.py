@@ -26,7 +26,8 @@ query = f"""
         Magnetometer_y,
         Magnetometer_z,
         activity,
-        hash
+        hash,
+        person
     FROM 
         {TABLENAME};
     """
