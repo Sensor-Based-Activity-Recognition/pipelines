@@ -5,13 +5,13 @@ stages:
     deps:
     - path: config.json
       md5: 6f7b9219e965d4f2dcbacf730754c2d1
-      size: 117
+      size: 111
     - path: src/pull_data.py
       md5: d26b03dbe74e65aab0ceb6cd88290044
-      size: 779
+      size: 741
     - path: src/utils/dbconnector.py
       md5: 56d58baa8389a51a2fbae9065b05dd47
-      size: 1553
+      size: 1494
     outs:
     - path: data/db_pull.parquet
       md5: a50ce2e5218af7d6c060c56a464bc4a5

@@ -4,7 +4,7 @@ Repository for our pipelines
 # How to DVC
 ## Install DVC
 ```bash
-pip install dvc
+pip install "dvc[webdav]"
 ```
 
 ## pull data

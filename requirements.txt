@@ -1,3 +1,2 @@
-polars==0.16.10
-dvc==2.51.0
-webdav4==0.9.3
+polars==0.16.16
+requests==2.28.2
