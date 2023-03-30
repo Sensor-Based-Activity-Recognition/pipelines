@@ -3,15 +3,18 @@ stages:
   pull_data:
     cmd: python src/pull_data.py data/db_pull_calibrated.parquet data/db_pull_uncalibrated.parquet
     deps:
-    - path: config.json
-      md5: 357921b10542363ba763e9f5620c573f
-      size: 177
     - path: src/pull_data.py
-      md5: e6207f27da6133f82eb76f2a385abdea
-      size: 1419
+      md5: 47d3bcadedf1f9db0bca7597375c6e22
+      size: 1432
     - path: src/utils/dbconnector.py
-      md5: 56d58baa8389a51a2fbae9065b05dd47
-      size: 1553
+      md5: 7d87ce109d5d15d6ae8b4c4367bc2271
+      size: 1547
+    params:
+      params.yaml:
+        database.questdb:
+          table_name: prod
+          host: docker.caracal-lime.ts.net
+          port: 9000
     outs:
     - path: data/db_pull_calibrated.parquet
       md5: d30e256f1a00d82ece6f07422261055a
