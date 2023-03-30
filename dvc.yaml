@@ -1,16 +1,17 @@
 stages:
   pull_data:
-    cmd: python src/pull_data.py data/db_pull.parquet
+    cmd: python src/pull_data.py data/db_pull_calibrated.parquet data/db_pull_uncalibrated.parquet
     deps:
     - config.json
     - src/pull_data.py
     - src/utils/dbconnector.py
     outs:
-    - data/db_pull.parquet
+    - data/db_pull_calibrated.parquet
+    - data/db_pull_uncalibrated.parquet
   resample:
-    cmd: python src/resample.py data/db_pull.parquet 50 linear
+    cmd: python src/resample.py data/db_pull_calibrated.parquet 50 linear
     deps:
-    - data/db_pull.parquet
+    - data/db_pull_calibrated.parquet
     - src/resample.py
     outs:
     - data/resample.parquet
