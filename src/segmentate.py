@@ -1,11 +1,11 @@
-from dill import dumps
+from dill import dump
 import pandas as pd
 import sys
 
 # get args
 input_filename = sys.argv[1]
 window_len_s = float(sys.argv[2])
-overlap_percent = sys.argv[3]
+overlap_percent = int(sys.argv[3])
 
 print(
     f"Segmentating {input_filename} to windows of {window_len_s}s with {overlap_percent}% overlap"
@@ -31,7 +31,6 @@ def segmentate(df:pd.DataFrame, window_len_s:float, overlap_percent:int):
     Returns:
         list of dataframes
     """
-    
     overap_timedelta = pd.Timedelta((window_len_s / 100) * overlap_percent, "s")  
 
     windows = []
@@ -47,11 +46,11 @@ def segmentate(df:pd.DataFrame, window_len_s:float, overlap_percent:int):
         
         window_start = window_end - overap_timedelta
 
+# segmentate
 window_dict = {}
-
 for group_name, dataframe in data.groupby(["activity", "person", "hash"]):
     window_dict[group_name] = segmentate(dataframe, window_len_s, overlap_percent)
 
 # dump windows
 with open("data/segmentate.dill", "wb") as f:
-    dumps(window_dict,  f)
+    dump(window_dict, f)

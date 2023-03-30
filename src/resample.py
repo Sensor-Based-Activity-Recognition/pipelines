@@ -26,6 +26,6 @@ for _, dataframe in data:
     # save to combined dataframe
     data_resampled += [dataframe]
 
-data_resampled = pd.concat(data_resampled, ignore_index=True)
+data_resampled = pd.concat(data_resampled)
 
 data_resampled.to_parquet("data/resample.parquet", index=True)

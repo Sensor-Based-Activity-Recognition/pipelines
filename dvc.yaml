@@ -21,4 +21,4 @@ stages:
     - data/resample.parquet
     - src/segmentate.py
     outs:
-    - data/segmentate.parquet
+    - data/segmentate.dill
