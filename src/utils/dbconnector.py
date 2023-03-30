@@ -4,14 +4,14 @@
 import io
 import json
 import requests
+import yaml
 
 # 3rd Party Modules
 import polars as pl
 
 # read config
-with open("config.json", encoding="utf-8") as f:
-    config = json.load(f)
-questdb_settings = config["questdb"]
+params = yaml.safe_load(open("params.yaml"))["database"]
+questdb_settings = params["questdb"]
 
 
 class Database:

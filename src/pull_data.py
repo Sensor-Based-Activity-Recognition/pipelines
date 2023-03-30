@@ -1,13 +1,16 @@
 import json
 import sys
 from urllib.parse import quote
+import yaml
 
 from utils import dbconnector
 
+
 # get config
-with open("config.json", encoding="utf-8") as f:
-    config = json.load(f)
-TABLENAME = "dev" if config["dev"] else "prod"
+params = yaml.safe_load(open("params.yaml"))["database"]["questdb"]
+
+# get table name
+TABLENAME = params["table_name"]
 
 # get args
 output_calibrated_filename = sys.argv[1]

@@ -2,9 +2,10 @@ stages:
   pull_data:
     cmd: python src/pull_data.py data/db_pull_calibrated.parquet data/db_pull_uncalibrated.parquet
     deps:
-    - config.json
     - src/pull_data.py
     - src/utils/dbconnector.py
+    params:
+    - database.questdb
     outs:
     - data/db_pull_calibrated.parquet
     - data/db_pull_uncalibrated.parquet
