@@ -1,5 +1,6 @@
 [core]
     remote = webdav_florin
+    autostage = true
 ['remote "webdav_florin"']
     url = webdavs://nas.tail3123.ts.net:5006/home/sensor-based-activity-recognition
     user = webdav
