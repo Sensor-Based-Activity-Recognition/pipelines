@@ -46,7 +46,8 @@ data_uncalibrated = dbconnector.Database().get_data(quote(f"""
         MagnetometerUncalibrated_y,
         MagnetometerUncalibrated_z,
         activity,
-        hash
+        hash,
+        person
     FROM
         {TABLENAME};
     """))
