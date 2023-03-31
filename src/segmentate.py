@@ -27,24 +27,24 @@ def segmentate(df:pd.DataFrame, window_len_s:float, overlap_percent:int):
     
     2. use function: segmentate(|1,2,3,4,5,6,7,8,9,10,11,12,13|, 4, 50)
     3. returns: [|1,2,3,4|,|3,4,5,6|,|5,6,7,8|,|7,8,9,10|,|9,10,11,12|]
-    Remark: last window (|11,12,13|) wouldn't have full length why this data is ignored
+    Remark: last window (|11,12,13|) wouldn't have full length which is why this data is ignored
     Returns:
         list of dataframes
     """
-    overap_timedelta = pd.Timedelta((window_len_s / 100) * overlap_percent, "s")  
+    overlap_timedelta = pd.Timedelta((window_len_s / 100) * overlap_percent, "s")  
 
     windows = []
     window_start = df.index[0]
     while(True):
         window_end = window_start + pd.Timedelta(window_len_s, "s")
 
-        #window cannot reach full length
+        # window cannot reach full length anymore
         if window_end > df.index[-1]:
             return windows
 
         windows.append(df.loc[(df.index >= window_start) & (df.index <= window_end)])
         
-        window_start = window_end - overap_timedelta
+        window_start = window_end - overlap_timedelta
 
 # segmentate
 window_dict = {}
