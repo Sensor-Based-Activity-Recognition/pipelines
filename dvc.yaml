@@ -35,6 +35,7 @@ stages:
     deps:
     - data/segmentate.dill
     - src/filter_bandpass.py
+    - src/utils/filters.py
     outs:
     - data/bandpass.dill
   filter_lowpass:
@@ -42,6 +43,7 @@ stages:
     deps:
     - data/segmentate.dill
     - src/filter_lowpass.py
+    - src/utils/filters.py
     outs:
     - data/lowpass.dill
   filter_highpass:
@@ -49,5 +51,6 @@ stages:
     deps:
     - data/segmentate.dill
     - src/filter_highpass.py
+    - src/utils/filters.py
     outs:
     - data/highpass.dill
