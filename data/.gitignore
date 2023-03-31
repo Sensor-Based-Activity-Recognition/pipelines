@@ -1,3 +1,4 @@
 /db_pull_calibrated.parquet
 /db_pull_uncalibrated.parquet
 /resample.parquet
+/segmentate.dill

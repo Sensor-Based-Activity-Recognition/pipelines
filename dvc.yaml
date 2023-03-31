@@ -16,3 +16,10 @@ stages:
     - src/resample.py
     outs:
     - data/resample.parquet
+  segmentate:
+    cmd: python src/segmentate.py data/resample.parquet 5 0
+    deps:
+    - data/resample.parquet
+    - src/segmentate.py
+    outs:
+    - data/segmentate.dill
