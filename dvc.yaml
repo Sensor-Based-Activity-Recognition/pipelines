@@ -30,3 +30,24 @@ stages:
     - src/fft.py
     outs:
     - data/fft.dill
+  filter_bandpass:
+    cmd: python src/filter_bandpass.py data/segmentate.dill 0.001 100 3
+    deps:
+    - data/segmentate.dill
+    - src/filter_bandpass.py
+    outs:
+    - data/bandpass.dill
+  filter_lowpass:
+    cmd: python src/filter_lowpass.py data/segmentate.dill 100 3
+    deps:
+    - data/segmentate.dill
+    - src/filter_lowpass.py
+    outs:
+    - data/lowpass.dill
+  filter_highpass:
+    cmd: python src/filter_highpass.py data/segmentate.dill 0.001 3
+    deps:
+    - data/segmentate.dill
+    - src/filter_highpass.py
+    outs:
+    - data/highpass.dill

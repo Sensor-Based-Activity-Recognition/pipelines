@@ -3,3 +3,6 @@
 /resample.parquet
 /segmentate.dill
 /fft.dill
+/bandpass.dill
+/lowpass.dill
+/highpass.dill

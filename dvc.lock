@@ -61,3 +61,55 @@ stages:
     - path: data/fft.dill
       md5: 06e7b37028e6bf9acb9776332ab5a61c
       size: 48578939
+  bandpass:
+    cmd: python src/filter_band.py data/segmentate.dill 0.001 100 3
+    deps:
+    - path: data/segmentate.dill
+      md5: dc9d2fd82e863c76a5ccb69a4ba49be4
+      size: 124896710
+    - path: src/filter_band.py
+      md5: 11eaf032d56cda287c39245761c91c78
+      size: 4137
+    outs:
+    - path: data/bandpass.dill
+      md5: 517a4b10f54aa6912ec82feac9e2aaf6
+      size: 205869032
+  filter_lowpass:
+    cmd: python src/filter_lowpass.py data/segmentate.dill 100 3
+    deps:
+    - path: data/segmentate.dill
+      md5: dc9d2fd82e863c76a5ccb69a4ba49be4
+      size: 124896710
+    - path: src/filter_lowpass.py
+      md5: e550a4c6a9a527ba1dc83b831364d8f5
+      size: 1753
+    outs:
+    - path: data/lowpass.dill
+      md5: 5d5b0f5bba8d2a7b7970498cc95fd0e0
+      size: 205869032
+  filter_bandpass:
+    cmd: python src/filter_bandpass.py data/segmentate.dill 0.001 100 3
+    deps:
+    - path: data/segmentate.dill
+      md5: dc9d2fd82e863c76a5ccb69a4ba49be4
+      size: 124896710
+    - path: src/filter_bandpass.py
+      md5: 93d5d5c02f57131c190a53592ac2611f
+      size: 1955
+    outs:
+    - path: data/bandpass.dill
+      md5: 517a4b10f54aa6912ec82feac9e2aaf6
+      size: 205869032
+  filter_highpass:
+    cmd: python src/filter_highpass.py data/segmentate.dill 0.001 3
+    deps:
+    - path: data/segmentate.dill
+      md5: dc9d2fd82e863c76a5ccb69a4ba49be4
+      size: 124896710
+    - path: src/filter_highpass.py
+      md5: e5033ef75c1b1fa8835ba6f62e476080
+      size: 1760
+    outs:
+    - path: data/highpass.dill
+      md5: 5eb92861db7d002abac6e4bdbeec2c81
+      size: 205869032
