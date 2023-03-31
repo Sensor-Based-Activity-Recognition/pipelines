@@ -2,3 +2,4 @@
 /db_pull_uncalibrated.parquet
 /resample.parquet
 /segmentate.dill
+/fft.dill

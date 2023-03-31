@@ -23,3 +23,10 @@ stages:
     - src/segmentate.py
     outs:
     - data/segmentate.dill
+  fft:
+    cmd: python src/fft.py data/segmentate.dill
+    deps:
+    - data/segmentate.dill
+    - src/fft.py
+    outs:
+    - data/fft.dill
