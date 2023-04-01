@@ -23,3 +23,21 @@ stages:
     - src/segmentate.py
     outs:
     - data/segmentate.dill
+  std-scale:
+    cmd: python src/standard-scaler.py data/db_pull_calibrated.parquet
+    deps:
+    - data/db_pull_calibrated.parquet
+    - src/standard-scaler.py
+    outs:
+    - data/standard-scaled.parquet
+    - data/standard-scaler-means.csv
+    - data/standard-scaler-stds.csv
+  min-max-scale:
+    cmd: python src/min-max-scaler.py data/db_pull_calibrated.parquet 0 1
+    deps:
+    - data/db_pull_calibrated.parquet
+    - src/min-max-scaler.py
+    outs:
+    - data/min-max-scaled.parquet
+    - data/min-max-scaler-maxs.csv
+    - data/min-max-scaler-mins.csv

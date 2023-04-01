@@ -2,3 +2,9 @@
 /db_pull_uncalibrated.parquet
 /resample.parquet
 /segmentate.dill
+/standard-scaled.parquet
+/standard-scaler-means.csv
+/standard-scaler-stds.csv
+/min-max-scaled.parquet
+/min-max-scaler-mins.csv
+/min-max-scaler-maxs.csv

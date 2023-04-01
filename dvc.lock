@@ -5,10 +5,10 @@ stages:
     deps:
     - path: src/pull_data.py
       md5: 47d3bcadedf1f9db0bca7597375c6e22
-      size: 1432
+      size: 1372
     - path: src/utils/dbconnector.py
       md5: 7d87ce109d5d15d6ae8b4c4367bc2271
-      size: 1547
+      size: 1488
     params:
       params.yaml:
         database.questdb:
@@ -42,9 +42,47 @@ stages:
       md5: 0b13bd6bc234b1dffaaf498a3ddfa89b
       size: 88310491
     - path: src/segmentate.py
-      md5: 276f4fb5a58884d1eb659fde3678bb62
-      size: 1883
+      md5: e1abf0000b04bea2cdcb6685ff62fc3a
+      size: 1903
     outs:
     - path: data/segmentate.dill
       md5: dc9d2fd82e863c76a5ccb69a4ba49be4
       size: 124896710
+  min-max-scale:
+    cmd: python src/min-max-scaler.py data/db_pull_calibrated.parquet 0 1
+    deps:
+    - path: data/db_pull_calibrated.parquet
+      md5: d30e256f1a00d82ece6f07422261055a
+      size: 135521717
+    - path: src/min-max-scaler.py
+      md5: 5bb3a554706c820a21876bbc05ed8614
+      size: 802
+    outs:
+    - path: data/min-max-scaled.parquet
+      md5: eac47ce9c3e09ad12163d8defca94ae6
+      size: 178615670
+    - path: data/min-max-scaler-maxs.csv
+      md5: ee653e891de3e515d7f95173e7ca1988
+      size: 217
+    - path: data/min-max-scaler-mins.csv
+      md5: 0a25e62d423e0d911e71e06e356c645b
+      size: 226
+  std-scale:
+    cmd: python src/standard-scaler.py data/db_pull_calibrated.parquet
+    deps:
+    - path: data/db_pull_calibrated.parquet
+      md5: d30e256f1a00d82ece6f07422261055a
+      size: 135521717
+    - path: src/standard-scaler.py
+      md5: 59b38244e5c5a9c162b5fbbe57dcd50c
+      size: 574
+    outs:
+    - path: data/standard-scaled.parquet
+      md5: 2e8c6c80ef9f14d5a905f4ee212a1d94
+      size: 183757076
+    - path: data/standard-scaler-means.csv
+      md5: 960c8974f6ff21fee6dfbc4d99e2d4aa
+      size: 234
+    - path: data/standard-scaler-stds.csv
+      md5: 6c408758b4d89b446bde0f388c7c3b4e
+      size: 217
