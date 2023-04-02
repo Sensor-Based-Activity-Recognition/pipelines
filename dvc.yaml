@@ -23,3 +23,10 @@ stages:
     - src/segmentate.py
     outs:
     - data/segmentate.dill
+  pca:
+    cmd: python src/pca.py data/resample.parquet 6
+    deps:
+    - data/resample.parquet
+    - src/pca.py
+    outs:
+    - data/pca.parquet
