@@ -5,7 +5,7 @@ import numpy as np
 from typing import Tuple, Union
 import numbers
 
-def butt_filter(df:pd.DataFrame, filter_type:str, cutoff_freq:Union[float, Tuple[float, float]], order:int=3):
+def butterworth_filter(df:pd.DataFrame, filter_type:str, cutoff_freq:Union[float, Tuple[float, float]], order:int=3):
     """ Apply filter on dataframe
     Args:
         df (pd.dataframe): dataframe

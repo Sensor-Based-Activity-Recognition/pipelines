@@ -1,4 +1,4 @@
-from utils.filters import butt_filter
+from utils.filters import butterworth_filter
 from dill import load, dump
 import sys
 import time
@@ -15,7 +15,7 @@ print(
 with open(input_filename, "rb") as fr: #load data
     data = {} #filtered data stored he§re
     for key, segments in load(fr).items():
-        data[key] = [butt_filter(segment, "bandpass", (lowcut, highcut), order) for segment in segments]
+        data[key] = [butterworth_filter(segment, "bandpass", (lowcut, highcut), order) for segment in segments]
 
     # dump fft of windows
     with open("data/bandpass.dill", "wb") as fw:
