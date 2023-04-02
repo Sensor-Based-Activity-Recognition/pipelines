@@ -17,14 +17,17 @@ data = data.groupby("hash")
 
 data_resampled = []
 
-# resample by activity and combine in new dataframe
-for _, dataframe in data:
-    dataframe = dataframe.resample(
+# resample by recording and combine in new dataframe
+for _, recording in data:
+    recording = recording.resample(
         f"{int(1E6/resample_frequency_hz)}us", origin="start"
     ).interpolate(method=interpolation_method)
 
+    # backward fill in case of missing values at start
+    recording = recording.fillna(method="bfill")
+
     # save to combined dataframe
-    data_resampled += [dataframe]
+    data_resampled += [recording]
 
 data_resampled = pd.concat(data_resampled)
 
