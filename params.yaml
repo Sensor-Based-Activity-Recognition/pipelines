@@ -7,3 +7,8 @@ database:
   - hash
   - person
   - activity
+
+aggregate:
+  - mean
+  - median
+  - std

@@ -48,3 +48,22 @@ stages:
     - path: data/segmentate.dill
       md5: 59c7cf3230d74ecc1aaebba0757b0bd2
       size: 124896710
+  aggregate:
+    cmd: python src/aggregate.py data/segmentate.dill data/aggregate.dill
+    deps:
+    - path: data/segmentate.dill
+      md5: 59c7cf3230d74ecc1aaebba0757b0bd2
+      size: 124896710
+    - path: src/aggregate.py
+      md5: ba4c2c1c7cde8cb69112a545aabb9ec3
+      size: 1617
+    params:
+      params.yaml:
+        aggregate:
+        - mean
+        - median
+        - std
+    outs:
+    - path: data/aggregate.dill
+      md5: 33445fc583137eab35cc451478602d22
+      size: 4774687
