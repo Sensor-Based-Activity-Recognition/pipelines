@@ -24,7 +24,7 @@ stages:
     outs:
     - data/segmentate.dill
   moving_average:
-    cmd: python src/moving_average.py data/resample.parquet
+    cmd: python src/moving_average.py data/resample.parquet data/moving_average.parquet
     deps:
     - data/resample.parquet
     - src/moving_average.py

@@ -49,14 +49,17 @@ stages:
       md5: 59c7cf3230d74ecc1aaebba0757b0bd2
       size: 124896710
   moving_average:
-    cmd: python src/moving_average.py data/resample.parquet 0.5
+    cmd: python src/moving_average.py data/resample.parquet data/moving_average.parquet
     deps:
     - path: data/resample.parquet
       md5: d826ddc6fce7ed18fc75294100e35f01
       size: 88337427
     - path: src/moving_average.py
-      md5: 7fcdc46a25bdae656c92f31c26e186bd
-      size: 1414
+      md5: 33a90e13daee9322ddc9c55842b4a134
+      size: 1532
+    params:
+      params.yaml:
+        moving_average.window_len_s: 0.5
     outs:
     - path: data/moving_average.parquet
       md5: 77b97764cf00a211b6c60ff7ecab9c50

@@ -28,6 +28,7 @@ def moving_average(df:pd.DataFrame, window_len_s:float):
 if __name__ == "__main__":
     # get args
     input_filename = sys.argv[1]
+    output_filename = sys.argv[2]
     # get config
     params = yaml.safe_load(open("params.yaml"))["moving_average"]
     moving_average_window_len_s = params["window_len_s"]
@@ -39,4 +40,4 @@ if __name__ == "__main__":
     # calculate moving average
     data = moving_average(data, moving_average_window_len_s)
     # save dataframe
-    data.to_parquet("data/moving_average.parquet")
+    data.to_parquet(output_filename)
