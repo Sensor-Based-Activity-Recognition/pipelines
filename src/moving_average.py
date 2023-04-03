@@ -1,5 +1,6 @@
 import pandas as pd
 import sys
+import yaml
 from tqdm import tqdm
 
 # helper function
@@ -27,12 +28,12 @@ def moving_average(df:pd.DataFrame, window_len_s:float):
 if __name__ == "__main__":
     # get args
     input_filename = sys.argv[1]
-    moving_average_window_len_s = float(sys.argv[2])
-
+    # get config
+    params = yaml.safe_load(open("params.yaml"))["moving_average"]
+    moving_average_window_len_s = params["window_len_s"]
     print(
         f"Calculating moving average for {input_filename} with window length {moving_average_window_len_s}s"
     )
-
     # read parquet file
     data = pd.read_parquet(input_filename)
     # calculate moving average
