@@ -14,6 +14,10 @@ print(
 # read parquet file
 data = pd.read_parquet(input_filename)
 
+# add segment id column
+data.loc[:, "segment_id"] = -1
+segment_id = 0
+
 # helper function
 def segmentate(df:pd.DataFrame, window_len_s:float, overlap_percent:int):
     """Makes windows [aka best os ;)] from dataframe
@@ -42,8 +46,14 @@ def segmentate(df:pd.DataFrame, window_len_s:float, overlap_percent:int):
         if window_end > df.index[-1]:
             return windows
 
-        windows.append(df.loc[(df.index >= window_start) & (df.index <= window_end)])
-        
+        selected_rows = (df.index >= window_start) & (df.index <= window_end)
+
+        # add segment id
+        global segment_id
+        df.loc[selected_rows, "segment_id"] = segment_id
+        segment_id += 1
+
+        windows.append(df.loc[selected_rows])
         window_start = window_end - overlap_timedelta
 
 # segmentate

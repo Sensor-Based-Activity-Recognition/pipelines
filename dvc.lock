@@ -42,12 +42,12 @@ stages:
       md5: d826ddc6fce7ed18fc75294100e35f01
       size: 88337427
     - path: src/segmentate.py
-      md5: e1abf0000b04bea2cdcb6685ff62fc3a
-      size: 1903
+      md5: 903619e5af7d63f472f5a579533ad8b1
+      size: 2240
     outs:
     - path: data/segmentate.dill
-      md5: 59c7cf3230d74ecc1aaebba0757b0bd2
-      size: 124896710
+      md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
+      size: 142338896
   moving_average:
     cmd: python src/moving_average.py data/resample.parquet data/moving_average.parquet
     deps:
