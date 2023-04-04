@@ -3,3 +3,4 @@
 /resample.parquet
 /moving_average.parquet
 /segmentate.dill
+/pca.parquet
