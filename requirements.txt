@@ -5,3 +5,4 @@ pyarrow==11.0.0
 dvc==2.51.0
 dvc-webdav==2.19.1
 dill==0.3.6
+scikit-learn==1.2.2
