@@ -7,3 +7,6 @@ database:
   - hash
   - person
   - activity
+
+moving_average:
+  window_len_s: 0.5

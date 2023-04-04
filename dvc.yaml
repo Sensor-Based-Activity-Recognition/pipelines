@@ -23,6 +23,15 @@ stages:
     - src/segmentate.py
     outs:
     - data/segmentate.dill
+  moving_average:
+    cmd: python src/moving_average.py data/resample.parquet data/moving_average.parquet
+    deps:
+    - data/resample.parquet
+    - src/moving_average.py
+    params:
+    - moving_average.window_len_s
+    outs:
+    - data/moving_average.parquet
   pca:
     cmd: python src/pca.py data/resample.parquet 6
     deps:
