@@ -1,6 +1,7 @@
 from dill import dump
 import pandas as pd
 import sys
+from tqdm import tqdm
 
 # get args
 input_filename = sys.argv[1]
@@ -58,7 +59,7 @@ def segmentate(df:pd.DataFrame, window_len_s:float, overlap_percent:int):
 
 # segmentate
 window_dict = {}
-for group_name, dataframe in data.groupby(["activity", "person", "hash"]):
+for group_name, dataframe in tqdm(data.groupby(["activity", "person", "hash"])):
     window_dict[group_name] = segmentate(dataframe, window_len_s, overlap_percent)
 
 # dump windows
