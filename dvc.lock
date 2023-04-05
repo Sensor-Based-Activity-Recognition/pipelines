@@ -42,12 +42,12 @@ stages:
       md5: d826ddc6fce7ed18fc75294100e35f01
       size: 88337427
     - path: src/segmentate.py
-      md5: e1abf0000b04bea2cdcb6685ff62fc3a
-      size: 1903
+      md5: 637d6890bb0ac46bc3abede3e5fdd081
+      size: 2232
     outs:
     - path: data/segmentate.dill
-      md5: 59c7cf3230d74ecc1aaebba0757b0bd2
-      size: 124896710
+      md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
+      size: 142338896
   moving_average:
     cmd: python src/moving_average.py data/resample.parquet data/moving_average.parquet
     deps:
@@ -77,3 +77,23 @@ stages:
     - path: data/pca.parquet
       md5: b778e7c9db806d6955b2edb91193dc46
       size: 67273988
+  train_test_split:
+    cmd: python src/train_test_split.py data/segmentate.dill data/train_test_split.json
+    deps:
+    - path: data/segmentate.dill
+      md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
+      size: 142338896
+    - path: src/train_test_split.py
+      md5: 4d560eb044a0022a1cb398a69830bf62
+      size: 2374
+    params:
+      params.yaml:
+        train_test_split:
+          type: person
+          test_ratio: 0.2
+          seed: 9458
+          stratified: true
+    outs:
+    - path: data/train_test_split.json
+      md5: 20a5446519af97f135682be727731a9f
+      size: 49755

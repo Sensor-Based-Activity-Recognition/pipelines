@@ -10,3 +10,9 @@ database:
 
 moving_average:
   window_len_s: 0.5
+
+train_test_split:
+  type: person
+  test_ratio: 0.2
+  seed: 9458
+  stratified: True

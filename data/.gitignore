@@ -4,3 +4,4 @@
 /moving_average.parquet
 /segmentate.dill
 /pca.parquet
+/train_test_split.json
