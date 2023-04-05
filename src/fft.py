@@ -6,6 +6,7 @@ from scipy.fft import fft, fftfreq
 
 # get args
 input_filename = sys.argv[1]
+output_filename  = sys.argv[2]
 print(
     f"FFT transformation of {input_filename}"
 )
@@ -45,5 +46,5 @@ with open(input_filename, "rb") as fr: #load data
         data[key] = [get_fft(segment) for segment in segments]
 
     # dump fft of windows
-    with open("data/fft.dill", "wb") as fw:
+    with open(output_filename, "wb") as fw:
         dump(data, fw)

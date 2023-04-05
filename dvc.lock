@@ -94,14 +94,14 @@ stages:
       md5: 7b1cc4a0355612e1b66d0842fa0b5bc6
       size: 205869032
   fft:
-    cmd: python src/fft.py data/segmentate.dill
+    cmd: python src/fft.py data/segmentate.dill data/fft.dill
     deps:
     - path: data/segmentate.dill
       md5: 59c7cf3230d74ecc1aaebba0757b0bd2
       size: 124896710
     - path: src/fft.py
-      md5: f8e4565cc07304f3b0ceab94f59e799b
-      size: 1544
+      md5: b318a9bf6a772ff5feed765e562233f7
+      size: 1576
     outs:
     - path: data/fft.dill
       md5: 9236e385eb57d1aa51aa084c879ced97
