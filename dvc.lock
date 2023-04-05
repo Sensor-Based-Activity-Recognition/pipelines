@@ -33,17 +33,17 @@ stages:
       size: 926
     outs:
     - path: data/resample.parquet
-      md5: d826ddc6fce7ed18fc75294100e35f01
+      md5: 816b70cbdfd4208db96e8525156c821f
       size: 88337427
   segmentate:
     cmd: python src/segmentate.py data/resample.parquet 5 0
     deps:
     - path: data/resample.parquet
-      md5: d826ddc6fce7ed18fc75294100e35f01
+      md5: 816b70cbdfd4208db96e8525156c821f
       size: 88337427
     - path: src/segmentate.py
       md5: 637d6890bb0ac46bc3abede3e5fdd081
-      size: 2232
+      size: 2165
     outs:
     - path: data/segmentate.dill
       md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
@@ -52,31 +52,31 @@ stages:
     cmd: python src/moving_average.py data/resample.parquet data/moving_average.parquet
     deps:
     - path: data/resample.parquet
-      md5: d826ddc6fce7ed18fc75294100e35f01
+      md5: 816b70cbdfd4208db96e8525156c821f
       size: 88337427
     - path: src/moving_average.py
       md5: 33a90e13daee9322ddc9c55842b4a134
-      size: 1532
+      size: 1490
     params:
       params.yaml:
         moving_average.window_len_s: 0.5
     outs:
     - path: data/moving_average.parquet
-      md5: 77b97764cf00a211b6c60ff7ecab9c50
+      md5: 26bad3a684ad1e3caf9a2dc8f144b95c
       size: 138287096
   pca:
     cmd: python src/pca.py data/resample.parquet 6
     deps:
     - path: data/resample.parquet
-      md5: d826ddc6fce7ed18fc75294100e35f01
+      md5: 816b70cbdfd4208db96e8525156c821f
       size: 88337427
     - path: src/pca.py
       md5: fa8774263d82bc518a08bc55e10aeb20
       size: 995
     outs:
     - path: data/pca.parquet
-      md5: b778e7c9db806d6955b2edb91193dc46
-      size: 67273988
+      md5: f8ae28341fe1f85930acbcdb150b3ece
+      size: 67273171
   train_test_split:
     cmd: python src/train_test_split.py data/segmentate.dill data/train_test_split.json
     deps:
@@ -84,8 +84,8 @@ stages:
       md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
       size: 142338896
     - path: src/train_test_split.py
-      md5: 4d560eb044a0022a1cb398a69830bf62
-      size: 2374
+      md5: 94d67eaa3fad9cbf073cfda7c3327ee2
+      size: 2630
     params:
       params.yaml:
         train_test_split:
@@ -97,3 +97,17 @@ stages:
     - path: data/train_test_split.json
       md5: 20a5446519af97f135682be727731a9f
       size: 49755
+  correlations:
+    cmd: python src/correlations.py data/segmentate.dill data/correlations.parquet
+      pearson
+    deps:
+    - path: data/segmentate.dill
+      md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
+      size: 142338896
+    - path: src/correlations.py
+      md5: d054e4a6858b0cccb2d419f62552dd5e
+      size: 1870
+    outs:
+    - path: data/correlations.parquet
+      md5: a1e87229a3157e95095d925dec56928d
+      size: 6067695
