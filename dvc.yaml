@@ -36,6 +36,10 @@ stages:
     - data/segmentate.dill
     - src/filter.py
     - src/utils/filters.py
+    params:
+    - bandpass.lowcut_f_Hz
+    - bandpass.highcut_f_Hz
+    - bandpass.order
     outs:
     - data/bandpass.dill
   filter_lowpass:
@@ -44,6 +48,9 @@ stages:
     - data/segmentate.dill
     - src/filter.py
     - src/utils/filters.py
+    params:
+    - lowpass.cutoff_f_Hz
+    - lowpass.order
     outs:
     - data/lowpass.dill
   filter_highpass:
@@ -52,6 +59,9 @@ stages:
     - data/segmentate.dill
     - src/filter.py
     - src/utils/filters.py
+    params:
+    - highpass.cutoff_f_Hz
+    - highpass.order
     outs:
     - data/highpass.dill
   moving_average:
