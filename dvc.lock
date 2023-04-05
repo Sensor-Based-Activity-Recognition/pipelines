@@ -5,10 +5,10 @@ stages:
     deps:
     - path: src/pull_data.py
       md5: 47d3bcadedf1f9db0bca7597375c6e22
-      size: 1372
+      size: 1432
     - path: src/utils/dbconnector.py
       md5: 7d87ce109d5d15d6ae8b4c4367bc2271
-      size: 1488
+      size: 1547
     params:
       params.yaml:
         database.questdb:
@@ -30,31 +30,87 @@ stages:
       size: 135521717
     - path: src/resample.py
       md5: 69a6d5f6f27c941aa0e80ede9e597592
-      size: 926
+      size: 960
     outs:
     - path: data/resample.parquet
-      md5: d826ddc6fce7ed18fc75294100e35f01
+      md5: a967aa3c39663152db3c44fd6c906492
       size: 88337427
+  pca:
+    cmd: python src/pca.py data/resample.parquet 6
+    deps:
+    - path: data/resample.parquet
+      md5: a967aa3c39663152db3c44fd6c906492
+      size: 88337427
+    - path: src/pca.py
+      md5: fa8774263d82bc518a08bc55e10aeb20
+      size: 1034
+    outs:
+    - path: data/pca.parquet
+      md5: 37eb3137e4a4b425ed208da8b647a0de
+      size: 67273332
   segmentate:
     cmd: python src/segmentate.py data/resample.parquet 5 0
     deps:
     - path: data/resample.parquet
-      md5: d826ddc6fce7ed18fc75294100e35f01
+      md5: a967aa3c39663152db3c44fd6c906492
       size: 88337427
     - path: src/segmentate.py
       md5: e1abf0000b04bea2cdcb6685ff62fc3a
       size: 1959
-      md5: e1abf0000b04bea2cdcb6685ff62fc3a
-      size: 1903
     outs:
     - path: data/segmentate.dill
       md5: 59c7cf3230d74ecc1aaebba0757b0bd2
       size: 124896710
+  filter_lowpass:
+    cmd: python src/filter.py data/segmentate.dill lowpass data/lowpass.dill
+    deps:
+    - path: data/segmentate.dill
+      md5: 59c7cf3230d74ecc1aaebba0757b0bd2
+      size: 124896710
+    - path: src/filter.py
+      md5: 0b6b9108efd07697f2faf539688f6b98
+      size: 1250
+    - path: src/utils/filters.py
+      md5: 21ff1b24705d58d1cd747903ed4b23e1
+      size: 1978
+    outs:
+    - path: data/lowpass.dill
+      md5: 475398f949dc27c3b296c28114d3edd2
+      size: 205869032
+  filter_highpass:
+    cmd: python src/filter.py data/segmentate.dill highpass data/highpass.dill
+    deps:
+    - path: data/segmentate.dill
+      md5: 59c7cf3230d74ecc1aaebba0757b0bd2
+      size: 124896710
+    - path: src/filter.py
+      md5: 0b6b9108efd07697f2faf539688f6b98
+      size: 1250
+    - path: src/utils/filters.py
+      md5: 21ff1b24705d58d1cd747903ed4b23e1
+      size: 1978
+    outs:
+    - path: data/highpass.dill
+      md5: 7b1cc4a0355612e1b66d0842fa0b5bc6
+      size: 205869032
+  fft:
+    cmd: python src/fft.py data/segmentate.dill
+    deps:
+    - path: data/segmentate.dill
+      md5: 59c7cf3230d74ecc1aaebba0757b0bd2
+      size: 124896710
+    - path: src/fft.py
+      md5: f8e4565cc07304f3b0ceab94f59e799b
+      size: 1544
+    outs:
+    - path: data/fft.dill
+      md5: 9236e385eb57d1aa51aa084c879ced97
+      size: 48578939
   moving_average:
     cmd: python src/moving_average.py data/resample.parquet data/moving_average.parquet
     deps:
     - path: data/resample.parquet
-      md5: d826ddc6fce7ed18fc75294100e35f01
+      md5: a967aa3c39663152db3c44fd6c906492
       size: 88337427
     - path: src/moving_average.py
       md5: 33a90e13daee9322ddc9c55842b4a134
@@ -64,92 +120,21 @@ stages:
         moving_average.window_len_s: 0.5
     outs:
     - path: data/moving_average.parquet
-      md5: 77b97764cf00a211b6c60ff7ecab9c50
+      md5: 021e41268323658f66ffd048183ec814
       size: 138287096
-  pca:
-    cmd: python src/pca.py data/resample.parquet 6
-    deps:
-    - path: data/resample.parquet
-      md5: d826ddc6fce7ed18fc75294100e35f01
-      size: 88337427
-    - path: src/pca.py
-      md5: fa8774263d82bc518a08bc55e10aeb20
-      size: 995
-    outs:
-    - path: data/pca.parquet
-      md5: b778e7c9db806d6955b2edb91193dc46
-      size: 67273988
-  fft:
-    cmd: python src/fft.py data/segmentate.dill
-    deps:
-    - path: data/segmentate.dill
-      md5: dc9d2fd82e863c76a5ccb69a4ba49be4
-      size: 124896710
-    - path: src/fft.py
-      md5: f8e4565cc07304f3b0ceab94f59e799b
-      size: 1544
-    outs:
-    - path: data/fft.dill
-      md5: 06e7b37028e6bf9acb9776332ab5a61c
-      size: 48578939
-  bandpass:
-    cmd: python src/filter_band.py data/segmentate.dill 0.001 100 3
-    deps:
-    - path: data/segmentate.dill
-      md5: dc9d2fd82e863c76a5ccb69a4ba49be4
-      size: 124896710
-    - path: src/filter_band.py
-      md5: 11eaf032d56cda287c39245761c91c78
-      size: 4137
-    outs:
-    - path: data/bandpass.dill
-      md5: 517a4b10f54aa6912ec82feac9e2aaf6
-      size: 205869032
-  filter_lowpass:
-    cmd: python src/filter_lowpass.py data/segmentate.dill 100 3
-    deps:
-    - path: data/segmentate.dill
-      md5: dc9d2fd82e863c76a5ccb69a4ba49be4
-      size: 124896710
-    - path: src/filter_lowpass.py
-      md5: 159b40189803c49031e3121fc44ce71c
-      size: 710
-    - path: src/utils/filters.py
-      md5: 21ff1b24705d58d1cd747903ed4b23e1
-      size: 1978
-    outs:
-    - path: data/lowpass.dill
-      md5: 5d5b0f5bba8d2a7b7970498cc95fd0e0
-      size: 205869032
   filter_bandpass:
-    cmd: python src/filter_bandpass.py data/segmentate.dill 0.001 100 3
+    cmd: python src/filter.py data/segmentate.dill bandpass data/bandpass.dill
     deps:
     - path: data/segmentate.dill
-      md5: dc9d2fd82e863c76a5ccb69a4ba49be4
+      md5: 59c7cf3230d74ecc1aaebba0757b0bd2
       size: 124896710
-    - path: src/filter_bandpass.py
-      md5: 141e5e202c60d2e52d71258698f31c9e
-      size: 787
+    - path: src/filter.py
+      md5: 0b6b9108efd07697f2faf539688f6b98
+      size: 1250
     - path: src/utils/filters.py
       md5: 21ff1b24705d58d1cd747903ed4b23e1
       size: 1978
     outs:
     - path: data/bandpass.dill
-      md5: 517a4b10f54aa6912ec82feac9e2aaf6
-      size: 205869032
-  filter_highpass:
-    cmd: python src/filter_highpass.py data/segmentate.dill 0.001 3
-    deps:
-    - path: data/segmentate.dill
-      md5: dc9d2fd82e863c76a5ccb69a4ba49be4
-      size: 124896710
-    - path: src/filter_highpass.py
-      md5: 88aeec6dee634e4f27a85da803140d6b
-      size: 709
-    - path: src/utils/filters.py
-      md5: 21ff1b24705d58d1cd747903ed4b23e1
-      size: 1978
-    outs:
-    - path: data/highpass.dill
-      md5: 5eb92861db7d002abac6e4bdbeec2c81
+      md5: 24b510a0ba20c83dc9cbbb12e88445c6
       size: 205869032
