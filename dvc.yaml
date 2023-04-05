@@ -48,3 +48,10 @@ stages:
     - train_test_split
     outs:
     - data/train_test_split.json
+  correlations:
+    cmd: python src/correlations.py data/segmentate.dill data/correlations.parquet pearson
+    deps:
+    - src/correlations.py
+    - data/segmentate.dill
+    outs:
+    - data/correlations.parquet
