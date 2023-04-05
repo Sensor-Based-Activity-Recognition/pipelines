@@ -5,15 +5,15 @@ stages:
     deps:
     - path: src/pull_data.py
       md5: 47d3bcadedf1f9db0bca7597375c6e22
-      size: 1432
+      size: 1372
     - path: src/utils/dbconnector.py
       md5: 7d87ce109d5d15d6ae8b4c4367bc2271
-      size: 1547
+      size: 1488
     params:
       params.yaml:
         database.questdb:
           table_name: prod
-          host: docker.caracal-lime.ts.net
+          host: docker.great-squeaker.ts.net
           port: 9000
     outs:
     - path: data/db_pull_calibrated.parquet
@@ -50,6 +50,35 @@ stages:
     - path: data/segmentate.dill
       md5: 59c7cf3230d74ecc1aaebba0757b0bd2
       size: 124896710
+  moving_average:
+    cmd: python src/moving_average.py data/resample.parquet data/moving_average.parquet
+    deps:
+    - path: data/resample.parquet
+      md5: d826ddc6fce7ed18fc75294100e35f01
+      size: 88337427
+    - path: src/moving_average.py
+      md5: 33a90e13daee9322ddc9c55842b4a134
+      size: 1532
+    params:
+      params.yaml:
+        moving_average.window_len_s: 0.5
+    outs:
+    - path: data/moving_average.parquet
+      md5: 77b97764cf00a211b6c60ff7ecab9c50
+      size: 138287096
+  pca:
+    cmd: python src/pca.py data/resample.parquet 6
+    deps:
+    - path: data/resample.parquet
+      md5: d826ddc6fce7ed18fc75294100e35f01
+      size: 88337427
+    - path: src/pca.py
+      md5: fa8774263d82bc518a08bc55e10aeb20
+      size: 995
+    outs:
+    - path: data/pca.parquet
+      md5: b778e7c9db806d6955b2edb91193dc46
+      size: 67273988
   fft:
     cmd: python src/fft.py data/segmentate.dill
     deps:

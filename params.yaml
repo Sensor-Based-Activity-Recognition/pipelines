@@ -1,9 +1,12 @@
 database:
   questdb:
     table_name: prod
-    host: docker.caracal-lime.ts.net
+    host: docker.great-squeaker.ts.net
     port: 9000
   metadata_attributes:
   - hash
   - person
   - activity
+
+moving_average:
+  window_len_s: 0.5
