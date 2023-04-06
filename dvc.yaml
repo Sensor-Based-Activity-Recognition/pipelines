@@ -92,3 +92,12 @@ stages:
     - data/segmentate.dill
     outs:
     - data/correlations.parquet
+  aggregate:
+    cmd: python src/aggregate.py data/segmentate.dill data/aggregate.dill
+    deps:
+    - src/aggregate.py
+    - data/segmentate.dill
+    params:
+    - aggregate
+    outs:
+    - data/aggregate.dill
