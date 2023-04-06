@@ -16,3 +16,11 @@ train_test_split:
   test_ratio: 0.2
   seed: 9458
   stratified: True
+
+OneHotEncode:
+  Sitzen: 0
+  Laufen: 1
+  Velofahren: 2
+  Rennen: 3
+  Stehen: 4
+  Treppenlaufen: 5
