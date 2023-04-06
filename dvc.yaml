@@ -31,37 +31,33 @@ stages:
     outs:
     - data/fft.dill
   filter_bandpass:
-    cmd: python src/filter.py data/segmentate.dill bandpass data/bandpass.dill
+    cmd: python src/butterworth_filter.py data/segmentate.dill bandpass data/bandpass.dill
     deps:
     - data/segmentate.dill
-    - src/filter.py
+    - src/butterworth_filter.py
     - src/utils/filters.py
     params:
-    - bandpass.lowcut_f_Hz
-    - bandpass.highcut_f_Hz
-    - bandpass.order
+    - filters.bandpass
     outs:
     - data/bandpass.dill
   filter_lowpass:
-    cmd: python src/filter.py data/segmentate.dill lowpass data/lowpass.dill
+    cmd: python src/butterworth_filter.py data/segmentate.dill lowpass data/lowpass.dill
     deps:
     - data/segmentate.dill
-    - src/filter.py
+    - src/butterworth_filter.py
     - src/utils/filters.py
     params:
-    - lowpass.cutoff_f_Hz
-    - lowpass.order
+    - filters.lowpass
     outs:
     - data/lowpass.dill
   filter_highpass:
-    cmd: python src/filter.py data/segmentate.dill highpass data/highpass.dill
+    cmd: python src/butterworth_filter.py data/segmentate.dill highpass data/highpass.dill
     deps:
     - data/segmentate.dill
-    - src/filter.py
+    - src/butterworth_filter.py
     - src/utils/filters.py
     params:
-    - highpass.cutoff_f_Hz
-    - highpass.order
+    - filters.highpass
     outs:
     - data/highpass.dill
   moving_average:

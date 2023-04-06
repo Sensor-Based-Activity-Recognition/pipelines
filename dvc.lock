@@ -62,33 +62,43 @@ stages:
       md5: 59c7cf3230d74ecc1aaebba0757b0bd2
       size: 124896710
   filter_lowpass:
-    cmd: python src/filter.py data/segmentate.dill lowpass data/lowpass.dill
+    cmd: python src/butterworth_filter.py data/segmentate.dill lowpass data/lowpass.dill
     deps:
     - path: data/segmentate.dill
       md5: 59c7cf3230d74ecc1aaebba0757b0bd2
       size: 124896710
-    - path: src/filter.py
+    - path: src/butterworth_filter.py
       md5: 0b6b9108efd07697f2faf539688f6b98
       size: 1250
     - path: src/utils/filters.py
       md5: 21ff1b24705d58d1cd747903ed4b23e1
       size: 1978
+    params:
+      params.yaml:
+        filters.lowpass:
+          cutoff_f_Hz: 100
+          order: 3
     outs:
     - path: data/lowpass.dill
       md5: 475398f949dc27c3b296c28114d3edd2
       size: 205869032
   filter_highpass:
-    cmd: python src/filter.py data/segmentate.dill highpass data/highpass.dill
+    cmd: python src/butterworth_filter.py data/segmentate.dill highpass data/highpass.dill
     deps:
     - path: data/segmentate.dill
       md5: 59c7cf3230d74ecc1aaebba0757b0bd2
       size: 124896710
-    - path: src/filter.py
+    - path: src/butterworth_filter.py
       md5: 0b6b9108efd07697f2faf539688f6b98
       size: 1250
     - path: src/utils/filters.py
       md5: 21ff1b24705d58d1cd747903ed4b23e1
       size: 1978
+    params:
+      params.yaml:
+        filters.highpass:
+          cutoff_f_Hz: 0.1
+          order: 3
     outs:
     - path: data/highpass.dill
       md5: 7b1cc4a0355612e1b66d0842fa0b5bc6
@@ -123,17 +133,23 @@ stages:
       md5: 021e41268323658f66ffd048183ec814
       size: 138287096
   filter_bandpass:
-    cmd: python src/filter.py data/segmentate.dill bandpass data/bandpass.dill
+    cmd: python src/butterworth_filter.py data/segmentate.dill bandpass data/bandpass.dill
     deps:
     - path: data/segmentate.dill
       md5: 59c7cf3230d74ecc1aaebba0757b0bd2
       size: 124896710
-    - path: src/filter.py
+    - path: src/butterworth_filter.py
       md5: 0b6b9108efd07697f2faf539688f6b98
       size: 1250
     - path: src/utils/filters.py
       md5: 21ff1b24705d58d1cd747903ed4b23e1
       size: 1978
+    params:
+      params.yaml:
+        filters.bandpass:
+          lowcut_f_Hz: 0.1
+          highcut_f_Hz: 100
+          order: 3
     outs:
     - path: data/bandpass.dill
       md5: 24b510a0ba20c83dc9cbbb12e88445c6
