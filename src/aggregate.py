@@ -1,6 +1,7 @@
 import pandas as pd
 import sys
 import yaml
+import time
 from dill import load, dump
 from tqdm import tqdm
 
@@ -46,3 +47,5 @@ if __name__ == "__main__":
 
         with open(output_filename, "wb") as fw:
             dump(data, fw)
+            
+time.sleep(1)
