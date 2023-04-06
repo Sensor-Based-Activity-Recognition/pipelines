@@ -23,6 +23,43 @@ stages:
     - src/segmentate.py
     outs:
     - data/segmentate.dill
+  fft:
+    cmd: python src/fft.py data/segmentate.dill data/fft.dill
+    deps:
+    - data/segmentate.dill
+    - src/fft.py
+    outs:
+    - data/fft.dill
+  filter_bandpass:
+    cmd: python src/butterworth_filter.py data/segmentate.dill bandpass data/bandpass.dill
+    deps:
+    - data/segmentate.dill
+    - src/butterworth_filter.py
+    - src/utils/filters.py
+    params:
+    - filters.bandpass
+    outs:
+    - data/bandpass.dill
+  filter_lowpass:
+    cmd: python src/butterworth_filter.py data/segmentate.dill lowpass data/lowpass.dill
+    deps:
+    - data/segmentate.dill
+    - src/butterworth_filter.py
+    - src/utils/filters.py
+    params:
+    - filters.lowpass
+    outs:
+    - data/lowpass.dill
+  filter_highpass:
+    cmd: python src/butterworth_filter.py data/segmentate.dill highpass data/highpass.dill
+    deps:
+    - data/segmentate.dill
+    - src/butterworth_filter.py
+    - src/utils/filters.py
+    params:
+    - filters.highpass
+    outs:
+    - data/highpass.dill
   moving_average:
     cmd: python src/moving_average.py data/resample.parquet data/moving_average.parquet
     deps:

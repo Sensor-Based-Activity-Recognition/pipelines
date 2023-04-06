@@ -24,3 +24,16 @@ OneHotEncode:
   Rennen: 3
   Stehen: 4
   Treppenlaufen: 5
+
+filters:
+  bandpass:
+    lowcut_f_Hz: 0.1
+    highcut_f_Hz: 100
+    order: 3
+  lowpass:
+    cutoff_f_Hz: 100
+    order: 3
+  highpass:
+    cutoff_f_Hz: 0.1
+    order: 3
+

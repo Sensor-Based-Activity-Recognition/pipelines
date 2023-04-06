@@ -3,6 +3,10 @@
 /resample.parquet
 /moving_average.parquet
 /segmentate.dill
+/fft.dill
+/bandpass.dill
+/lowpass.dill
+/highpass.dill
 /pca.parquet
 /train_test_split.json
 /correlations.parquet
