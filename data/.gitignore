@@ -8,3 +8,5 @@
 /lowpass.dill
 /highpass.dill
 /pca.parquet
+/train_test_split.json
+/correlations.parquet
