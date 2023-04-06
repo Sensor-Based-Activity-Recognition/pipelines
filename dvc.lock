@@ -39,15 +39,15 @@ stages:
     cmd: python src/pca.py data/resample.parquet 6
     deps:
     - path: data/resample.parquet
-      md5: a967aa3c39663152db3c44fd6c906492
+      md5: 816b70cbdfd4208db96e8525156c821f
       size: 88337427
     - path: src/pca.py
       md5: fa8774263d82bc518a08bc55e10aeb20
       size: 1034
     outs:
     - path: data/pca.parquet
-      md5: 37eb3137e4a4b425ed208da8b647a0de
-      size: 67273332
+      md5: 1ca7ff51a0f4752b0094d43e6320b8b4
+      size: 67273633
   segmentate:
     cmd: python src/segmentate.py data/resample.parquet 5 0
     deps:
@@ -80,16 +80,25 @@ stages:
   filter_bandpass:
     cmd: python src/butterworth_filter.py data/segmentate.dill bandpass data/bandpass.dill
     deps:
-    - path: data/resample.parquet
-      md5: 816b70cbdfd4208db96e8525156c821f
-      size: 88337427
-    - path: src/pca.py
-      md5: fa8774263d82bc518a08bc55e10aeb20
-      size: 995
+    - path: data/segmentate.dill
+      md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
+      size: 142338896
+    - path: src/butterworth_filter.py
+      md5: 0b6b9108efd07697f2faf539688f6b98
+      size: 1250
+    - path: src/utils/filters.py
+      md5: 21ff1b24705d58d1cd747903ed4b23e1
+      size: 1978
+    params:
+      params.yaml:
+        filters.bandpass:
+          lowcut_f_Hz: 0.1
+          highcut_f_Hz: 100
+          order: 3
     outs:
-    - path: data/pca.parquet
-      md5: f8ae28341fe1f85930acbcdb150b3ece
-      size: 67273171
+    - path: data/bandpass.dill
+      md5: d0061751feec4c110d120040e086477e
+      size: 223395417
   train_test_split:
     cmd: python src/train_test_split.py data/segmentate.dill data/train_test_split.json
     deps:
@@ -124,3 +133,58 @@ stages:
     - path: data/correlations.parquet
       md5: a1e87229a3157e95095d925dec56928d
       size: 6067695
+  filter_highpass:
+    cmd: python src/butterworth_filter.py data/segmentate.dill highpass data/highpass.dill
+    deps:
+    - path: data/segmentate.dill
+      md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
+      size: 142338896
+    - path: src/butterworth_filter.py
+      md5: 0b6b9108efd07697f2faf539688f6b98
+      size: 1250
+    - path: src/utils/filters.py
+      md5: 21ff1b24705d58d1cd747903ed4b23e1
+      size: 1978
+    params:
+      params.yaml:
+        filters.highpass:
+          cutoff_f_Hz: 0.1
+          order: 3
+    outs:
+    - path: data/highpass.dill
+      md5: be1873f5e58b84cc7d1495bc32c14e0f
+      size: 223395417
+  fft:
+    cmd: python src/fft.py data/segmentate.dill data/fft.dill
+    deps:
+    - path: data/segmentate.dill
+      md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
+      size: 142338896
+    - path: src/fft.py
+      md5: b318a9bf6a772ff5feed765e562233f7
+      size: 1576
+    outs:
+    - path: data/fft.dill
+      md5: de59436d33ec1d945e9edfcce452a731
+      size: 57579607
+  filter_lowpass:
+    cmd: python src/butterworth_filter.py data/segmentate.dill lowpass data/lowpass.dill
+    deps:
+    - path: data/segmentate.dill
+      md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
+      size: 142338896
+    - path: src/butterworth_filter.py
+      md5: 0b6b9108efd07697f2faf539688f6b98
+      size: 1250
+    - path: src/utils/filters.py
+      md5: 21ff1b24705d58d1cd747903ed4b23e1
+      size: 1978
+    params:
+      params.yaml:
+        filters.lowpass:
+          cutoff_f_Hz: 100
+          order: 3
+    outs:
+    - path: data/lowpass.dill
+      md5: 1c878af7c6895936cba61c5b8b09ae73
+      size: 223395417
