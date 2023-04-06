@@ -55,3 +55,15 @@ stages:
     - data/segmentate.dill
     outs:
     - data/correlations.parquet
+  mlp:
+    cmd: python src/model_runner.py data/correlations.parquet data/train_test_split.json MLP Tabular 72 6 --num_epochs 5
+    deps:
+    - src/model_runner.py
+    - src/models/MLP.py
+    - src/models/__IModel.py
+    - src/models/utils/DataLoaderTabular.py
+    - src/models/utils/DataSetTabular.py
+    - data/correlations.parquet
+    - data/train_test_split.json
+    params:
+    - OneHotEncode

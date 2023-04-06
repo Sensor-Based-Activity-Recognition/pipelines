@@ -111,3 +111,37 @@ stages:
     - path: data/correlations.parquet
       md5: a1e87229a3157e95095d925dec56928d
       size: 6067695
+  mlp:
+    cmd: python src/model_runner.py data/correlations.parquet data/train_test_split.json
+      MLP Tabular 72 6 --num_epochs 5
+    deps:
+    - path: data/correlations.parquet
+      md5: a1e87229a3157e95095d925dec56928d
+      size: 6067695
+    - path: data/train_test_split.json
+      md5: 20a5446519af97f135682be727731a9f
+      size: 49755
+    - path: src/model_runner.py
+      md5: c86940d9e7d7dd8a8dc10ac864f2f365
+      size: 3044
+    - path: src/models/MLP.py
+      md5: 90647a0a9f6bcf0e5b0473a7c01b246f
+      size: 1557
+    - path: src/models/__IModel.py
+      md5: eb2d941d7d6c6378848bd6dd6f662a5a
+      size: 1811
+    - path: src/models/utils/DataLoaderTabular.py
+      md5: 0e9d3c261cf5de52f318a58dd650a516
+      size: 3697
+    - path: src/models/utils/DataSetTabular.py
+      md5: fea93aac0c6f741cf12f95f82fa82eb7
+      size: 330
+    params:
+      params.yaml:
+        OneHotEncode:
+          Sitzen: 0
+          Laufen: 1
+          Velofahren: 2
+          Rennen: 3
+          Stehen: 4
+          Treppenlaufen: 5
