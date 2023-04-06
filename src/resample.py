@@ -24,6 +24,10 @@ for _, recording in data:
     ).interpolate(method=interpolation_method)
 
     # backward fill in case of missing values at start
+    na_by_col = recording.isna().sum()
+    for col in na_by_col:
+        if col > 1:
+            print(f"Warning: recording has more than 1 NA values in column with index {col}. Backward filling.")
     recording = recording.fillna(method="bfill")
 
     # save to combined dataframe
