@@ -36,9 +36,10 @@ class DataModuleTabular(LightningDataModule):
         pass
 
     def setup(self, stage="fit"):
-        # Load the predifined train test split
-        with open(self.train_test_split_filename, "r") as f:
-            train_test_split_ids = json.load(f)
+        # Load the predifined train test split with pandas
+        train_test_split_ids = pd.read_json(
+            self.train_test_split_filename, typ="series"
+        )
 
         # Load the OneHotEncodings
         onehotencode = yaml.safe_load(open("params.yaml"))["OneHotEncode"]

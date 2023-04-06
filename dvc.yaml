@@ -55,8 +55,8 @@ stages:
     - data/segmentate.dill
     outs:
     - data/correlations.parquet
-  mlp:
-    cmd: python src/model_runner.py data/correlations.parquet data/train_test_split.json MLP Tabular 72 6 --num_epochs 5
+  dvclive:
+    cmd: python src/model_runner.py data/correlations.parquet data/train_test_split.json MLP Tabular 72 6 --num_epochs 1
     deps:
     - src/model_runner.py
     - src/models/MLP.py
