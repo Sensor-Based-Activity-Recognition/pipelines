@@ -13,7 +13,7 @@ stages:
       params.yaml:
         database.questdb:
           table_name: prod
-          host: docker.caracal-lime.ts.net
+          host: docker.great-squeaker.ts.net
           port: 9000
     outs:
     - path: data/db_pull_calibrated.parquet
@@ -29,18 +29,18 @@ stages:
       md5: d30e256f1a00d82ece6f07422261055a
       size: 135521717
     - path: src/resample.py
-      md5: d7aa9a33b8d48635e9ae6a508e28b2c9
-      size: 820
+      md5: 69a6d5f6f27c941aa0e80ede9e597592
+      size: 926
     outs:
     - path: data/resample.parquet
-      md5: 0b13bd6bc234b1dffaaf498a3ddfa89b
-      size: 88310491
+      md5: d826ddc6fce7ed18fc75294100e35f01
+      size: 88337427
   segmentate:
     cmd: python src/segmentate.py data/resample.parquet 5 0
     deps:
     - path: data/resample.parquet
-      md5: 0b13bd6bc234b1dffaaf498a3ddfa89b
-      size: 88310491
+      md5: d826ddc6fce7ed18fc75294100e35f01
+      size: 88337427
     - path: src/segmentate.py
       md5: e1abf0000b04bea2cdcb6685ff62fc3a
       size: 1903
@@ -86,3 +86,56 @@ stages:
     - path: data/standard-scaler-stds.csv
       md5: 6c408758b4d89b446bde0f388c7c3b4e
       size: 217
+    outs:
+    - path: data/segmentate.dill
+      md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
+      size: 142338896
+  moving_average:
+    cmd: python src/moving_average.py data/resample.parquet data/moving_average.parquet
+    deps:
+    - path: data/resample.parquet
+      md5: d826ddc6fce7ed18fc75294100e35f01
+      size: 88337427
+    - path: src/moving_average.py
+      md5: 33a90e13daee9322ddc9c55842b4a134
+      size: 1532
+    params:
+      params.yaml:
+        moving_average.window_len_s: 0.5
+    outs:
+    - path: data/moving_average.parquet
+      md5: 77b97764cf00a211b6c60ff7ecab9c50
+      size: 138287096
+  pca:
+    cmd: python src/pca.py data/resample.parquet 6
+    deps:
+    - path: data/resample.parquet
+      md5: d826ddc6fce7ed18fc75294100e35f01
+      size: 88337427
+    - path: src/pca.py
+      md5: fa8774263d82bc518a08bc55e10aeb20
+      size: 995
+    outs:
+    - path: data/pca.parquet
+      md5: b778e7c9db806d6955b2edb91193dc46
+      size: 67273988
+  train_test_split:
+    cmd: python src/train_test_split.py data/segmentate.dill data/train_test_split.json
+    deps:
+    - path: data/segmentate.dill
+      md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
+      size: 142338896
+    - path: src/train_test_split.py
+      md5: 4d560eb044a0022a1cb398a69830bf62
+      size: 2374
+    params:
+      params.yaml:
+        train_test_split:
+          type: person
+          test_ratio: 0.2
+          seed: 9458
+          stratified: true
+    outs:
+    - path: data/train_test_split.json
+      md5: 20a5446519af97f135682be727731a9f
+      size: 49755

@@ -1,6 +1,7 @@
 /db_pull_calibrated.parquet
 /db_pull_uncalibrated.parquet
 /resample.parquet
+/moving_average.parquet
 /segmentate.dill
 /standard-scaled.parquet
 /standard-scaler-means.csv
@@ -8,3 +9,5 @@
 /min-max-scaled.parquet
 /min-max-scaler-mins.csv
 /min-max-scaler-maxs.csv
+/pca.parquet
+/train_test_split.json
