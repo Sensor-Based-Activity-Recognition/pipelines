@@ -1,5 +1,13 @@
 /db_pull_calibrated.parquet
 /db_pull_uncalibrated.parquet
 /resample.parquet
+/moving_average.parquet
 /segmentate.dill
+/fft.dill
+/bandpass.dill
+/lowpass.dill
+/highpass.dill
+/pca.parquet
+/train_test_split.json
+/correlations.parquet
 /aggregate.dill
