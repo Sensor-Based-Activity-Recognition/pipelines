@@ -8,6 +8,6 @@
     ssl_verify = false
 ['remote "minio"']
     url = s3://dvc
-    endpointurl = http://192.168.1.99:9000/
+    endpointurl = http://server-01.tail3123.ts.net:9000/
     access_key_id = ROOT
     secret_access_key = kJfHjDF8xiL7cfmsPYBBgvKh4b52jKD4
