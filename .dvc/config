@@ -1,8 +1,8 @@
 [core]
-    remote = webdav_florin
+    remote = minio
     autostage = true
-['remote "webdav_florin"']
-    url = webdavs://nas.tail3123.ts.net:5006/home/sensor-based-activity-recognition
-    user = webdav
-    password = 664YCkCB8gvm7v9MDgJBUwu6YMjcG4joUWqaYFeqCkzXgDmtKTGgCi78ak5c96EP
-    ssl_verify = false
+['remote "minio"']
+    url = s3://dvc
+    endpointurl = http://server-01.tail3123.ts.net:9000/
+    access_key_id = ROOT
+    secret_access_key = kJfHjDF8xiL7cfmsPYBBgvKh4b52jKD4
