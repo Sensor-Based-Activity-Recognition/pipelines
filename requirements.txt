@@ -8,5 +8,6 @@ tqdm==4.65.0
 pyarrow==11.0.0
 dvc==2.52.0
 dvc-webdav==2.19.1
+dvc-s3==2.22.0
 dill==0.3.6
 scikit-learn==1.2.2
