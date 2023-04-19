@@ -9,4 +9,24 @@ jobs:
         run: |
           echo "--- RUN ---" > report.md
           nvidia-smi >> report.md
-          cml send-comment report.md
+          
+          # Setup project
+          pip install -r requirements.txt
+
+          # Get data and artifacsts from DVC remote
+          dvc pull
+
+          # Run pipeline
+          dvc repro
+
+          # Compare metrics to main
+          git fetch --prune
+
+          echo "# Metrics" >> report.md
+          dvc metrics diff --show-md main >> report.md
+
+          # Create report
+          cml comment create report.md
+
+          # Push new data and artifacts to DVC remote
+          dvc push
