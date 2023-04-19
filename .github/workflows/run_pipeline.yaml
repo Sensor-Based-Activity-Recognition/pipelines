@@ -7,7 +7,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: cml_run
         run: |
-          CODEBLOCK="--- RUN ---"
-          echo $CODEBLOCK > report.md
+          echo "--- RUN ---" > report.md
           nvidia-smi >> report.md
           cml send-comment report.md
