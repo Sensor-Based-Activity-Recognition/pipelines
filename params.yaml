@@ -37,3 +37,7 @@ filters:
     cutoff_f_Hz: 0.1
     order: 3
 
+aggregate:
+  - mean
+  - median
+  - std
