@@ -9,5 +9,11 @@
 /min-max-scaled.parquet
 /min-max-scaler-mins.csv
 /min-max-scaler-maxs.csv
+/fft.dill
+/bandpass.dill
+/lowpass.dill
+/highpass.dill
 /pca.parquet
 /train_test_split.json
+/correlations.parquet
+/aggregate.dill

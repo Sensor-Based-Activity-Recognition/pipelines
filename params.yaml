@@ -16,3 +16,20 @@ train_test_split:
   test_ratio: 0.2
   seed: 9458
   stratified: True
+
+filters:
+  bandpass:
+    lowcut_f_Hz: 0.1
+    highcut_f_Hz: 100
+    order: 3
+  lowpass:
+    cutoff_f_Hz: 100
+    order: 3
+  highpass:
+    cutoff_f_Hz: 0.1
+    order: 3
+
+aggregate:
+  - mean
+  - median
+  - std
