@@ -132,7 +132,7 @@ stages:
       size: 6067695
   train_mlp:
     cmd: python src/model_runner.py train_MLP data/correlations.parquet data/train_test_split.json
-      data/output_test_mlp.csv
+      data/mlp_model.pt data/mlp_output_test.csv
     deps:
     - path: data/correlations.parquet
       md5: a1e87229a3157e95095d925dec56928d
@@ -141,17 +141,17 @@ stages:
       md5: 20a5446519af97f135682be727731a9f
       size: 49755
     - path: src/model_runner.py
-      md5: 4a0aa0c85db870c1391903cafbec6fa0
-      size: 1286
+      md5: 8dd756fb4493b9f357072b1d4ab19d4b
+      size: 1770
     - path: src/models/MLP.py
-      md5: 28ae5417502760fbf9376cdd00c3902a
-      size: 1765
+      md5: 8b236f50b46b6385db26e8e434db95e3
+      size: 1353
     - path: src/models/__IModel.py
-      md5: 375759bf303abb2e3bccfc56c94d6644
-      size: 1917
+      md5: a2a67fca041256c488b0480ca87afbe9
+      size: 1819
     - path: src/models/utils/DataLoaderTabular.py
-      md5: 968b95fcd356a022d1a3d8724b5f18a5
-      size: 3853
+      md5: ccff705dbb7fd3667c865f8d9a40ea2f
+      size: 3818
     - path: src/models/utils/DataSetTabular.py
       md5: fea93aac0c6f741cf12f95f82fa82eb7
       size: 330
@@ -168,10 +168,17 @@ stages:
             train_val_split: 0.8
             batch_size: 32
           model_hparams:
-            num_epochs: 5
-            learning_rate: 0.01
+            num_epochs: 1
+            learning_rate: 0.1
             weight_decay: 0.0005
             momentum: 0.9
+    outs:
+    - path: data/mlp_model.pt
+      md5: 45b22470e1d696beeeb4e4483e35d0a8
+      size: 870694
+    - path: data/mlp_output_test.csv
+      md5: 8b060a142094b7a5d146ad1f45af6ca9
+      size: 5604
   pca:
     cmd: python src/pca.py data/resample.parquet 6
     deps:

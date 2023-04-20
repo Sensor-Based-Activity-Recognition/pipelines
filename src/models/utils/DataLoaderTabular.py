@@ -49,33 +49,39 @@ class DataModuleTabular(LightningDataModule):
 
         # Load the datasets
         data = pd.read_parquet(self.data_filename)
-        temp_train_data = data.iloc[train_test_split_ids["train"], :-3].to_numpy(
-            dtype=np.float32
-        )
-        temp_test_data = data.iloc[train_test_split_ids["test"], :-3].to_numpy(
-            dtype=np.float32
+        temp_train_data = (
+            data.loc[train_test_split_ids["train"]]
+            .iloc[:, :-3]
+            .to_numpy(dtype=np.float32)
         )
         temp_train_labels = torch.from_numpy(
             np.vectorize(onehotencode.get)(
-                data.iloc[train_test_split_ids["train"], -3].to_numpy()
+                data.loc[train_test_split_ids["train"]].iloc[:, -3].to_numpy()
             )
+        )
+        temp_test_data = (
+            data.loc[train_test_split_ids["test"]]
+            .iloc[:, :-3]
+            .to_numpy(dtype=np.float32)
         )
         temp_test_labels = torch.from_numpy(
             np.vectorize(onehotencode.get)(
-                data.iloc[train_test_split_ids["test"], -3].to_numpy()
+                data.loc[train_test_split_ids["test"]].iloc[:, -3].to_numpy()
             )
         )
 
         # Apply transforms
         transform = transforms.Compose(
-            [transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))]
+            [
+                transforms.ToTensor(),
+            ]
         )
         temp_train_data = transform(temp_train_data)[0]
         temp_test_data = transform(temp_test_data)[0]
 
         # Combine data and labels and convert to tensor
-        train_data = DataSetTabular(temp_train_data, temp_train_labels)
-        test_data = DataSetTabular(temp_test_data, temp_test_labels)
+        self.train_data = DataSetTabular(temp_train_data, temp_train_labels)
+        self.test_data = DataSetTabular(temp_test_data, temp_test_labels)
 
         # Stage fit or validate (Both are generated in one step)
         if stage in ("fit", "validate"):
@@ -85,15 +91,14 @@ class DataModuleTabular(LightningDataModule):
                 1 - self.train_val_split,
             ]
             self.train_dataset, self.val_dataset = random_split(
-                train_data,
+                self.train_data,
                 lengths=train_val_split,
                 generator=generator,
             )
 
         # Stage test or predict (They are the same)
-        if stage in ("test", "predict"):
-            self.test_dataset = test_data
-            self.predict_dataset = self.test_dataset
+        if stage == "test":
+            self.test_dataset = self.test_data
 
     def train_dataloader(self):
         return DataLoader(
@@ -112,9 +117,6 @@ class DataModuleTabular(LightningDataModule):
     def test_dataloader(self):
         return DataLoader(
             self.test_dataset,
-            batch_size=self.batch_size,
+            batch_size=len(self.test_dataset),
             num_workers=self.num_workers,
         )
-
-    def predict_dataloader(self):
-        return self.test_dataloader()

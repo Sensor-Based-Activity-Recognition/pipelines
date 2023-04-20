@@ -17,3 +17,5 @@
 /train_test_split.json
 /correlations.parquet
 /aggregate.dill
+/mlp_model.pt
+/mlp_output_test.csv

@@ -120,7 +120,7 @@ stages:
     outs:
     - data/aggregate.dill
   train_mlp:
-    cmd: python src/model_runner.py train_MLP data/correlations.parquet data/train_test_split.json data/output_test_mlp.csv
+    cmd: python src/model_runner.py train_MLP data/correlations.parquet data/train_test_split.json data/mlp_model.pt data/mlp_output_test.csv
     deps:
     - src/model_runner.py
     - src/models/MLP.py
@@ -131,3 +131,6 @@ stages:
     - data/train_test_split.json
     params:
     - train_MLP
+    outs:
+    - data/mlp_model.pt
+    - data/mlp_output_test.csv

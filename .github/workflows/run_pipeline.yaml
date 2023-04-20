@@ -8,7 +8,6 @@ jobs:
       - name: cml_run
         run: |
           echo "--- RUN ---" > report.md
-          nvidia-smi >> report.md
           
           # Setup project
           pip install -r requirements.txt
@@ -24,6 +23,8 @@ jobs:
 
           echo "# Metrics" >> report.md
           dvc metrics diff --show-md main >> report.md
+
+          cat dvclive/metrics.json >> report.md
 
           # Create report
           cml comment create report.md
