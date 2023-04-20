@@ -1,35 +1,55 @@
-database:
-  questdb:
-    table_name: prod
-    host: docker.great-squeaker.ts.net
-    port: 9000
-  metadata_attributes:
-  - hash
-  - person
-  - activity
+pull_data_1:
+  database:
+    questdb:
+      table_name: prod
+      host: docker.great-squeaker.ts.net
+      port: 9000
+  get_calibrated: True
 
-moving_average:
+resample_1:
+  resample_frequency_hz: 50
+  interpolation_method: linear
+
+segmentate_1:
+  window_len_s: 5
+  overlap_percent: 0
+
+min-max-scale_1:
+  feature_range_min: 0
+  feature_range_max: 1
+
+filter_bandpass_1:
+  filter_type: bandpass
+  order: 3
+  lowcut_f_Hz: 0.1
+  highcut_f_Hz: 100
+
+filter_lowpass_1:
+  filter_type: lowpass
+  order: 3
+  cutoff_f_Hz: 100
+
+filter_highpass_1:
+  filter_type: highpass
+  order: 3
+  cutoff_f_Hz: 0.1
+
+moving_average_1:
   window_len_s: 0.5
 
-train_test_split:
+pca_1:
+  n_components: 6
+
+train_test_split_1:
   type: person
   test_ratio: 0.2
   seed: 9458
   stratified: True
 
-filters:
-  bandpass:
-    lowcut_f_Hz: 0.1
-    highcut_f_Hz: 100
-    order: 3
-  lowpass:
-    cutoff_f_Hz: 100
-    order: 3
-  highpass:
-    cutoff_f_Hz: 0.1
-    order: 3
+correlations_1:
+  correlation_method: pearson
 
-aggregate:
+aggregate_1:
   - mean
   - median
   - std

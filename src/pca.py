@@ -1,10 +1,16 @@
 import sys
 import pandas as pd
 from sklearn.decomposition import PCA
+import yaml
 
 # get args
-input_filename = sys.argv[1]
-n_components = int(sys.argv[2])
+stage_name = sys.argv[1]
+input_filename = sys.argv[2]
+output_filename = sys.argv[3]
+
+#get params
+params = yaml.safe_load(open("params.yaml"))[stage_name]
+n_components = params["n_components"]
 
 # read parquet file
 data = pd.read_parquet(input_filename)
@@ -36,4 +42,4 @@ if "timestamp" in pca_data.columns:
     pca_data = pca_data.set_index("timestamp")
 
 # save to parquet
-pca_data.to_parquet("data/pca.parquet", index=True)
+pca_data.to_parquet(output_filename, index=True)

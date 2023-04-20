@@ -9,18 +9,13 @@ import yaml
 # 3rd Party Modules
 import polars as pl
 
-# read config
-params = yaml.safe_load(open("params.yaml"))["database"]
-questdb_settings = params["questdb"]
-
-
 class Database:
     """
     Class to connect to QuestDB and get data
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, questdb_settings):
+        self._questdb_settings = questdb_settings
 
     def get_data(self, query):
         """
@@ -33,7 +28,7 @@ class Database:
             data (polars.DataFrame): Dataframe with the data
         """
         # prepare url with db config and query
-        url = f"http://{questdb_settings['host']}:{questdb_settings['port']}/exp?query={query}"
+        url = f"http://{self._questdb_settings['host']}:{self._questdb_settings['port']}/exp?query={query}"
 
         # get data
         request = requests.get(url, timeout=600)

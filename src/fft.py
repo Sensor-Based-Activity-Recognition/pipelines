@@ -5,8 +5,10 @@ import numpy as np
 from scipy.fft import fft, fftfreq
 
 # get args
-input_filename = sys.argv[1]
-output_filename  = sys.argv[2]
+stage_name = sys.argv[1]
+input_filename = sys.argv[2]
+output_filename = sys.argv[3]
+
 print(
     f"FFT transformation of {input_filename}"
 )

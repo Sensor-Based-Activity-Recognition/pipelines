@@ -1,13 +1,18 @@
 import sys
 import pandas as pd
+import yaml
 
 from tqdm import tqdm
 from dill import load
 
 # get args
-input_filename = sys.argv[1]
-output_filename = sys.argv[2]
-correlation_method = sys.argv[3]
+stage_name = sys.argv[1]
+input_filename = sys.argv[2]
+output_filename = sys.argv[3]
+
+#get params
+params = yaml.safe_load(open("params.yaml"))[stage_name]
+correlation_method = params["correlation_method"]
 
 # read pickle file
 with open(input_filename, "rb") as f:
