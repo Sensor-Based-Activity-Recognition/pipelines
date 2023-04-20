@@ -1,6 +1,5 @@
 dvc==2.54.0
-dvc-webdav==2.19.1
-
+dvc-s3==2.22.0
 dvclive==2.6.4
 dill==0.3.6
 lightning==2.0.0
@@ -17,4 +16,3 @@ torch==2.0.0
 torchmetrics==0.11.4
 torchvision==0.15.1
 tqdm==4.65.0
-dvc-s3==2.22.0
