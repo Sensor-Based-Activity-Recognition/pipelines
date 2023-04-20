@@ -9,26 +9,28 @@ from pytorch_lightning import LightningModule
 class IModel(LightningModule):
     def __init__(self, hparams):
         super().__init__()
-        self.hparams.update(hparams)
+        self.save_hyperparameters(hparams)
 
         # Metrics
         self.accuracy = tm.Accuracy(
-            task="multiclass", num_classes=self.hparams.output_size
+            task="multiclass", num_classes=self.hparams.data["output_size"]
         )
         self.f1 = tm.F1Score(
-            task="multiclass", num_classes=self.hparams.output_size, average="macro"
+            task="multiclass",
+            num_classes=self.hparams.data["output_size"],
+            average="macro",
         )
 
     def loss_fn(self, output, target):
-        target = F.one_hot(target, num_classes=self.hparams.output_size).float()
+        target = F.one_hot(target, num_classes=self.hparams.data["output_size"]).float()
         return nn.CrossEntropyLoss()(output, target)
 
     def configure_optimizers(self):
         return optim.SGD(
             self.parameters(),
-            lr=self.hparams.learning_rate,
-            weight_decay=self.hparams.weight_decay,
-            momentum=self.hparams.momentum,
+            lr=self.hparams.model_hparams["learning_rate"],
+            weight_decay=self.hparams.model_hparams["weight_decay"],
+            momentum=self.hparams.model_hparams["momentum"],
         )
 
     def training_step(self, batch, _):

@@ -119,8 +119,8 @@ stages:
     - aggregate
     outs:
     - data/aggregate.dill
-  train:
-    cmd: python src/model_runner.py data/correlations.parquet data/train_test_split.json MLP Tabular 72 6 --num_epochs 2
+  train_mlp:
+    cmd: python src/model_runner.py train_MLP data/correlations.parquet data/train_test_split.json data/output_test_mlp.csv
     deps:
     - src/model_runner.py
     - src/models/MLP.py
@@ -130,4 +130,4 @@ stages:
     - data/correlations.parquet
     - data/train_test_split.json
     params:
-    - OneHotEncode
+    - train_MLP

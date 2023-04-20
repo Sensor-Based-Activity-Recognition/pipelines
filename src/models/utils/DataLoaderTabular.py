@@ -1,7 +1,3 @@
-# Standard Libraries
-import json
-import yaml
-
 # Internal Libraries
 from .DataSetTabular import DataSetTabular
 
@@ -20,16 +16,16 @@ class DataModuleTabular(LightningDataModule):
     DataModule for tabular data with segment_id index
     """
 
-    def __init__(self, args):
+    def __init__(self, config, data_filename, train_test_split_filename):
         super().__init__()
 
         # Read all needed parameters
-        self.train_test_split_filename = args.train_test_split_filename
-        self.data_filename = args.data_filename
-        self.seed = args.seed
-        self.train_val_split = args.train_val_split
-        self.batch_size = args.batch_size
-        self.num_workers = args.num_workers
+        self.train_test_split_filename = train_test_split_filename
+        self.data_filename = data_filename
+        self.seed = config.seed
+        self.train_val_split = config.data["train_val_split"]
+        self.batch_size = config.data["batch_size"]
+        self.num_workers = config.data["num_workers"]
 
     def prepare_data(self):
         ## Used for downloading data, we don't need it
@@ -42,7 +38,14 @@ class DataModuleTabular(LightningDataModule):
         )
 
         # Load the OneHotEncodings
-        onehotencode = yaml.safe_load(open("params.yaml"))["OneHotEncode"]
+        onehotencode = {
+            "Sitzen": 0,
+            "Laufen": 1,
+            "Velofahren": 2,
+            "Rennen": 3,
+            "Stehen": 4,
+            "Treppenlaufen": 5,
+        }
 
         # Load the datasets
         data = pd.read_parquet(self.data_filename)

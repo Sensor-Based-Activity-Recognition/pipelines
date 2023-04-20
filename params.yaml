@@ -17,14 +17,6 @@ train_test_split:
   seed: 9458
   stratified: True
 
-OneHotEncode:
-  Sitzen: 0
-  Laufen: 1
-  Velofahren: 2
-  Rennen: 3
-  Stehen: 4
-  Treppenlaufen: 5
-
 filters:
   bandpass:
     lowcut_f_Hz: 0.1
@@ -41,3 +33,19 @@ aggregate:
   - mean
   - median
   - std
+
+train_MLP:
+  model: MLP
+  seed: 42
+  data:
+    type: Tabular
+    input_size: 72
+    output_size: 6
+    num_workers: 0
+    train_val_split: 0.8
+    batch_size: 32
+  model_hparams:
+    num_epochs: 5
+    learning_rate: 0.01
+    weight_decay: 0.0005
+    momentum: 0.9
