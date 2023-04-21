@@ -157,13 +157,13 @@ stages:
       md5: a1e87229a3157e95095d925dec56928d
       size: 6067695
   dvclive:
-    cmd: python src/model_runner.py dvclive data/correlations.parquet data/train_test_split.json
+    cmd: python src/model_runner.py dvclive data/correlations_pearson.parquet data/train_test_split_ratio02.json
       data/mlp_model.pt data/mlp_output_test.csv
     deps:
-    - path: data/correlations.parquet
+    - path: data/correlations_pearson.parquet
       md5: a1e87229a3157e95095d925dec56928d
       size: 6067695
-    - path: data/train_test_split.json
+    - path: data/train_test_split_ratio02.json
       md5: 20a5446519af97f135682be727731a9f
       size: 49755
     - path: src/model_runner.py
@@ -200,17 +200,17 @@ stages:
             momentum: 0.9
     outs:
     - path: data/mlp_model.pt
-      md5: 5d790bc549578cdbf16ac20534834e9d
+      md5: fca4e682554b05f98ebc2e6efa7ddeb9
       size: 870694
     - path: data/mlp_output_test.csv
-      md5: d914064e8dca3e43d61679a3ecf8ef08
+      md5: 6e0d54cca48faaaa30dfa39ae4a649d9
       size: 5604
     - path: dvclive/metrics.json
-      md5: ba5543996a1d7b306c6b8f5257b4c5cd
-      size: 877
+      md5: ed77c59c8abe09e97ae2ee3064f745f0
+      size: 865
     - path: dvclive/plots
-      md5: 0a8b7730fbcf677e7c72b481dec85798.dir
-      size: 27333
+      md5: b6fe230916a4de2bc70fe1df85295854.dir
+      size: 27354
       nfiles: 17
   pca_comp6:
     cmd: python src/pca.py pca_comp6 data/resample_50Hz.parquet data/pca_comp6.parquet
