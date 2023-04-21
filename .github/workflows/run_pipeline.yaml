@@ -22,11 +22,12 @@ jobs:
           dvc pull
 
           # Run pipeline
-          ## dvc repro
           dvc exp run
 
+          # push changes
+          dvc push
+
           git fetch --prune
-          
           # Compare Hyperparameters
           echo "## Hyperparameters" >> report.md
           dvc params diff --show-md HEAD~1 >> report.md
