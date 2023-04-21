@@ -195,22 +195,22 @@ stages:
             batch_size: 32
           model_hparams:
             num_epochs: 2
-            learning_rate: 0.03
-            weight_decay: 0.001
+            learning_rate: 0.1
+            weight_decay: 0.0005
             momentum: 0.9
     outs:
     - path: data/mlp_model.pt
-      md5: 27643a7f77b7183bb4ddb5a376603482
+      md5: a90a1ad400737ac99835a35189e0dffd
       size: 870630
     - path: data/mlp_output_test.csv
-      md5: b2967f0ab6e74c512c6397e0c8d5ea32
+      md5: 8236eff17a78a1325b4f808c0ab343b4
       size: 5604
     - path: dvclive/metrics.json
-      md5: a991129bac04a74d1a7a024fb75f1dc2
-      size: 875
+      md5: 705d0188a1d772e324905232ace68171
+      size: 880
     - path: dvclive/plots
-      md5: 1463494a24e481e5d66a08ee7c3234e1.dir
-      size: 27446
+      md5: 3f40a5e50a72a94c3d8b3392e5d5defb.dir
+      size: 27407
       nfiles: 17
   pca_comp6:
     cmd: python src/pca.py pca_comp6 data/resample_50Hz.parquet data/pca_comp6.parquet
