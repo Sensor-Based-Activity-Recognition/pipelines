@@ -34,8 +34,7 @@ if __name__ == "__main__":
     output_filename = sys.argv[3]
 
     #get params
-    params = yaml.safe_load(open("params.yaml"))[stage_name]
-    aggregation_functions = params
+    aggregation_functions = yaml.safe_load(open("params.yaml"))[stage_name]
 
     print(
         f"Aggregating data from {input_filename} to {output_filename} with aggregation functions {aggregation_functions}"

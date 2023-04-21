@@ -1,6 +1,7 @@
 import sys
 import pandas as pd
 import yaml
+from tqdm import tqdm
 
 # get args
 stage_name = sys.argv[1]
@@ -24,7 +25,7 @@ data = data.groupby("hash")
 data_resampled = []
 
 # resample by recording and combine in new dataframe
-for _, recording in data:
+for _, recording in tqdm(data):
     recording = recording.resample(
         f"{int(1E6/resample_frequency_hz)}us", origin="start"
     ).interpolate(method=interpolation_method)

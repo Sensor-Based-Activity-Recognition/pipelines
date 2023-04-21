@@ -1,143 +1,143 @@
 stages:
-  pull_data_1:
-    cmd: python src/pull_data.py pull_data_1 data/db_pull_1.parquet
+  pull_data_calibrated:
+    cmd: python src/pull_data.py pull_data_calibrated data/db_pull_calibrated.parquet
     deps:
     - src/pull_data.py
     - src/utils/dbconnector.py
     params:
-    - pull_data_1
+    - pull_data_calibrated
     outs:
-    - data/db_pull_1.parquet
+    - data/db_pull_calibrated.parquet
 
-  resample_1:
-    cmd: python src/resample.py resample_1 data/db_pull_1.parquet data/resample_1.parquet
+  resample_50Hz:
+    cmd: python src/resample.py resample_50Hz data/db_pull_calibrated.parquet data/resample_50Hz.parquet
     deps:
-    - data/db_pull_1.parquet
+    - data/db_pull_calibrated.parquet
     - src/resample.py
     params:
-    - resample_1
+    - resample_50Hz
     outs:
-    - data/resample_1.parquet
+    - data/resample_50Hz.parquet
 
-  segmentate_1:
-    cmd: python src/segmentate.py segmentate_1 data/resample_1.parquet data/segmentate_1.dill
+  segmentate_5s:
+    cmd: python src/segmentate.py segmentate_5s data/resample_50Hz.parquet data/segmentate_5s.dill
     deps:
-    - data/resample_1.parquet
+    - data/resample_50Hz.parquet
     - src/segmentate.py
     params:
-    - segmentate_1
+    - segmentate_5s
     outs:
-    - data/segmentate_1.dill
+    - data/segmentate_5s.dill
 
-  std-scale_1:
-    cmd: python src/standard-scaler.py std-scale_1 data/db_pull_1.parquet data/standard-scaled_1.parquet data/standard-scaler-means_1.csv data/standard-scaler-stds_1.csv
+  std-scale:
+    cmd: python src/standard-scaler.py std-scale data/db_pull_calibrated.parquet data/standard-scaled.parquet data/standard-scaler-means.csv data/standard-scaler-stds.csv
     deps:
-    - data/db_pull_1.parquet
+    - data/db_pull_calibrated.parquet
     - src/standard-scaler.py
     outs:
-    - data/standard-scaled_1.parquet
-    - data/standard-scaler-means_1.csv
-    - data/standard-scaler-stds_1.csv
+    - data/standard-scaled.parquet
+    - data/standard-scaler-means.csv
+    - data/standard-scaler-stds.csv
 
-  min-max-scale_1:
-    cmd: python src/min-max-scaler.py min-max-scale_1 data/db_pull_1.parquet data/min-max-scaled_1.parquet data/min-max-scaler-maxs_1.csv data/min-max-scaler-mins_1.csv
+  min-max-scale_min0_max1:
+    cmd: python src/min-max-scaler.py min-max-scale_min0_max1 data/db_pull_calibrated.parquet data/min-max-scaled_min0_max1.parquet data/min-max-scaler-maxs_min0_max1.csv data/min-max-scaler-mins_min0_max1.csv
     deps:
-    - data/db_pull_1.parquet
+    - data/db_pull_calibrated.parquet
     - src/min-max-scaler.py
     params:
-    - min-max-scale_1
+    - min-max-scale_min0_max1
     outs:
-    - data/min-max-scaled_1.parquet
-    - data/min-max-scaler-maxs_1.csv
-    - data/min-max-scaler-mins_1.csv
+    - data/min-max-scaled_min0_max1.parquet
+    - data/min-max-scaler-maxs_min0_max1.csv
+    - data/min-max-scaler-mins_min0_max1.csv
 
-  fft_1:
-    cmd: python src/fft.py fft_1 data/segmentate_1.dill data/fft_1.dill
+  fft:
+    cmd: python src/fft.py fft data/segmentate_5s.dill data/fft.dill
     deps:
-    - data/segmentate_1.dill
+    - data/segmentate_5s.dill
     - src/fft.py
     outs:
-    - data/fft_1.dill
+    - data/fft.dill
 
-  filter_bandpass_1:
-    cmd: python src/butterworth_filter.py filter_bandpass_1 data/segmentate_1.dill data/bandpass_1.dill
+  filter_bandpass_ord3_low01_high100:
+    cmd: python src/butterworth_filter.py filter_bandpass_ord3_low01_high100 data/segmentate_5s.dill data/bandpass_ord3_low01_high100.dill
     deps:
-    - data/segmentate_1.dill
+    - data/segmentate_5s.dill
     - src/butterworth_filter.py
     - src/utils/filters.py
     params:
-    - filter_bandpass_1
+    - filter_bandpass_ord3_low01_high100
     outs:
-    - data/bandpass_1.dill
+    - data/bandpass_ord3_low01_high100.dill
 
-  filter_lowpass_1:
-    cmd: python src/butterworth_filter.py filter_lowpass_1 data/segmentate_1.dill data/lowpass_1.dill
+  filter_lowpass_ord3_cut100:
+    cmd: python src/butterworth_filter.py filter_lowpass_ord3_cut100 data/segmentate_5s.dill data/lowpass_ord3_cut100.dill
     deps:
-    - data/segmentate_1.dill
+    - data/segmentate_5s.dill
     - src/butterworth_filter.py
     - src/utils/filters.py
     params:
-    - filter_lowpass_1
+    - filter_lowpass_ord3_cut100
     outs:
-    - data/lowpass_1.dill
+    - data/lowpass_ord3_cut100.dill
 
-  filter_highpass_1:
-    cmd: python src/butterworth_filter.py filter_highpass_1 data/segmentate_1.dill data/highpass_1.dill
+  filter_highpass_ord3_cut01:
+    cmd: python src/butterworth_filter.py filter_highpass_ord3_cut01 data/segmentate_5s.dill data/highpass_ord3_cut01.dill
     deps:
-    - data/segmentate_1.dill
+    - data/segmentate_5s.dill
     - src/butterworth_filter.py
     - src/utils/filters.py
     params:
-    - filter_highpass_1
+    - filter_highpass_ord3_cut01
     outs:
-    - data/highpass_1.dill
+    - data/highpass_ord3_cut01.dill
 
-  moving_average_1:
-    cmd: python src/moving_average.py moving_average_1 data/resample_1.parquet data/moving_average_1.parquet
+  moving_average_5s:
+    cmd: python src/moving_average.py moving_average_5s data/resample_50Hz.parquet data/moving_average_5s.parquet
     deps:
-    - data/resample_1.parquet
+    - data/resample_50Hz.parquet
     - src/moving_average.py
     params:
-    - moving_average_1
+    - moving_average_5s
     outs:
-    - data/moving_average_1.parquet
+    - data/moving_average_5s.parquet
 
-  pca_1:
-    cmd: python src/pca.py pca_1 data/resample_1.parquet data/pca_1.parquet
+  pca_comp6:
+    cmd: python src/pca.py pca_comp6 data/resample_50Hz.parquet data/pca_comp6.parquet
     deps:
-    - data/resample_1.parquet
+    - data/resample_50Hz.parquet
     - src/pca.py
     params:
-    - pca_1
+    - pca_comp6
     outs:
-    - data/pca_1.parquet
+    - data/pca_comp6.parquet
 
-  train_test_split_1:
-    cmd: python src/train_test_split.py train_test_split_1 data/segmentate_1.dill data/train_test_split_1.json
+  train_test_split_ratio02:
+    cmd: python src/train_test_split.py train_test_split_ratio02 data/segmentate_5s.dill data/train_test_split_ratio02.json
     deps:
-    - data/segmentate_1.dill
+    - data/segmentate_5s.dill
     - src/train_test_split.py
     params:
-    - train_test_split_1
+    - train_test_split_ratio02
     outs:
-    - data/train_test_split_1.json
+    - data/train_test_split_ratio02.json
 
-  correlations_1:
-    cmd: python src/correlations.py correlations_1 data/segmentate_1.dill data/correlations_1.parquet 
+  correlations_pearson:
+    cmd: python src/correlations.py correlations_pearson data/segmentate_5s.dill data/correlations_pearson.parquet 
     deps:
-    - data/segmentate_1.dill
+    - data/segmentate_5s.dill
     - src/correlations.py
     params:
-    - correlations_1
+    - correlations_pearson
     outs:
-    - data/correlations_1.parquet 
+    - data/correlations_pearson.parquet 
 
-  aggregate_1:
-    cmd: python src/aggregate.py aggregate_1 data/segmentate_1.dill data/aggregate_1.dill
+  aggregate_mean_median_std:
+    cmd: python src/aggregate.py aggregate_mean_median_std data/segmentate_5s.dill data/aggregate_mean_median_std.dill
     deps:
-    - data/segmentate_1.dill
+    - data/segmentate_5s.dill
     - src/aggregate.py
     params:
-    - aggregate_1
+    - aggregate_mean_median_std
     outs:
-    - data/aggregate_1.dill
+    - data/aggregate_mean_median_std.dill

@@ -3,6 +3,7 @@ from dill import load, dump
 import pandas as pd
 import numpy as np
 from scipy.fft import fft, fftfreq
+from tqdm import tqdm
 
 # get args
 stage_name = sys.argv[1]
@@ -44,7 +45,7 @@ def get_fft(df:pd.DataFrame):
 # execute transformation
 with open(input_filename, "rb") as fr: #load data
     data = {} #fft ified data stored here
-    for key, segments in load(fr).items():
+    for key, segments in tqdm(load(fr).items()):
         data[key] = [get_fft(segment) for segment in segments]
 
     # dump fft of windows
