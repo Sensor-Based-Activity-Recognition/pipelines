@@ -141,3 +141,25 @@ stages:
     - aggregate_mean_median_std
     outs:
     - data/aggregate_mean_median_std.dill
+
+  dvclive:
+    cmd: python src/model_runner.py dvclive data/correlations_pearson.parquet data/train_test_split_ratio02.json data/mlp_model.pt data/mlp_output_test.csv
+    deps:
+    - src/model_runner.py
+    - src/models/MLP.py
+    - src/models/__IModel.py
+    - src/models/utils/DataLoaderTabular.py
+    - src/models/utils/DataSetTabular.py
+    - data/correlations_pearson.parquet
+    - data/train_test_split_ratio02.json
+    params:
+    - dvclive
+    outs:
+    - data/mlp_model.pt
+    - data/mlp_output_test.csv
+    metrics:
+    - dvclive/metrics.json:
+        cache: true
+    plots:
+    - dvclive/plots:
+        cache: true

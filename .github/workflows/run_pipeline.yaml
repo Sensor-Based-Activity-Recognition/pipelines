@@ -1,0 +1,46 @@
+name: run_pipeline
+on: [push]
+jobs:
+  run:
+    runs-on: [self-hosted,cml,gpu]
+    steps:
+      - uses: actions/checkout@v2
+      - name: cml_run
+        env:
+          DVC_STUDIO_TOKEN: ${{ secrets.DVC_STUDIO_TOKEN }}
+        run: |
+          # Git setup
+          git config user.name cdl1-iterative
+          git config user.email iterative@fuet.ch
+
+          echo "# RUN: $(date "+%F %H-%M-%S")" > report.md
+          
+          # Setup project
+          pip install -r requirements.txt
+
+          # Get data and artifacsts from DVC remote
+          dvc pull
+
+          # Run pipeline
+          ## dvc repro
+          dvc exp run
+
+          git fetch --prune
+          
+          # Compare Hyperparameters
+          echo "## Hyperparameters" >> report.md
+          dvc params diff --show-md HEAD~1 >> report.md
+
+          # Compare metrics
+          echo "## Metrics" >> report.md
+          dvc metrics diff --show-md HEAD~1 >> report.md
+
+          # Add plots
+          echo "# Plots" >> report.md
+          echo "TODO" >> report.md
+
+          # Create report
+          cml comment create report.md
+
+          # Push new data and artifacts to DVC remote
+          dvc push

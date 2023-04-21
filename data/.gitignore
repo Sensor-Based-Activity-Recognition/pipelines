@@ -16,3 +16,5 @@
 /standard-scaler-means.csv
 /standard-scaler-stds.csv
 /lowpass_ord3_cut100.dill
+/mlp_model.pt
+/mlp_output_test.csv

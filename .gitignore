@@ -133,3 +133,9 @@ dmypy.json
 .vscode
 
 temp.ipynb
+
+lightning_logs/
+
+DvcLiveLogger/
+
+dvclive/
