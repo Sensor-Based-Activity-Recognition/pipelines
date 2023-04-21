@@ -27,13 +27,13 @@ jobs:
 
           git fetch --prune
           
-          # Compare Hyperparameters to main
+          # Compare Hyperparameters
           echo "## Hyperparameters" >> report.md
-          dvc params diff --show-md main >> report.md
+          dvc params diff --show-md >> report.md
 
-          # Compare metrics to main
+          # Compare metrics
           echo "## Metrics" >> report.md
-          dvc metrics diff --show-md main >> report.md
+          dvc metrics diff --show-md >> report.md
 
           # Add plots
           echo "# Plots" >> report.md
