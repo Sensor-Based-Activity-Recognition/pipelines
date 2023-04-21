@@ -22,8 +22,7 @@ jobs:
           dvc pull
 
           # Run pipeline
-          ## dvc repro
-          dvc exp run
+          dvc repro
 
           git fetch --prune
           
