@@ -29,11 +29,12 @@ def aggregate(df: pd.DataFrame, aggregation_functions: list) -> pd.DataFrame:
 
 if __name__ == "__main__":
     # get args
-    input_filename = sys.argv[1]
-    output_filename = sys.argv[2]
-    # get config
-    params = yaml.safe_load(open("params.yaml"))
-    aggregation_functions = params["aggregate"]
+    stage_name = sys.argv[1]
+    input_filename = sys.argv[2]
+    output_filename = sys.argv[3]
+
+    #get params
+    aggregation_functions = yaml.safe_load(open("params.yaml"))[stage_name]
 
     print(
         f"Aggregating data from {input_filename} to {output_filename} with aggregation functions {aggregation_functions}"

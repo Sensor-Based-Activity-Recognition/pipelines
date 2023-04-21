@@ -1,10 +1,17 @@
 import sys
 import pandas as pd
+import yaml
+from tqdm import tqdm
 
 # get args
-input_filename = sys.argv[1]
-resample_frequency_hz = int(sys.argv[2])
-interpolation_method = sys.argv[3]
+stage_name = sys.argv[1]
+input_filename = sys.argv[2]
+output_filename = sys.argv[3]
+
+#get params
+params = yaml.safe_load(open("params.yaml"))[stage_name]
+resample_frequency_hz = params["resample_frequency_hz"]
+interpolation_method = params["interpolation_method"]
 
 print(
     f"Resampling {input_filename} to {resample_frequency_hz}Hz using {interpolation_method} interpolation"
@@ -18,7 +25,7 @@ data = data.groupby("hash")
 data_resampled = []
 
 # resample by recording and combine in new dataframe
-for _, recording in data:
+for _, recording in tqdm(data):
     recording = recording.resample(
         f"{int(1E6/resample_frequency_hz)}us", origin="start"
     ).interpolate(method=interpolation_method)
@@ -35,4 +42,4 @@ for _, recording in data:
 
 data_resampled = pd.concat(data_resampled)
 
-data_resampled.to_parquet("data/resample.parquet", index=True)
+data_resampled.to_parquet(output_filename, index=True)
