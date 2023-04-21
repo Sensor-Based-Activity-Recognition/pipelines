@@ -11,7 +11,7 @@ jobs:
           git config user.name cdl1-iterative
           git config user.email iterative@fuet.ch
 
-          echo "--- RUN ---" > report.md
+          echo "# RUN: $(date "+%F %H-%M-%S")" > report.md
           
           # Setup project
           pip install -r requirements.txt
@@ -25,11 +25,11 @@ jobs:
           git fetch --prune
           
           # Compare Hyperparameters to main
-          echo "# Hyperparameters" >> report.md
+          echo "## Hyperparameters" >> report.md
           dvc params diff --show-md main >> report.md
 
           # Compare metrics to main
-          echo "# Metrics" >> report.md
+          echo "## Metrics" >> report.md
           dvc metrics diff --show-md main >> report.md
 
           # Add plots
