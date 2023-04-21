@@ -6,6 +6,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: cml_run
+        env:
+          DVC_STUDIO_TOKEN: ${{ secrets.DVC_STUDIO_TOKEN }}
         run: |
           # Git setup
           git config user.name cdl1-iterative
