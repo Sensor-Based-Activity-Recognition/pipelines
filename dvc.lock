@@ -167,8 +167,8 @@ stages:
       md5: 20a5446519af97f135682be727731a9f
       size: 49755
     - path: src/model_runner.py
-      md5: 2acc0ba5fb907291613e4818e91b1e3a
-      size: 1747
+      md5: a0309d09596fcb68d35f8ddc9e898ca2
+      size: 1729
     - path: src/models/MLP.py
       md5: 8b236f50b46b6385db26e8e434db95e3
       size: 1353
@@ -200,17 +200,17 @@ stages:
             momentum: 0.9
     outs:
     - path: data/mlp_model.pt
-      md5: 5724d6b2562ff7a8cc58ea8aee45ac10
+      md5: c2bad423bd56eece8f2c99f7f13f4093
       size: 870694
     - path: data/mlp_output_test.csv
-      md5: 5d2b8af1669a301e56d56db54037c944
+      md5: 9c03f51c7d2d4f765458f383c416605e
       size: 5604
     - path: dvclive/metrics.json
-      md5: 7290c4349bf0267391e5a242735afef4
+      md5: 0b4560e0f49d9a4c126a225c19c8502c
       size: 861
     - path: dvclive/plots
-      md5: a8145b8610ad48cc4c0527a878031c71.dir
-      size: 7312
+      md5: c9b2d811678448c674de981f2e641b23.dir
+      size: 7347
       nfiles: 17
   pca_comp6:
     cmd: python src/pca.py pca_comp6 data/resample_50Hz.parquet data/pca_comp6.parquet
