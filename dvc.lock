@@ -22,6 +22,25 @@ stages:
     - path: data/db_pull_uncalibrated.parquet
       md5: b63f1578c5b0cc51b5aafcfb09a00458
       size: 128520845
+  std-scale:
+    cmd: python src/standard-scaler.py data/db_pull_calibrated.parquet
+    deps:
+    - path: data/db_pull_calibrated.parquet
+      md5: d30e256f1a00d82ece6f07422261055a
+      size: 135521717
+    - path: src/standard-scaler.py
+      md5: 59b38244e5c5a9c162b5fbbe57dcd50c
+      size: 574
+    outs:
+    - path: data/standard-scaled.parquet
+      md5: 0cb8bc1490a67d1dfa0fe3896f41416a
+      size: 183757076
+    - path: data/standard-scaler-means.csv
+      md5: 960c8974f6ff21fee6dfbc4d99e2d4aa
+      size: 234
+    - path: data/standard-scaler-stds.csv
+      md5: 6c408758b4d89b446bde0f388c7c3b4e
+      size: 217
   resample:
     cmd: python src/resample.py data/db_pull_calibrated.parquet 50 linear
     deps:
@@ -48,54 +67,6 @@ stages:
     - path: data/segmentate.dill
       md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
       size: 142338896
-  moving_average:
-    cmd: python src/moving_average.py data/resample.parquet data/moving_average.parquet
-    deps:
-    - path: data/resample.parquet
-      md5: 816b70cbdfd4208db96e8525156c821f
-      size: 88337427
-    - path: src/moving_average.py
-      md5: 33a90e13daee9322ddc9c55842b4a134
-      size: 1490
-    params:
-      params.yaml:
-        moving_average.window_len_s: 0.5
-    outs:
-    - path: data/moving_average.parquet
-      md5: 26bad3a684ad1e3caf9a2dc8f144b95c
-      size: 138287096
-  fft:
-    cmd: python src/fft.py data/segmentate.dill data/fft.dill
-    deps:
-    - path: data/segmentate.dill
-      md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
-      size: 142338896
-    - path: src/fft.py
-      md5: b318a9bf6a772ff5feed765e562233f7
-      size: 1526
-    outs:
-    - path: data/fft.dill
-      md5: d9f3076376d6bc2edb418558c541144b
-      size: 57579562
-  aggregate:
-    cmd: python src/aggregate.py data/segmentate.dill data/aggregate.dill
-    deps:
-    - path: data/segmentate.dill
-      md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
-      size: 142338896
-    - path: src/aggregate.py
-      md5: a69b8e9921d72ec848189b7d5f090e4f
-      size: 1610
-    params:
-      params.yaml:
-        aggregate:
-        - mean
-        - median
-        - std
-    outs:
-    - path: data/aggregate.dill
-      md5: 8811041962028ac7950e1f05697715d0
-      size: 5478173
   train_test_split:
     cmd: python src/train_test_split.py data/segmentate.dill data/train_test_split.json
     deps:
@@ -130,8 +101,67 @@ stages:
     - path: data/correlations.parquet
       md5: a1e87229a3157e95095d925dec56928d
       size: 6067695
-  train_mlp:
-    cmd: python src/model_runner.py train_MLP data/correlations.parquet data/train_test_split.json
+  min-max-scale:
+    cmd: python src/min-max-scaler.py data/db_pull_calibrated.parquet 0 1
+    deps:
+    - path: data/db_pull_calibrated.parquet
+      md5: d30e256f1a00d82ece6f07422261055a
+      size: 135521717
+    - path: src/min-max-scaler.py
+      md5: 5bb3a554706c820a21876bbc05ed8614
+      size: 802
+    outs:
+    - path: data/min-max-scaled.parquet
+      md5: 5e687b4fbf8e4321af63a78db533e356
+      size: 178615670
+    - path: data/min-max-scaler-maxs.csv
+      md5: ee653e891de3e515d7f95173e7ca1988
+      size: 217
+    - path: data/min-max-scaler-mins.csv
+      md5: 0a25e62d423e0d911e71e06e356c645b
+      size: 226
+  aggregate:
+    cmd: python src/aggregate.py data/segmentate.dill data/aggregate.dill
+    deps:
+    - path: data/segmentate.dill
+      md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
+      size: 142338896
+    - path: src/aggregate.py
+      md5: a69b8e9921d72ec848189b7d5f090e4f
+      size: 1610
+    params:
+      params.yaml:
+        aggregate:
+        - mean
+        - median
+        - std
+    outs:
+    - path: data/aggregate.dill
+      md5: 8811041962028ac7950e1f05697715d0
+      size: 5478173
+  filter_lowpass:
+    cmd: python src/butterworth_filter.py data/segmentate.dill lowpass data/lowpass.dill
+    deps:
+    - path: data/segmentate.dill
+      md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
+      size: 142338896
+    - path: src/butterworth_filter.py
+      md5: 0b6b9108efd07697f2faf539688f6b98
+      size: 1212
+    - path: src/utils/filters.py
+      md5: 21ff1b24705d58d1cd747903ed4b23e1
+      size: 1928
+    params:
+      params.yaml:
+        filters.lowpass:
+          cutoff_f_Hz: 100
+          order: 3
+    outs:
+    - path: data/lowpass.dill
+      md5: 1c878af7c6895936cba61c5b8b09ae73
+      size: 223395417
+  dvclive:
+    cmd: python src/model_runner.py dvclive data/correlations.parquet data/train_test_split.json
       data/mlp_model.pt data/mlp_output_test.csv
     deps:
     - path: data/correlations.parquet
@@ -141,8 +171,8 @@ stages:
       md5: 20a5446519af97f135682be727731a9f
       size: 49755
     - path: src/model_runner.py
-      md5: 8dd756fb4493b9f357072b1d4ab19d4b
-      size: 1770
+      md5: 2acc0ba5fb907291613e4818e91b1e3a
+      size: 1747
     - path: src/models/MLP.py
       md5: 8b236f50b46b6385db26e8e434db95e3
       size: 1353
@@ -157,7 +187,7 @@ stages:
       size: 330
     params:
       params.yaml:
-        train_MLP:
+        dvclive:
           model: MLP
           seed: 42
           data:
@@ -174,11 +204,31 @@ stages:
             momentum: 0.9
     outs:
     - path: data/mlp_model.pt
-      md5: 45b22470e1d696beeeb4e4483e35d0a8
+      md5: bb5fb9f50b0d1bd36a7563c8527612d8
       size: 870694
     - path: data/mlp_output_test.csv
-      md5: 8b060a142094b7a5d146ad1f45af6ca9
+      md5: fe7ebcf1d9be45e7adfc0e50f2c71d40
       size: 5604
+    - path: dvclive/metrics.json
+      md5: aae62e12bad9e8d46a2e531ec4b65528
+      size: 864
+    - path: dvclive/plots
+      md5: 7658e5ea57551dc85222bdf9d2a3db72.dir
+      size: 13574
+      nfiles: 17
+  fft:
+    cmd: python src/fft.py data/segmentate.dill data/fft.dill
+    deps:
+    - path: data/segmentate.dill
+      md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
+      size: 142338896
+    - path: src/fft.py
+      md5: b318a9bf6a772ff5feed765e562233f7
+      size: 1526
+    outs:
+    - path: data/fft.dill
+      md5: d9f3076376d6bc2edb418558c541144b
+      size: 57579562
   pca:
     cmd: python src/pca.py data/resample.parquet 6
     deps:
@@ -192,25 +242,22 @@ stages:
     - path: data/pca.parquet
       md5: 6a04a830e35e29fef8bee1ab3c93e8c0
       size: 67273411
-  std-scale:
-    cmd: python src/standard-scaler.py data/db_pull_calibrated.parquet
+  moving_average:
+    cmd: python src/moving_average.py data/resample.parquet data/moving_average.parquet
     deps:
-    - path: data/db_pull_calibrated.parquet
-      md5: d30e256f1a00d82ece6f07422261055a
-      size: 135521717
-    - path: src/standard-scaler.py
-      md5: 59b38244e5c5a9c162b5fbbe57dcd50c
-      size: 574
+    - path: data/resample.parquet
+      md5: 816b70cbdfd4208db96e8525156c821f
+      size: 88337427
+    - path: src/moving_average.py
+      md5: 33a90e13daee9322ddc9c55842b4a134
+      size: 1490
+    params:
+      params.yaml:
+        moving_average.window_len_s: 0.5
     outs:
-    - path: data/standard-scaled.parquet
-      md5: 0cb8bc1490a67d1dfa0fe3896f41416a
-      size: 183757076
-    - path: data/standard-scaler-means.csv
-      md5: 960c8974f6ff21fee6dfbc4d99e2d4aa
-      size: 234
-    - path: data/standard-scaler-stds.csv
-      md5: 6c408758b4d89b446bde0f388c7c3b4e
-      size: 217
+    - path: data/moving_average.parquet
+      md5: 26bad3a684ad1e3caf9a2dc8f144b95c
+      size: 138287096
   filter_bandpass:
     cmd: python src/butterworth_filter.py data/segmentate.dill bandpass data/bandpass.dill
     deps:
@@ -232,46 +279,6 @@ stages:
     outs:
     - path: data/bandpass.dill
       md5: 9bf85be62fdd2f7dde400c05d409183b
-      size: 223395417
-  min-max-scale:
-    cmd: python src/min-max-scaler.py data/db_pull_calibrated.parquet 0 1
-    deps:
-    - path: data/db_pull_calibrated.parquet
-      md5: d30e256f1a00d82ece6f07422261055a
-      size: 135521717
-    - path: src/min-max-scaler.py
-      md5: 5bb3a554706c820a21876bbc05ed8614
-      size: 802
-    outs:
-    - path: data/min-max-scaled.parquet
-      md5: 5e687b4fbf8e4321af63a78db533e356
-      size: 178615670
-    - path: data/min-max-scaler-maxs.csv
-      md5: ee653e891de3e515d7f95173e7ca1988
-      size: 217
-    - path: data/min-max-scaler-mins.csv
-      md5: 0a25e62d423e0d911e71e06e356c645b
-      size: 226
-  filter_lowpass:
-    cmd: python src/butterworth_filter.py data/segmentate.dill lowpass data/lowpass.dill
-    deps:
-    - path: data/segmentate.dill
-      md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
-      size: 142338896
-    - path: src/butterworth_filter.py
-      md5: 0b6b9108efd07697f2faf539688f6b98
-      size: 1212
-    - path: src/utils/filters.py
-      md5: 21ff1b24705d58d1cd747903ed4b23e1
-      size: 1928
-    params:
-      params.yaml:
-        filters.lowpass:
-          cutoff_f_Hz: 100
-          order: 3
-    outs:
-    - path: data/lowpass.dill
-      md5: 1c878af7c6895936cba61c5b8b09ae73
       size: 223395417
   filter_highpass:
     cmd: python src/butterworth_filter.py data/segmentate.dill highpass data/highpass.dill

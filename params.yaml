@@ -34,7 +34,7 @@ aggregate:
   - median
   - std
 
-train_MLP:
+dvclive:
   model: MLP
   seed: 42
   data:

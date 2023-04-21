@@ -119,8 +119,8 @@ stages:
     - aggregate
     outs:
     - data/aggregate.dill
-  train_mlp:
-    cmd: python src/model_runner.py train_MLP data/correlations.parquet data/train_test_split.json data/mlp_model.pt data/mlp_output_test.csv
+  dvclive:
+    cmd: python src/model_runner.py dvclive data/correlations.parquet data/train_test_split.json data/mlp_model.pt data/mlp_output_test.csv
     deps:
     - src/model_runner.py
     - src/models/MLP.py
@@ -130,7 +130,13 @@ stages:
     - data/correlations.parquet
     - data/train_test_split.json
     params:
-    - train_MLP
+    - dvclive
     outs:
     - data/mlp_model.pt
     - data/mlp_output_test.csv
+    metrics:
+    - dvclive/metrics.json:
+        cache: false
+    plots:
+    - dvclive/plots:
+        cache: false

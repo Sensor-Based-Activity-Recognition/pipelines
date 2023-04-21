@@ -12,7 +12,6 @@ import torch
 import pandas as pd
 from pytorch_lightning import Trainer
 from dvclive.lightning import DVCLiveLogger
-from lightning.pytorch.cli import LightningArgumentParser
 
 
 # get args
@@ -41,7 +40,7 @@ else:
 # Define trainer
 trainer = Trainer(
     accelerator="auto",
-    logger=DVCLiveLogger(),
+    logger=DVCLiveLogger(save_dvc_exp=True, prefix=stagename),
     max_epochs=hparams.model_hparams["num_epochs"],
     enable_progress_bar=True,
     log_every_n_steps=1,

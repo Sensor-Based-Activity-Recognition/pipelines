@@ -18,13 +18,19 @@ jobs:
           # Run pipeline
           dvc repro
 
-          # Compare metrics to main
           git fetch --prune
+          
+          # Compare Hyperparameters to main
+          echo "# Hyperparameters" >> report.md
+          dvc params diff --show-md main >> report.md
 
+          # Compare metrics to main
           echo "# Metrics" >> report.md
           dvc metrics diff --show-md main >> report.md
 
-          cat dvclive/metrics.json >> report.md
+          # Add plots
+          echo "# Plots" >> report.md
+          echo "TODO" >> report.md
 
           # Create report
           cml comment create report.md
