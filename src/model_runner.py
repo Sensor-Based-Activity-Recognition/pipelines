@@ -40,7 +40,7 @@ else:
 # Define trainer
 trainer = Trainer(
     accelerator="auto",
-    logger=DVCLiveLogger(save_dvc_exp=True),
+    logger=DVCLiveLogger(),
     max_epochs=hparams.model_hparams["num_epochs"],
     enable_progress_bar=True,
     log_every_n_steps=1,
