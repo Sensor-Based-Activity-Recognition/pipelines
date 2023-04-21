@@ -198,23 +198,23 @@ stages:
             train_val_split: 0.8
             batch_size: 32
           model_hparams:
-            num_epochs: 1
+            num_epochs: 2
             learning_rate: 0.1
             weight_decay: 0.0005
             momentum: 0.9
     outs:
     - path: data/mlp_model.pt
-      md5: bb5fb9f50b0d1bd36a7563c8527612d8
+      md5: ba1542b0cc68d5de08629e642f419104
       size: 870694
     - path: data/mlp_output_test.csv
-      md5: fe7ebcf1d9be45e7adfc0e50f2c71d40
+      md5: d2c16b071fb90099f4b784f27cae6d2d
       size: 5604
     - path: dvclive/metrics.json
-      md5: aae62e12bad9e8d46a2e531ec4b65528
-      size: 864
+      md5: c4d3632e0202bef5643f86610831d0f4
+      size: 865
     - path: dvclive/plots
-      md5: 7658e5ea57551dc85222bdf9d2a3db72.dir
-      size: 13574
+      md5: 56f2173f5c4c575edf9bfec1a9affb5a.dir
+      size: 27264
       nfiles: 17
   fft:
     cmd: python src/fft.py data/segmentate.dill data/fft.dill

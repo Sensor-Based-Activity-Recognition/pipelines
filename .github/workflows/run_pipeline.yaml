@@ -29,11 +29,11 @@ jobs:
           
           # Compare Hyperparameters
           echo "## Hyperparameters" >> report.md
-          dvc params diff --show-md >> report.md
+          dvc params diff --show-md HEAD~1 >> report.md
 
           # Compare metrics
           echo "## Metrics" >> report.md
-          dvc metrics diff --show-md >> report.md
+          dvc metrics diff --show-md HEAD~1 >> report.md
 
           # Add plots
           echo "# Plots" >> report.md
