@@ -3,6 +3,6 @@
     autostage = true
 ['remote "minio"']
     url = s3://dvc
-    endpointurl = http://server-01.tail3123.ts.net:9000/
+    endpointurl = https://server-01.tail3123.ts.net/
     access_key_id = ROOT
     secret_access_key = kJfHjDF8xiL7cfmsPYBBgvKh4b52jKD4
