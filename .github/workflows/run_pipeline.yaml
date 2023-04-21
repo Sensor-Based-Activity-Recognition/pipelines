@@ -24,11 +24,13 @@ jobs:
           # Run pipeline
           dvc exp run
 
+          # Push new data and artifacts to DVC remote
+          dvc push
+
           git fetch --prune
           # Check if Hyperparameters or Metrics changed, if not exit
           if [[ $(dvc params diff HEAD^) == "" ]] && [[ $(dvc metrics diff HEAD^) == "" ]]; then
             echo "No changes in Hyperparameters or Metrics"
-            dvc push
             exit 0
           fi
           
@@ -49,6 +51,3 @@ jobs:
 
           # Create Pull Request with code and metadata changes
           cml pr create .
-
-          # Push new data and artifacts to DVC remote
-          dvc push
