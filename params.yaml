@@ -15,7 +15,7 @@ train_test_split:
   type: person
   test_ratio: 0.2
   seed: 9458
-  stratified: True
+  stratified: true
 
 filters:
   bandpass:
@@ -30,9 +30,9 @@ filters:
     order: 3
 
 aggregate:
-  - mean
-  - median
-  - std
+- mean
+- median
+- std
 
 dvclive:
   model: MLP
@@ -45,7 +45,7 @@ dvclive:
     train_val_split: 0.8
     batch_size: 32
   model_hparams:
-    num_epochs: 2
-    learning_rate: 0.1
+    num_epochs: 10
+    learning_rate: 0.03
     weight_decay: 0.0005
     momentum: 0.9
