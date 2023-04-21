@@ -62,10 +62,10 @@ dvclive:
     input_size: 72
     output_size: 6
     num_workers: 4
-    train_val_split: 0.7
-    batch_size: 64
+    train_val_split: 0.8
+    batch_size: 32
   model_hparams:
     num_epochs: 50
-    learning_rate: 0.1
-    weight_decay: 0.0005
+    learning_rate: 0.03
+    weight_decay: 0.002
     momentum: 0.9
