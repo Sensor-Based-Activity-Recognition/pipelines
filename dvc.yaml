@@ -121,7 +121,8 @@ stages:
     - data/aggregate.dill
   dvclive:
     cmd: python src/model_runner.py dvclive data/correlations.parquet data/train_test_split.json data/mlp_model.pt data/mlp_output_test.csv
-    DVC_STUDIO_TOKEN: ${{ secrets.DVC_STUDIO_TOKEN }}
+    env:
+      DVC_STUDIO_TOKEN: ${{ secrets.DVC_STUDIO_TOKEN }}
     deps:
     - src/model_runner.py
     - src/models/MLP.py
