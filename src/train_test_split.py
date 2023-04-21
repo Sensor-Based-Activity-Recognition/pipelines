@@ -8,11 +8,12 @@ from sklearn.model_selection import train_test_split
 
 if __name__ == "__main__":
     # get args
-    input_filename = sys.argv[1]
-    output_filename = sys.argv[2]
+    stage_name = sys.argv[1]
+    input_filename = sys.argv[2]
+    output_filename = sys.argv[3]
 
-    # get params
-    params = yaml.safe_load(open("params.yaml"))["train_test_split"]
+    #get params
+    params = yaml.safe_load(open("params.yaml"))[stage_name]
     split_type = params["type"]
     split_ratio = params["test_ratio"]
     random_seed = params["seed"]

@@ -2,11 +2,17 @@ from dill import dump
 import pandas as pd
 import sys
 from tqdm import tqdm
+import yaml
 
 # get args
-input_filename = sys.argv[1]
-window_len_s = float(sys.argv[2])
-overlap_percent = int(sys.argv[3])
+stage_name = sys.argv[1]
+input_filename = sys.argv[2]
+output_filename = sys.argv[3]
+
+#get params
+params = yaml.safe_load(open("params.yaml"))[stage_name]
+window_len_s = params["window_len_s"]
+overlap_percent = params["overlap_percent"]
 
 print(
     f"Segmentating {input_filename} to windows of {window_len_s}s with {overlap_percent}% overlap"
@@ -63,5 +69,5 @@ for group_name, dataframe in tqdm(data.groupby(["activity", "person", "hash"])):
     window_dict[group_name] = segmentate(dataframe, window_len_s, overlap_percent)
 
 # dump windows
-with open("data/segmentate.dill", "wb") as f:
+with open(output_filename, "wb") as f:
     dump(window_dict, f)

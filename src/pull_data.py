@@ -5,19 +5,20 @@ import yaml
 
 from utils import dbconnector
 
+# get args
+stage_name = sys.argv[1]
+output_filename = sys.argv[2]
 
 # get config
-params = yaml.safe_load(open("params.yaml"))["database"]["questdb"]
+params = yaml.safe_load(open("params.yaml"))[stage_name]
+params_db = params["database"]["questdb"]
+fetch_get_calibrated = params["get_calibrated"]
 
 # get table name
-TABLENAME = params["table_name"]
+TABLENAME = params_db["table_name"]
 
-# get args
-output_calibrated_filename = sys.argv[1]
-output_uncalibrated_filename = sys.argv[2]
-
-# process
-data_calibrated = dbconnector.Database().get_data(quote(f"""
+if fetch_get_calibrated:
+    dbconnector.Database(params_db).get_data(quote(f"""
     SELECT  
         timestamp,
         Accelerometer_x,
@@ -34,9 +35,9 @@ data_calibrated = dbconnector.Database().get_data(quote(f"""
         person
     FROM 
         {TABLENAME};
-    """))
-
-data_uncalibrated = dbconnector.Database().get_data(quote(f"""
+    """)).write_parquet(output_filename)
+else:
+    dbconnector.Database(params_db).get_data(quote(f"""
     SELECT
         timestamp,
         AccelerometerUncalibrated_x,
@@ -53,8 +54,4 @@ data_uncalibrated = dbconnector.Database().get_data(quote(f"""
         person
     FROM
         {TABLENAME};
-    """))
-
-# save data as parquet
-data_calibrated.write_parquet(output_calibrated_filename)
-data_uncalibrated.write_parquet(output_uncalibrated_filename)
+    """)).write_parquet(output_filename)

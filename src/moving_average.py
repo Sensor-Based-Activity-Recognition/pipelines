@@ -27,11 +27,14 @@ def moving_average(df:pd.DataFrame, window_len_s:float):
 
 if __name__ == "__main__":
     # get args
-    input_filename = sys.argv[1]
-    output_filename = sys.argv[2]
-    # get config
-    params = yaml.safe_load(open("params.yaml"))["moving_average"]
+    stage_name = sys.argv[1]
+    input_filename = sys.argv[2]
+    output_filename = sys.argv[3]
+
+    #get params
+    params = yaml.safe_load(open("params.yaml"))[stage_name]
     moving_average_window_len_s = params["window_len_s"]
+    
     print(
         f"Calculating moving average for {input_filename} with window length {moving_average_window_len_s}s"
     )
