@@ -104,7 +104,7 @@ stages:
       size: 1205
     - path: src/utils/filters.py
       md5: 21ff1b24705d58d1cd747903ed4b23e1
-      size: 1978
+      size: 1928
     params:
       params.yaml:
         filter_bandpass_ord3_low01_high100:
@@ -128,7 +128,7 @@ stages:
       size: 1205
     - path: src/utils/filters.py
       md5: 21ff1b24705d58d1cd747903ed4b23e1
-      size: 1978
+      size: 1928
     params:
       params.yaml:
         filter_highpass_ord3_cut01:
@@ -192,7 +192,7 @@ stages:
             output_size: 6
             num_workers: 0
             train_val_split: 0.8
-            batch_size: 32
+            batch_size: 128
           model_hparams:
             num_epochs: 2
             learning_rate: 0.1
@@ -200,17 +200,17 @@ stages:
             momentum: 0.9
     outs:
     - path: data/mlp_model.pt
-      md5: fca4e682554b05f98ebc2e6efa7ddeb9
+      md5: 5724d6b2562ff7a8cc58ea8aee45ac10
       size: 870694
     - path: data/mlp_output_test.csv
-      md5: 6e0d54cca48faaaa30dfa39ae4a649d9
+      md5: 5d2b8af1669a301e56d56db54037c944
       size: 5604
     - path: dvclive/metrics.json
-      md5: ed77c59c8abe09e97ae2ee3064f745f0
-      size: 865
+      md5: 7290c4349bf0267391e5a242735afef4
+      size: 861
     - path: dvclive/plots
-      md5: b6fe230916a4de2bc70fe1df85295854.dir
-      size: 27354
+      md5: a8145b8610ad48cc4c0527a878031c71.dir
+      size: 7312
       nfiles: 17
   pca_comp6:
     cmd: python src/pca.py pca_comp6 data/resample_50Hz.parquet data/pca_comp6.parquet
@@ -251,10 +251,10 @@ stages:
       size: 178615670
     - path: data/min-max-scaler-maxs_min0_max1.csv
       md5: 0a25e62d423e0d911e71e06e356c645b
-      size: 226
+      size: 235
     - path: data/min-max-scaler-mins_min0_max1.csv
       md5: ee653e891de3e515d7f95173e7ca1988
-      size: 217
+      size: 226
   filter_lowpass_ord3_cut100:
     cmd: python src/butterworth_filter.py filter_lowpass_ord3_cut100 data/segmentate_5s.dill
       data/lowpass_ord3_cut100.dill

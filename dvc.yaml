@@ -159,7 +159,7 @@ stages:
     - data/mlp_output_test.csv
     metrics:
     - dvclive/metrics.json:
-        cache: true
+        cache: false
     plots:
     - dvclive/plots:
-        cache: true
+        cache: false
