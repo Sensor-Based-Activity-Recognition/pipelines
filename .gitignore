@@ -139,3 +139,5 @@ lightning_logs/
 DvcLiveLogger/
 
 dvclive/
+
+report.md
