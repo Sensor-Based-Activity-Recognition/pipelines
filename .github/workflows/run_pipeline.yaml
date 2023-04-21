@@ -22,7 +22,7 @@ jobs:
           dvc pull
 
           # Run pipeline
-          dvc exp run
+          dvc repro
 
           # push changes
           dvc push
