@@ -22,18 +22,25 @@ jobs:
           dvc pull
 
           # Run pipeline
-          ## dvc repro
           dvc exp run
 
+          # Push new data and artifacts to DVC remote
+          dvc push
+
           git fetch --prune
+          # Check if Hyperparameters or Metrics changed, if not exit
+          if [[ $(dvc params diff HEAD^) == "" ]] && [[ $(dvc metrics diff HEAD^) == "" ]]; then
+            echo "No changes in Hyperparameters or Metrics"
+            exit 0
+          fi
           
           # Compare Hyperparameters
           echo "## Hyperparameters" >> report.md
-          dvc params diff --show-md HEAD~1 >> report.md
+          dvc params diff --show-md HEAD^ >> report.md
 
           # Compare metrics
           echo "## Metrics" >> report.md
-          dvc metrics diff --show-md HEAD~1 >> report.md
+          dvc metrics diff --show-md HEAD^ >> report.md
 
           # Add plots
           echo "# Plots" >> report.md
@@ -42,5 +49,5 @@ jobs:
           # Create report
           cml comment create report.md
 
-          # Push new data and artifacts to DVC remote
-          dvc push
+          # Create Pull Request with code and metadata changes
+          cml pr create .
