@@ -98,16 +98,26 @@ elif model_type == "sklearn":
 
     model.fit(X_train, y_train)
 
-    # Test model
-    y_pred = model.predict(X_test)
-    accuracy = accuracy_score(y_test, y_pred)
-    f1 = f1_score(y_test, y_pred, average="macro")
+    def calc_metrics(model, X, y):
+        y_pred = model.predict(X)
+        acc = accuracy_score(y, y_pred)
+        f1 = f1_score(y, y_pred, average="macro")
+        return acc, f1
+
+    # Model metrics on train & test set
+    train_acc, train_f1 = calc_metrics(model, X_train, y_train)
+    test_acc, test_f1 = calc_metrics(model, X_test, y_test)
 
     # Log metrics with DVC
     dvclive = Live()
-    dvclive.log_metric("test.epoch.acc", accuracy)
-    dvclive.log_metric("test.epoch.f1", f1)
-    dvclive.next_step()
+    dvclive.log_metric("train.epoch.acc", train_acc)
+    dvclive.log_metric("train.epoch.f1", train_f1)
+    dvclive.log_metric("test.epoch.acc", test_acc)
+    dvclive.log_metric("test.epoch.f1", test_f1)
+    dvclive.end()
+
+    # Predict on test set
+    y_pred = model.predict(X_test)
 
     # Save predicted and true labels
     pd.DataFrame(

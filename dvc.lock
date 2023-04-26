@@ -167,14 +167,17 @@ stages:
       md5: 20a5446519af97f135682be727731a9f
       size: 49755
     - path: src/model_runner.py
-      md5: 1375a7ec21e5c93bb6681288c5adcc06
-      size: 3447
+      md5: 2abb254ae71201cbf475842f5df104e8
+      size: 3810
     - path: src/models/MLP.py
       md5: 8b236f50b46b6385db26e8e434db95e3
       size: 1353
     - path: src/models/__IModel.py
       md5: a2a67fca041256c488b0480ca87afbe9
       size: 1819
+    - path: src/models/utils/DataLoaderSklearn.py
+      md5: 98cd51fd74569f6879c0d80e9207f2a0
+      size: 1697
     - path: src/models/utils/DataLoaderTabular.py
       md5: ccff705dbb7fd3667c865f8d9a40ea2f
       size: 3818
@@ -196,18 +199,18 @@ stages:
             max_bins: 255
     outs:
     - path: data/mlp_model.pt
-      md5: b97c360e35e84344b94553defec0d5db
+      md5: d634e8b6afbd8133b3bbdd94ab395e67
       size: 6716611
     - path: data/mlp_output_test.csv
       md5: db85cc49b08aff32ebdc9a96fbc73e36
       size: 5604
     - path: dvclive/metrics.json
-      md5: 648104eb9cf051c7d272c17bc343ab09
-      size: 100
+      md5: 5c4a163d787a42d6de5459778617d893
+      size: 140
     - path: dvclive/plots
-      md5: fa70bb0791e3effdb2b298b9eb94d671.dir
-      size: 81
-      nfiles: 2
+      md5: cdb01ce4f21659c48806d1d10bedab85.dir
+      size: 134
+      nfiles: 4
   pca_comp6:
     cmd: python src/pca.py pca_comp6 data/resample_50Hz.parquet data/pca_comp6.parquet
     deps:
