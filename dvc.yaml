@@ -148,14 +148,15 @@ stages:
     - src/model_runner.py
     - src/models/MLP.py
     - src/models/__IModel.py
+    - src/models/utils/DataLoaderSklearn.py
     - src/models/utils/DataLoaderTabular.py
     - src/models/utils/DataSetTabular.py
     - data/correlations_pearson.parquet
     - data/train_test_split_ratio02.json
     params:
     - dvclive
-    outs:
-    - data/mlp_model.pt
+    outs: # TODO: how do we name model outputs when all are trained using dvclive stage?
+    - data/mlp_model.pt 
     - data/mlp_output_test.csv
     metrics:
     - dvclive/metrics.json:
