@@ -10,7 +10,7 @@ from models.utils.DataLoaderSklearn import DataLoaderSklearn
 # 3rd Party Libraries
 import pandas as pd
 from sklearn.ensemble import HistGradientBoostingClassifier
-from sklearn.metrics import classification_report, accuracy_score
+from sklearn.metrics import accuracy_score, f1_score
 from dvclive import Live
 
 # get args
@@ -45,11 +45,12 @@ model.fit(X_train, y_train)
 # Test model
 y_pred = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
-print(f"Accuracy: {accuracy}")
+f1 = f1_score(y_test, y_pred, average="macro")
 
 # Log metrics with DVC
-dvclive = Live(dir="hist_gradient_boost")
-dvclive.log_metric("accuracy", accuracy)
+dvclive = Live(dir=stagename)
+dvclive.log_metric("acc", accuracy)
+dvclive.log_metric("f1", f1)
 dvclive.next_step()
 
 # Save predicted and true labels
