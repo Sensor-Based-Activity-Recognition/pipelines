@@ -128,16 +128,14 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# custom
 .DS_Store
-
 .vscode
 
 temp.ipynb
-
 lightning_logs/
-
 DvcLiveLogger/
-
-dvclive/
-
 report.md
+
+# model result folder
+dvclive/

@@ -54,18 +54,32 @@ aggregate_mean_median_std:
   - median
   - std
 
+# MLP model
+# dvclive:
+#   model: MLP
+#   seed: 42
+#   data:
+#     type: Tabular
+#     input_size: 72
+#     output_size: 6
+#     num_workers: 0
+#     train_val_split: 0.8
+#     batch_size: 64
+#   model_hparams:
+#     num_epochs: 10
+#     learning_rate: 0.1
+#     weight_decay: 0.0005
+#     momentum: 0.9
+
+# HistGradientBoostingClassifier model
 dvclive:
-  model: MLP
+  model: HistGradientBoostingClassifier
   seed: 42
   data:
-    type: Tabular
-    input_size: 72
-    output_size: 6
-    num_workers: 0
-    train_val_split: 0.8
-    batch_size: 64
+    type: Sklearn
   model_hparams:
-    num_epochs: 10
     learning_rate: 0.1
-    weight_decay: 0.0005
-    momentum: 0.9
+    max_iter: 2000
+    max_leaf_nodes: 31
+    min_samples_leaf: 20
+    max_bins: 255
