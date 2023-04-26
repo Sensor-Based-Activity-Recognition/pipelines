@@ -105,8 +105,8 @@ elif model_type == "sklearn":
 
     # Log metrics with DVC
     dvclive = Live()
-    dvclive.log_metric("acc", accuracy)
-    dvclive.log_metric("f1", f1)
+    dvclive.log_metric("test.epoch.acc", accuracy)
+    dvclive.log_metric("test.epoch.f1", f1)
     dvclive.next_step()
 
     # Save predicted and true labels
