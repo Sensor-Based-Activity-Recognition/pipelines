@@ -1,18 +1,39 @@
 # Standard Libraries
 import sys
 import yaml
+import pickle
 from argparse import Namespace
 
 # Internal Libraries
 from models.MLP import MLP
 from models.utils.DataLoaderTabular import DataModuleTabular
+from models.utils.DataLoaderSklearn import DataLoaderSklearn
 
 # 3rd Party Libraries
 import torch
 import pandas as pd
 from pytorch_lightning import Trainer
 from dvclive.lightning import DVCLiveLogger
+from dvclive import Live
+from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.metrics import accuracy_score, f1_score
 
+# Helper functions
+def get_model(model_name, config):
+    pytorch_models = {
+        "MLP": MLP,
+    }
+
+    sklearn_models = {
+        "HistGradientBoostingClassifier": HistGradientBoostingClassifier,
+    }
+
+    if model_name in pytorch_models:
+        return "pytorch", pytorch_models[model_name](config)
+    elif model_name in sklearn_models:
+        return "sklearn", sklearn_models[model_name](**config.model_hparams)
+    else:
+        raise NotImplementedError(f"Model {model_name} not implemented")
 
 # get args
 stagename = sys.argv[1]
@@ -21,50 +42,81 @@ input_filename_train_test_split = sys.argv[3]
 output_model = sys.argv[4]
 output_prediction = sys.argv[5]
 
-hparams = Namespace(**yaml.safe_load(open("params.yaml"))[stagename])
+config = Namespace(**yaml.safe_load(open("params.yaml"))[stagename])
 
 # Define model
-if hparams.model == "MLP":
-    model = MLP(hparams)
-else:
-    raise NotImplementedError(f"Model {hparams.model} not implemented")
+model_type, model = get_model(config.model, config)
 
 # Define datamodule
-if hparams.data["type"] == "Tabular":
+if config.data["type"] == "Tabular":
     datamodule = DataModuleTabular(
-        hparams, input_filename_data, input_filename_train_test_split
+        config, input_filename_data, input_filename_train_test_split
+    )
+elif config.data["type"] == "Sklearn":
+    datamodule = DataLoaderSklearn(
+        config, input_filename_data, input_filename_train_test_split
     )
 else:
-    raise NotImplementedError(f"Datamodule {hparams.type} not implemented")
+    raise NotImplementedError(f"Datamodule {config.type} not implemented")
 
-# Define trainer
-trainer = Trainer(
-    accelerator="auto",
-    logger=DVCLiveLogger(),
-    max_epochs=hparams.model_hparams["num_epochs"],
-    enable_progress_bar=True,
-    log_every_n_steps=1,
-    check_val_every_n_epoch=1,
-)
+if model_type == "pytorch":
+    # Define trainer
+    trainer = Trainer(
+        accelerator="auto",
+        logger=DVCLiveLogger(),
+        max_epochs=config.model_hparams["num_epochs"],
+        enable_progress_bar=True,
+        log_every_n_steps=1,
+        check_val_every_n_epoch=1,
+    )
 
-# Train model
-trainer.fit(model, datamodule)
+    # Train model
+    trainer.fit(model, datamodule)
 
-# Test model
-trainer.test(model, datamodule)
+    # Test model
+    trainer.test(model, datamodule)
 
-# Save predicted and true labels
-with torch.no_grad():
-    model.eval()
-    test_data = datamodule.test_data.data
-    labels = datamodule.test_data.labels
-    pred_labels = torch.argmax(model(test_data), dim=1)
+    # Save predicted and true labels
+    with torch.no_grad():
+        model.eval()
+        test_data = datamodule.test_data.data
+        labels = datamodule.test_data.labels
+        pred_labels = torch.argmax(model(test_data), dim=1)
+        pd.DataFrame(
+            {
+                "pred_labels": pred_labels,
+                "true_labels": labels,
+            }
+        ).to_csv(output_prediction, index=False)
+
+    # Save model
+    trainer.save_checkpoint(output_model)
+elif model_type == "sklearn":
+    # Train model
+    X_train, y_train = datamodule.train_data, datamodule.train_labels
+    X_test, y_test = datamodule.test_data, datamodule.test_labels
+
+    model.fit(X_train, y_train)
+
+    # Test model
+    y_pred = model.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred, average="macro")
+
+    # Log metrics with DVC
+    dvclive = Live()
+    dvclive.log_metric("acc", accuracy)
+    dvclive.log_metric("f1", f1)
+    dvclive.next_step()
+
+    # Save predicted and true labels
     pd.DataFrame(
         {
-            "pred_labels": pred_labels,
-            "true_labels": labels,
+            "pred_labels": y_pred,
+            "true_labels": y_test,
         }
     ).to_csv(output_prediction, index=False)
 
-# Save model
-trainer.save_checkpoint(output_model)
+    # Save model
+    with open(output_model, 'wb') as f:
+        pickle.dump(model, f)

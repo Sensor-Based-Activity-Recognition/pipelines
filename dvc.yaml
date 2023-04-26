@@ -163,22 +163,3 @@ stages:
     plots:
     - dvclive/plots:
         cache: true
-
-  hist_gradient_boost:
-    cmd: python src/model_runner_sklearn.py hist_gradient_boost data/correlations_pearson.parquet data/train_test_split_ratio02.json data/hgb_model.pickle data/hgb_output_test.csv
-    deps:
-    - src/model_runner_sklearn.py
-    - src/models/utils/DataLoaderSklearn.py
-    - data/correlations_pearson.parquet
-    - data/train_test_split_ratio02.json
-    params:
-    - hist_gradient_boost
-    outs:
-    - data/hgb_model.pickle
-    - data/hgb_output_test.csv
-    metrics:
-    - hist_gradient_boost/metrics.json:
-        cache: true
-    plots:
-    - hist_gradient_boost/plots:
-        cache: true
