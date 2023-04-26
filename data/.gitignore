@@ -18,3 +18,5 @@
 /lowpass_ord3_cut100.dill
 /mlp_model.pt
 /mlp_output_test.csv
+/hgb_model.pickle
+/hgb_output_test.csv

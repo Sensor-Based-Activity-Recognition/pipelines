@@ -138,6 +138,8 @@ lightning_logs/
 
 DvcLiveLogger/
 
-dvclive/
-
 report.md
+
+# model result folders
+dvclive/
+hist_gradient_boost/

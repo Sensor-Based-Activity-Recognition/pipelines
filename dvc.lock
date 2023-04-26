@@ -336,3 +336,45 @@ stages:
     - path: data/standard-scaler-stds.csv
       md5: 6c408758b4d89b446bde0f388c7c3b4e
       size: 217
+  hist_gradient_boost:
+    cmd: python src/model_runner_sklearn.py hist_gradient_boost data/correlations_pearson.parquet
+      data/train_test_split_ratio02.json data/hgb_model.pickle data/hgb_output_test.csv
+    deps:
+    - path: data/correlations_pearson.parquet
+      md5: a1e87229a3157e95095d925dec56928d
+      size: 6067695
+    - path: data/train_test_split_ratio02.json
+      md5: 20a5446519af97f135682be727731a9f
+      size: 49755
+    - path: src/model_runner_sklearn.py
+      md5: 32e8b1c0865f2060802cebfc9c45c1df
+      size: 1737
+    - path: src/models/utils/DataLoaderSklearn.py
+      md5: 7619e2e2da1eb765a747494305ee1999
+      size: 1741
+    params:
+      params.yaml:
+        hist_gradient_boost:
+          model: HistGradientBoostingClassifier
+          data:
+            type: Sklearn
+          model_hparams:
+            learning_rate: 0.1
+            max_iter: 2000
+            max_leaf_nodes: 31
+            min_samples_leaf: 20
+            max_bins: 255
+    outs:
+    - path: data/hgb_model.pickle
+      md5: 1bbcb889122a576d0c4b80e35a84549e
+      size: 6716611
+    - path: data/hgb_output_test.csv
+      md5: db85cc49b08aff32ebdc9a96fbc73e36
+      size: 5604
+    - path: hist_gradient_boost/metrics.json
+      md5: 346cac48176703880a76879eed7aab1d
+      size: 53
+    - path: hist_gradient_boost/plots
+      md5: 8697256b7b761dadf42adda55d6d54dc.dir
+      size: 35
+      nfiles: 1
