@@ -128,18 +128,14 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# custom
 .DS_Store
-
 .vscode
 
 temp.ipynb
-
 lightning_logs/
-
 DvcLiveLogger/
-
 report.md
 
 # model result folders
 dvclive/
-hist_gradient_boost/
