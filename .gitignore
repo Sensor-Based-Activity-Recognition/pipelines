@@ -137,5 +137,5 @@ lightning_logs/
 DvcLiveLogger/
 report.md
 
-# model result folders
+# model result folder
 dvclive/
