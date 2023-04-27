@@ -82,4 +82,4 @@ dvclive:
     max_iter: 2000
     max_leaf_nodes: 31
     min_samples_leaf: 20
-    max_bins: 510
+    max_bins: 255
