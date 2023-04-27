@@ -4,7 +4,7 @@ pull_data_calibrated:
       table_name: prod
       host: docker.great-squeaker.ts.net
       port: 9000
-  get_calibrated: True
+  get_calibrated: true
 
 resample_50Hz:
   resample_frequency_hz: 50
@@ -44,15 +44,15 @@ train_test_split_ratio02:
   type: person
   test_ratio: 0.2
   seed: 9458
-  stratified: True
+  stratified: true
 
 correlations_pearson:
   correlation_method: pearson
 
 aggregate_mean_median_std:
-  - mean
-  - median
-  - std
+- mean
+- median
+- std
 
 # MLP model
 # dvclive:
@@ -82,4 +82,4 @@ dvclive:
     max_iter: 2000
     max_leaf_nodes: 31
     min_samples_leaf: 20
-    max_bins: 255
+    max_bins: 510
