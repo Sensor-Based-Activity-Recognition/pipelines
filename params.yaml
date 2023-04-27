@@ -74,7 +74,7 @@ aggregate_mean_median_std:
 # HistGradientBoostingClassifier model
 dvclive:
   model: HistGradientBoostingClassifier
-  seed: 42
+  seed: 41
   data:
     type: Sklearn
   model_hparams:
