@@ -168,27 +168,27 @@ stages:
       size: 49755
     - path: src/model_runner.py
       md5: 2abb254ae71201cbf475842f5df104e8
-      size: 3942
+      size: 3810
     - path: src/models/MLP.py
       md5: 8b236f50b46b6385db26e8e434db95e3
-      size: 1395
+      size: 1353
     - path: src/models/__IModel.py
       md5: a2a67fca041256c488b0480ca87afbe9
-      size: 1878
+      size: 1819
     - path: src/models/utils/DataLoaderSklearn.py
       md5: af3e0b6410bc2993fa19350e206b4522
-      size: 1680
+      size: 1624
     - path: src/models/utils/DataLoaderTabular.py
       md5: ccff705dbb7fd3667c865f8d9a40ea2f
-      size: 3940
+      size: 3818
     - path: src/models/utils/DataSetTabular.py
       md5: fea93aac0c6f741cf12f95f82fa82eb7
-      size: 347
+      size: 330
     params:
       params.yaml:
         dvclive:
           model: HistGradientBoostingClassifier
-          seed: 42
+          seed: 41
           data:
             type: Sklearn
           model_hparams:
@@ -199,17 +199,17 @@ stages:
             max_bins: 255
     outs:
     - path: data/mlp_model.pt
-      md5: f930b1e8ea27257932518d7833019d30
-      size: 6716587
+      md5: 41dd15c64052ae1ebb1ee01067c1c7ad
+      size: 6716611
     - path: data/mlp_output_test.csv
       md5: db85cc49b08aff32ebdc9a96fbc73e36
-      size: 7000
+      size: 5604
     - path: dvclive/metrics.json
       md5: 5c4a163d787a42d6de5459778617d893
-      size: 145
+      size: 140
     - path: dvclive/plots
       md5: cdb01ce4f21659c48806d1d10bedab85.dir
-      size: 142
+      size: 134
       nfiles: 4
   pca_comp6:
     cmd: python src/pca.py pca_comp6 data/resample_50Hz.parquet data/pca_comp6.parquet
