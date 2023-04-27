@@ -164,3 +164,11 @@ stages:
     plots:
     - dvclive/plots:
         cache: true
+
+  evaluate:
+    cmd: python src/evaluate.py evaluate data\mlp_output_test.csv data/confusion_matrix.png
+    deps:
+    - src/evaluate.py
+    - data/mlp_output_test.csv
+    outs:
+    - data/confusion_matrix.png

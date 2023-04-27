@@ -5,10 +5,10 @@ stages:
     deps:
     - path: src/pull_data.py
       md5: 1a42c5257353dba8807288bf70df52d5
-      size: 1350
+      size: 1407
     - path: src/utils/dbconnector.py
       md5: b7188e7cd2f1bbd97582ac4344a12c2b
-      size: 1445
+      size: 1499
     params:
       params.yaml:
         pull_data_calibrated:
@@ -21,16 +21,16 @@ stages:
     outs:
     - path: data/db_pull_calibrated.parquet
       md5: d30e256f1a00d82ece6f07422261055a
-      size: 135521717
+      size: 211953077
   resample_50Hz:
     cmd: python src/resample.py resample_50Hz data/db_pull_calibrated.parquet data/resample_50Hz.parquet
     deps:
     - path: data/db_pull_calibrated.parquet
       md5: d30e256f1a00d82ece6f07422261055a
-      size: 135521717
+      size: 211953077
     - path: src/resample.py
       md5: 0da3e6b41da594c64b671cb6d2694c50
-      size: 1315
+      size: 1360
     params:
       params.yaml:
         resample_50Hz:
@@ -39,16 +39,16 @@ stages:
     outs:
     - path: data/resample_50Hz.parquet
       md5: 816b70cbdfd4208db96e8525156c821f
-      size: 88337427
+      size: 181005331
   segmentate_5s:
     cmd: python src/segmentate.py segmentate_5s data/resample_50Hz.parquet data/segmentate_5s.dill
     deps:
     - path: data/resample_50Hz.parquet
       md5: 816b70cbdfd4208db96e8525156c821f
-      size: 88337427
+      size: 181005331
     - path: src/segmentate.py
       md5: e72b50e7b693805c39be23bcbdf385b2
-      size: 2308
+      size: 2381
     params:
       params.yaml:
         segmentate_5s:
@@ -57,20 +57,20 @@ stages:
     outs:
     - path: data/segmentate_5s.dill
       md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
-      size: 142338896
+      size: 220621648
   fft:
     cmd: python src/fft.py fft data/segmentate_5s.dill data/fft.dill
     deps:
     - path: data/segmentate_5s.dill
       md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
-      size: 142338896
+      size: 220621648
     - path: src/fft.py
       md5: ec6e77823028374e24d2192cf3475fd1
-      size: 1579
+      size: 1632
     outs:
     - path: data/fft.dill
       md5: d9f3076376d6bc2edb418558c541144b
-      size: 57579562
+      size: 85071914
   train_test_split_ratio02:
     cmd: python src/train_test_split.py train_test_split_ratio02 data/segmentate_5s.dill
       data/train_test_split_ratio02.json
@@ -168,22 +168,22 @@ stages:
       size: 49755
     - path: src/model_runner.py
       md5: 2abb254ae71201cbf475842f5df104e8
-      size: 3810
+      size: 3942
     - path: src/models/MLP.py
       md5: 8b236f50b46b6385db26e8e434db95e3
-      size: 1353
+      size: 1395
     - path: src/models/__IModel.py
       md5: a2a67fca041256c488b0480ca87afbe9
-      size: 1819
+      size: 1878
     - path: src/models/utils/DataLoaderSklearn.py
-      md5: 98cd51fd74569f6879c0d80e9207f2a0
-      size: 1697
+      md5: af3e0b6410bc2993fa19350e206b4522
+      size: 1680
     - path: src/models/utils/DataLoaderTabular.py
       md5: ccff705dbb7fd3667c865f8d9a40ea2f
-      size: 3818
+      size: 3940
     - path: src/models/utils/DataSetTabular.py
       md5: fea93aac0c6f741cf12f95f82fa82eb7
-      size: 330
+      size: 347
     params:
       params.yaml:
         dvclive:
@@ -199,17 +199,17 @@ stages:
             max_bins: 255
     outs:
     - path: data/mlp_model.pt
-      md5: d634e8b6afbd8133b3bbdd94ab395e67
-      size: 6716611
+      md5: f930b1e8ea27257932518d7833019d30
+      size: 6716587
     - path: data/mlp_output_test.csv
       md5: db85cc49b08aff32ebdc9a96fbc73e36
-      size: 5604
+      size: 7000
     - path: dvclive/metrics.json
       md5: 5c4a163d787a42d6de5459778617d893
-      size: 140
+      size: 145
     - path: dvclive/plots
       md5: cdb01ce4f21659c48806d1d10bedab85.dir
-      size: 134
+      size: 142
       nfiles: 4
   pca_comp6:
     cmd: python src/pca.py pca_comp6 data/resample_50Hz.parquet data/pca_comp6.parquet
@@ -235,10 +235,10 @@ stages:
     deps:
     - path: data/db_pull_calibrated.parquet
       md5: d30e256f1a00d82ece6f07422261055a
-      size: 135521717
+      size: 211953077
     - path: src/min-max-scaler.py
       md5: 46c632d843281b71035be8cd7b904d46
-      size: 986
+      size: 1025
     params:
       params.yaml:
         min-max-scale_min0_max1:
@@ -247,13 +247,13 @@ stages:
     outs:
     - path: data/min-max-scaled_min0_max1.parquet
       md5: 5e687b4fbf8e4321af63a78db533e356
-      size: 178615670
+      size: 252310902
     - path: data/min-max-scaler-maxs_min0_max1.csv
       md5: 0a25e62d423e0d911e71e06e356c645b
-      size: 226
+      size: 235
     - path: data/min-max-scaler-mins_min0_max1.csv
       md5: ee653e891de3e515d7f95173e7ca1988
-      size: 217
+      size: 226
   filter_lowpass_ord3_cut100:
     cmd: python src/butterworth_filter.py filter_lowpass_ord3_cut100 data/segmentate_5s.dill
       data/lowpass_ord3_cut100.dill
@@ -283,10 +283,10 @@ stages:
     deps:
     - path: data/segmentate_5s.dill
       md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
-      size: 142338896
+      size: 220621648
     - path: src/aggregate.py
       md5: 78df79f7383ef627c56b0b0a0561e652
-      size: 1618
+      size: 1670
     params:
       params.yaml:
         aggregate_mean_median_std:
@@ -296,17 +296,17 @@ stages:
     outs:
     - path: data/aggregate_mean_median_std.dill
       md5: 8811041962028ac7950e1f05697715d0
-      size: 5478173
+      size: 16652061
   moving_average_5s:
     cmd: python src/moving_average.py moving_average_5s data/resample_50Hz.parquet
       data/moving_average_5s.parquet
     deps:
     - path: data/resample_50Hz.parquet
       md5: 816b70cbdfd4208db96e8525156c821f
-      size: 88337427
+      size: 181005331
     - path: src/moving_average.py
       md5: 3553996fb307d301ee83af75a6719e22
-      size: 1518
+      size: 1563
     params:
       params.yaml:
         moving_average_5s:
@@ -314,7 +314,7 @@ stages:
     outs:
     - path: data/moving_average_5s.parquet
       md5: 26bad3a684ad1e3caf9a2dc8f144b95c
-      size: 138287096
+      size: 249141240
   std-scale:
     cmd: python src/standard-scaler.py std-scale data/db_pull_calibrated.parquet data/standard-scaled.parquet
       data/standard-scaler-means.csv data/standard-scaler-stds.csv
@@ -377,3 +377,16 @@ stages:
       md5: cbd57abf78ad699916c9b7244a598434.dir
       size: 59
       nfiles: 2
+  evaluate:
+    cmd: python src/evaluate.py evaluate data\mlp_output_test.csv data/confusion_matrix.png
+    deps:
+    - path: data/mlp_output_test.csv
+      md5: db85cc49b08aff32ebdc9a96fbc73e36
+      size: 5604
+    - path: src/evaluate.py
+      md5: dc1806850d7da42ff3015912d5828ac6
+      size: 1019
+    outs:
+    - path: data/confusion_matrix.png
+      md5: f3d00c548da7638e2a470d6dca6f4f61
+      size: 41731
