@@ -19,16 +19,6 @@ class DataLoaderSklearn:
             self.train_test_split_filename, typ="series"
         )
 
-        # Load the OneHotEncodings
-        onehotencode = {
-            "Sitzen": 0,
-            "Laufen": 1,
-            "Velofahren": 2,
-            "Rennen": 3,
-            "Stehen": 4,
-            "Treppenlaufen": 5,
-        }
-
         # Load the datasets
         data = pd.read_parquet(self.data_filename)
         temp_train_data = (
@@ -55,3 +45,13 @@ class DataLoaderSklearn:
         # Test data
         self.test_data = temp_test_data
         self.test_labels = temp_test_labels
+
+# Load the OneHotEncodings
+onehotencode = {
+    "Sitzen": 0,
+    "Laufen": 1,
+    "Velofahren": 2,
+    "Rennen": 3,
+    "Stehen": 4,
+    "Treppenlaufen": 5,
+}

@@ -20,3 +20,4 @@
 /mlp_output_test.csv
 /hgb_model.pickle
 /hgb_output_test.csv
+/confusion_matrix.png
