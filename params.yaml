@@ -84,16 +84,16 @@ aggregate_mean_median_std:
 #     min_samples_leaf: 20
 #     max_bins: 255
 
-# AdaBoostStumpClassifier model
-# dvclive:
-#   model: AdaBoostStumpClassifier
-#   seed: 42
-#   data:
-#     type: Sklearn
-#   model_hparams:
-#     learning_rate: 1.0
-#     n_estimators: 50
-#     random_state: 42
+# AdaBoostStumpClassifier model
+dvclive:
+  model: AdaBoostStumpClassifier
+  seed: 42
+  data:
+    type: Sklearn
+  model_hparams:
+    learning_rate: 1.0
+    n_estimators: 50
+    random_state: 42
 
 # KNeighborsClassifier model
 # dvclive:
@@ -109,13 +109,13 @@ aggregate_mean_median_std:
 #     metric: minkowski
 
 # RandomForestClassifier model
-dvclive:  
-  model: RandomForestClassifier
-  seed: 42
-  data:
-    type: Sklearn
-  model_hparams:
-    n_estimators: 100
-    criterion: gini
-    max_depth: null
-    random_state: 42
+# dvclive:  
+#   model: RandomForestClassifier
+#   seed: 42
+#   data:
+#     type: Sklearn
+#   model_hparams:
+#     n_estimators: 100
+#     criterion: gini
+#     max_depth: null
+#     random_state: 42
