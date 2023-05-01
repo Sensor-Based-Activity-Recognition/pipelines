@@ -61,5 +61,16 @@ for index_measurement, measurement in tqdm(data.items()):
 # set index
 corr_data = corr_data.set_index("segment_id")
 
+# drop rows with NA values
+na_by_col = corr_data.isna().sum()
+for n in na_by_col:
+    if n > 1:
+        print(f"Warning: corr_data has at least {n} unexpected NA values. Dropping affected rows.")
+        # corr_data = corr_data.dropna()
+        break    
+
+# bfill NA
+corr_data = corr_data.fillna(method="bfill")
+
 # save to parquet
 corr_data.to_parquet(output_filename, index=True)

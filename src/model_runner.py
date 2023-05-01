@@ -15,10 +15,20 @@ import pandas as pd
 from pytorch_lightning import Trainer
 from dvclive.lightning import DVCLiveLogger
 from dvclive import Live
-from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import HistGradientBoostingClassifier, AdaBoostClassifier, RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, f1_score
 
 # Helper functions
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.tree import DecisionTreeClassifier
+
+class AdaBoostStumpClassifier(AdaBoostClassifier):
+    def __init__(self, n_estimators=50, learning_rate=1.0, algorithm='SAMME.R', random_state=None):
+        stump = DecisionTreeClassifier(max_depth=1)
+        super().__init__(estimator=stump, n_estimators=n_estimators, learning_rate=learning_rate, algorithm=algorithm, random_state=random_state)
+
 def get_model(model_name, config):
     pytorch_models = {
         "MLP": MLP,
@@ -26,6 +36,9 @@ def get_model(model_name, config):
 
     sklearn_models = {
         "HistGradientBoostingClassifier": HistGradientBoostingClassifier,
+        "AdaBoostStumpClassifier": AdaBoostStumpClassifier,
+        "KNeighborsClassifier": KNeighborsClassifier,
+        "RandomForestClassifier": RandomForestClassifier,
     }
 
     if model_name in pytorch_models:

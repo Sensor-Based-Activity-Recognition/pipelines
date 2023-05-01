@@ -72,14 +72,50 @@ aggregate_mean_median_std:
 #     momentum: 0.9
 
 # HistGradientBoostingClassifier model
-dvclive:
-  model: HistGradientBoostingClassifier
-  seed: 41
+# dvclive:
+#   model: HistGradientBoostingClassifier
+#   seed: 41
+#   data:
+#     type: Sklearn
+#   model_hparams:
+#     learning_rate: 0.2
+#     max_iter: 2000
+#     max_leaf_nodes: 31
+#     min_samples_leaf: 20
+#     max_bins: 255
+
+# AdaBoostStumpClassifier model
+# dvclive:
+#   model: AdaBoostStumpClassifier
+#   seed: 42
+#   data:
+#     type: Sklearn
+#   model_hparams:
+#     learning_rate: 1.0
+#     n_estimators: 50
+#     random_state: 42
+
+# KNeighborsClassifier model
+# dvclive:
+#   model: KNeighborsClassifier
+#   seed: 42
+#   data:
+#     type: Sklearn
+#   model_hparams:
+#     n_neighbors: 5
+#     weights: uniform
+#     algorithm: auto
+#     leaf_size: 30
+#     metric: minkowski
+
+# RandomForestClassifier model
+dvclive:  
+  model: RandomForestClassifier
+  seed: 42
   data:
     type: Sklearn
   model_hparams:
-    learning_rate: 0.2
-    max_iter: 2000
-    max_leaf_nodes: 31
-    min_samples_leaf: 20
-    max_bins: 255
+    n_estimators: 100
+    criterion: gini
+    max_depth: null
+    random_state: 42

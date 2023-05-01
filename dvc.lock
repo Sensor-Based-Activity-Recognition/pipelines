@@ -247,29 +247,29 @@ stages:
       md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
       size: 142338896
     - path: src/correlations.py
-      md5: de117acfae881d935236b20cae0a0f9c
-      size: 1994
+      md5: caf4e051edfbb03913522331987aec03
+      size: 2303
     params:
       params.yaml:
         correlations_pearson:
           correlation_method: pearson
     outs:
     - path: data/correlations_pearson.parquet
-      md5: a1e87229a3157e95095d925dec56928d
-      size: 6067695
+      md5: e7d0fd787505a244761985060e7a6d21
+      size: 6067611
   dvclive:
     cmd: python src/model_runner.py dvclive data/correlations_pearson.parquet data/train_test_split_ratio02.json
       data/model.pkl data/output_test.csv
     deps:
     - path: data/correlations_pearson.parquet
-      md5: a1e87229a3157e95095d925dec56928d
-      size: 6067695
+      md5: e7d0fd787505a244761985060e7a6d21
+      size: 6067611
     - path: data/train_test_split_ratio02.json
       md5: 20a5446519af97f135682be727731a9f
       size: 49755
     - path: src/model_runner.py
-      md5: 2abb254ae71201cbf475842f5df104e8
-      size: 3810
+      md5: 043bda54b1aa92801802520bbc2f1a45
+      size: 4572
     - path: src/models/MLP.py
       md5: 8b236f50b46b6385db26e8e434db95e3
       size: 1353
@@ -288,43 +288,42 @@ stages:
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
-          seed: 41
+          model: RandomForestClassifier
+          seed: 42
           data:
             type: Sklearn
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            n_estimators: 100
+            criterion: gini
+            max_depth:
+            random_state: 42
     outs:
     - path: data/model.pkl
-      md5: f39e8f8021f7aa8bc5d72bc28bf37cdb
-      size: 4849746
+      md5: 54e32d80c926f9d977892c72e53e81d3
+      size: 13075549
     - path: data/output_test.csv
-      md5: 31c549b1447fa4263195463d778e8737
+      md5: f4e0afcdfbca81be6b7fca4becbdc997
       size: 5604
     - path: dvclive/metrics.json
-      md5: d6a10a37b7e49eec3861c9844a5ae7ff
-      size: 141
+      md5: 529687bb8fd1cc3bd89a7b587f21f536
+      size: 142
     - path: dvclive/plots
-      md5: 1982e2e260f75b7d5a44643a3e6dbddd.dir
-      size: 135
+      md5: 4f3a2835ce665f7a919f0828c219035c.dir
+      size: 136
       nfiles: 4
   evaluate:
     cmd: python src/evaluate.py evaluate data/output_test.csv evaluation/confusion_matrix.png
     deps:
     - path: data/output_test.csv
-      md5: 31c549b1447fa4263195463d778e8737
+      md5: f4e0afcdfbca81be6b7fca4becbdc997
       size: 5604
     - path: src/evaluate.py
       md5: dc1806850d7da42ff3015912d5828ac6
       size: 981
     outs:
     - path: evaluation/confusion_matrix.png
-      md5: db91f523174dffdcac4d38170b490a5f
-      size: 42702
+      md5: db50ba6f3dcfdec9ae8d3ee40c677cae
+      size: 42398
   filter_highpass_ord3_cut01:
     cmd: python src/butterworth_filter.py filter_highpass_ord3_cut01 data/segmentate_5s.dill
       data/highpass_ord3_cut01.dill
