@@ -27,7 +27,7 @@ jobs:
 
           git fetch --prune
           # Check if Hyperparameters or Metrics changed, if not exit
-          if [[ $(dvc params diff HEAD^) == "" ]] && [[ $(dvc metrics diff HEAD^) == "" ]]; then
+          if [[ $(dvc params diff HEAD~1) == "" ]] && [[ $(dvc metrics diff HEAD~1) == "" ]]; then
             echo "No changes in Hyperparameters or Metrics"
             exit 0
           fi
