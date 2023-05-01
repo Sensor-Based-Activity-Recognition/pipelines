@@ -247,8 +247,8 @@ stages:
       md5: f3c8c1ee0cfa27e9d18b2fd563c2ff2f
       size: 142338896
     - path: src/correlations.py
-      md5: caf4e051edfbb03913522331987aec03
-      size: 2303
+      md5: ed076871e89209a6c287b57ce2ae9b75
+      size: 2308
     params:
       params.yaml:
         correlations_pearson:
@@ -288,42 +288,41 @@ stages:
     params:
       params.yaml:
         dvclive:
-          model: RandomForestClassifier
+          model: AdaBoostStumpClassifier
           seed: 42
           data:
             type: Sklearn
           model_hparams:
-            n_estimators: 100
-            criterion: gini
-            max_depth:
+            learning_rate: 1.0
+            n_estimators: 50
             random_state: 42
     outs:
     - path: data/model.pkl
-      md5: 54e32d80c926f9d977892c72e53e81d3
-      size: 13075549
+      md5: 91f79bc0bc3b805ed07e98a36148626c
+      size: 33924
     - path: data/output_test.csv
-      md5: f4e0afcdfbca81be6b7fca4becbdc997
+      md5: 8fb9e11c0eb593b2299f2d4bca62b924
       size: 5604
     - path: dvclive/metrics.json
-      md5: 529687bb8fd1cc3bd89a7b587f21f536
-      size: 142
+      md5: 487f82a84ccdbfb5a6a3ae22ebc471db
+      size: 172
     - path: dvclive/plots
-      md5: 4f3a2835ce665f7a919f0828c219035c.dir
-      size: 136
+      md5: 049dc025d5205d1a3eaa16268c200249.dir
+      size: 166
       nfiles: 4
   evaluate:
     cmd: python src/evaluate.py evaluate data/output_test.csv evaluation/confusion_matrix.png
     deps:
     - path: data/output_test.csv
-      md5: f4e0afcdfbca81be6b7fca4becbdc997
+      md5: 8fb9e11c0eb593b2299f2d4bca62b924
       size: 5604
     - path: src/evaluate.py
       md5: dc1806850d7da42ff3015912d5828ac6
       size: 981
     outs:
     - path: evaluation/confusion_matrix.png
-      md5: db50ba6f3dcfdec9ae8d3ee40c677cae
-      size: 42398
+      md5: 5278c02a4aa4ed2030acc38387ae0e4e
+      size: 43366
   filter_highpass_ord3_cut01:
     cmd: python src/butterworth_filter.py filter_highpass_ord3_cut01 data/segmentate_5s.dill
       data/highpass_ord3_cut01.dill
