@@ -293,38 +293,38 @@ stages:
           data:
             type: Sklearn
           model_hparams:
-            learning_rate: 0.1
+            learning_rate: 0.09
             max_iter: 2000
             max_leaf_nodes: 31
             min_samples_leaf: 20
             max_bins: 255
     outs:
     - path: data/model.pkl
-      md5: 0695be6e7240c35f5bb0333a234a8471
-      size: 6716611
+      md5: c647d32c79d750c89a13f8318ee637bd
+      size: 7112575
     - path: data/output_test.csv
-      md5: db85cc49b08aff32ebdc9a96fbc73e36
+      md5: 927dbe9ce644b1c01562715cf2427181
       size: 5604
     - path: dvclive/metrics.json
-      md5: 5c4a163d787a42d6de5459778617d893
-      size: 140
+      md5: bc56506df649608256fcff4933109919
+      size: 139
     - path: dvclive/plots
-      md5: cdb01ce4f21659c48806d1d10bedab85.dir
-      size: 134
+      md5: 39fa0637e8afdad622bdae8be3dc86a2.dir
+      size: 133
       nfiles: 4
   evaluate:
     cmd: python src/evaluate.py evaluate data/output_test.csv evaluation/confusion_matrix.png
     deps:
     - path: data/output_test.csv
-      md5: db85cc49b08aff32ebdc9a96fbc73e36
+      md5: 927dbe9ce644b1c01562715cf2427181
       size: 5604
     - path: src/evaluate.py
       md5: dc1806850d7da42ff3015912d5828ac6
       size: 981
     outs:
     - path: evaluation/confusion_matrix.png
-      md5: 7faf74cd08565b4bb8a9aabf1442258a
-      size: 41637
+      md5: cba5c53896283d54a01ecf32737d1c7c
+      size: 42534
   filter_highpass_ord3_cut01:
     cmd: python src/butterworth_filter.py filter_highpass_ord3_cut01 data/segmentate_5s.dill
       data/highpass_ord3_cut01.dill
