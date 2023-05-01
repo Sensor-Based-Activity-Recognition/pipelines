@@ -13,8 +13,6 @@ jobs:
           git config user.name cdl1-iterative
           git config user.email iterative@fuet.ch
 
-          echo "# RUN: $(date "+%F %H-%M-%S")" > report.md
-          
           # Setup project
           pip install -r requirements.txt
 
@@ -29,22 +27,28 @@ jobs:
 
           git fetch --prune
           # Check if Hyperparameters or Metrics changed, if not exit
-          if [[ $(dvc params diff HEAD^) == "" ]] && [[ $(dvc metrics diff HEAD^) == "" ]]; then
+          if [[ $(dvc params diff) == "" ]] && [[ $(dvc metrics diff) == "" ]]; then
             echo "No changes in Hyperparameters or Metrics"
             exit 0
           fi
+
+          # save model name
+          MODEL_NAME=$(python cli_utils/get_model_name.py)
+
+          # Create report
+          echo "# RUN: $MODEL_NAME, $(date "+%F %H-%M-%S")" > report.md
           
           # Compare Hyperparameters
           echo "## Hyperparameters" >> report.md
-          dvc params diff --show-md HEAD^ >> report.md
+          dvc params diff --show-md main >> report.md
 
           # Compare metrics
           echo "## Metrics" >> report.md
-          dvc metrics diff --show-md HEAD^ >> report.md
+          dvc metrics diff --show-md main >> report.md
 
           # Add plots
-          echo "# Plots" >> report.md
-          echo "## Confusion Matrix" >> report.md
+          echo "## Plots" >> report.md
+          echo "### Confusion Matrix" >> report.md
           echo "![Confusion Matrix](evaluation/confusion_matrix.png)" >> report.md
 
           # Create report
