@@ -143,7 +143,7 @@ stages:
     - data/aggregate_mean_median_std.dill
 
   dvclive:
-    cmd: python src/model_runner.py dvclive data/correlations_pearson.parquet data/train_test_split_ratio02.json data/mlp_model.pt data/mlp_output_test.csv
+    cmd: python src/model_runner.py dvclive data/correlations_pearson.parquet data/train_test_split_ratio02.json data/model.pkl data/output_test.csv
     deps:
     - src/model_runner.py
     - src/models/MLP.py
@@ -155,9 +155,9 @@ stages:
     - data/train_test_split_ratio02.json
     params:
     - dvclive
-    outs: # TODO: how do we name model outputs when all are trained using dvclive stage?
-    - data/mlp_model.pt 
-    - data/mlp_output_test.csv
+    outs:
+    - data/model.pkl
+    - data/output_test.csv
     metrics:
     - dvclive/metrics.json:
         cache: true
@@ -166,9 +166,9 @@ stages:
         cache: true
 
   evaluate:
-    cmd: python src/evaluate.py evaluate data\mlp_output_test.csv evaluation/confusion_matrix.png
+    cmd: python src/evaluate.py evaluate data/output_test.csv evaluation/confusion_matrix.png
     deps:
     - src/evaluate.py
-    - data/mlp_output_test.csv
+    - data/output_test.csv
     outs:
     - evaluation/confusion_matrix.png

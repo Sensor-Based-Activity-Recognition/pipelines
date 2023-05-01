@@ -21,3 +21,5 @@
 /hgb_model.pickle
 /hgb_output_test.csv
 /confusion_matrix.png
+/model.pkl
+/output_test.csv
