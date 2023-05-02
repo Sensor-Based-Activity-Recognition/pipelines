@@ -44,8 +44,7 @@ def butterworth_filter(df:pd.DataFrame, filter_type:str, cutoff_freq:Union[float
 
     #apply filter on columns
     data = df.copy()
-    for col in df.columns:
-        if np.issubdtype(df[col].dtype, np.number): #only do filtering on numeric columns
-            data[col] = lfilter(b, a, df[col].values) #apply filter on column and store data
+    for col in df.select_dtypes(include=["number"]).columns: #only select numeric columns
+        data[col] = lfilter(b, a, df[col].values) #apply filter on column and store data
 
     return pd.DataFrame(data=data, index=df.index) #return new dataframe with same index as original and filtered columns
