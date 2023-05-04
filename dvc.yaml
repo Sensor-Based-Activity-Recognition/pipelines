@@ -29,28 +29,6 @@ stages:
     outs:
     - data/segmentate_5s.dill
 
-  std-scale:
-    cmd: python src/standard-scaler.py std-scale data/db_pull_calibrated.parquet data/standard-scaled.parquet data/standard-scaler-means.csv data/standard-scaler-stds.csv
-    deps:
-    - data/db_pull_calibrated.parquet
-    - src/standard-scaler.py
-    outs:
-    - data/standard-scaled.parquet
-    - data/standard-scaler-means.csv
-    - data/standard-scaler-stds.csv
-
-  min-max-scale_min0_max1:
-    cmd: python src/min-max-scaler.py min-max-scale_min0_max1 data/db_pull_calibrated.parquet data/min-max-scaled_min0_max1.parquet data/min-max-scaler-maxs_min0_max1.csv data/min-max-scaler-mins_min0_max1.csv
-    deps:
-    - data/db_pull_calibrated.parquet
-    - src/min-max-scaler.py
-    params:
-    - min-max-scale_min0_max1
-    outs:
-    - data/min-max-scaled_min0_max1.parquet
-    - data/min-max-scaler-maxs_min0_max1.csv
-    - data/min-max-scaler-mins_min0_max1.csv
-
   fft:
     cmd: python src/fft.py fft data/segmentate_5s.dill data/fft.dill
     deps:
@@ -101,16 +79,6 @@ stages:
     - moving_average_5s
     outs:
     - data/moving_average_5s.parquet
-
-  pca_comp6:
-    cmd: python src/pca.py pca_comp6 data/resample_50Hz.parquet data/pca_comp6.parquet
-    deps:
-    - data/resample_50Hz.parquet
-    - src/pca.py
-    params:
-    - pca_comp6
-    outs:
-    - data/pca_comp6.parquet
 
   train_test_split_ratio02:
     cmd: python src/train_test_split.py train_test_split_ratio02 data/segmentate_5s.dill data/train_test_split_ratio02.json
