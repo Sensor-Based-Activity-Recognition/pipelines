@@ -348,3 +348,80 @@ stages:
     - path: data/highpass_ord3_cut01.dill
       md5: 6a7ab37f5f4adeb30b239cf6b02871dd
       size: 210021628
+  transform_min_max:
+    cmd: python src/transform.py transform_min_max data/segmentate_5s.dill data/train_test_split_ratio02.json
+      data/segments_min_max.dill data/transformer_min_max.dill
+    deps:
+    - path: data/segmentate_5s.dill
+      md5: 0095ea796c2877fccd2d2f63f8227bcc
+      size: 128345824
+    - path: src/transform.py
+      md5: 27c2cb13f0ed01eacac9bcbe94f855a2
+      size: 6464
+    - path: src/utils/transformers.py
+      md5: acc88e39d924f0a986e4c6468bbaa759
+      size: 6337
+    params:
+      params.yaml:
+        transform_min_max:
+          transformation: min-max
+          transformation_params:
+            feature_range_min: 0
+            feature_range_max: 1
+    outs:
+    - path: data/segments_min_max.dill
+      md5: 0671b7676d6d5227b669a8bd9b3ec3f6
+      size: 2438461
+    - path: data/transformer_min_max.dill
+      md5: db2a20624921203454bd8057189e9c11
+      size: 1435
+  transform_standardize:
+    cmd: python src/transform.py transform_standardize data/segmentate_5s.dill data/train_test_split_ratio02.json
+      data/segments_standardized.dill data/transformer_standardize.dill
+    deps:
+    - path: data/segmentate_5s.dill
+      md5: 0095ea796c2877fccd2d2f63f8227bcc
+      size: 128345824
+    - path: src/transform.py
+      md5: 27c2cb13f0ed01eacac9bcbe94f855a2
+      size: 6464
+    - path: src/utils/transformers.py
+      md5: acc88e39d924f0a986e4c6468bbaa759
+      size: 6337
+    params:
+      params.yaml:
+        transform_standardize:
+          transformation: standardize
+    outs:
+    - path: data/segments_standardized.dill
+      md5: 0380dd6b405c87a3d69642e376fa12b9
+      size: 2438461
+    - path: data/transformer_standardize.dill
+      md5: 6159896882620d59491eb7271c6ceea9
+      size: 1400
+  transform_pca:
+    cmd: python src/transform.py transform_pca data/segmentate_5s.dill data/train_test_split_ratio02.json
+      data/segments_pca.dill data/transformer_pca.dill
+    deps:
+    - path: data/segmentate_5s.dill
+      md5: 0095ea796c2877fccd2d2f63f8227bcc
+      size: 128345824
+    - path: src/transform.py
+      md5: 27c2cb13f0ed01eacac9bcbe94f855a2
+      size: 6464
+    - path: src/utils/transformers.py
+      md5: acc88e39d924f0a986e4c6468bbaa759
+      size: 6337
+    params:
+      params.yaml:
+        transform_pca:
+          transformation: pca
+          transformation_params:
+            n_components: 6
+    outs:
+    - path: data/segments_pca.dill
+      md5: e206bfd2b7dd7cd2677d4f3b9ed58a2d
+      size: 2432404
+    - path: data/transformer_pca.dill
+      md5: 7e20813e3cb52120181cd8f92cdab987
+      size: 1712

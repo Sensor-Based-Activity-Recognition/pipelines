@@ -142,6 +142,43 @@ stages:
     outs:
     - data/aggregate_mean_median_std.dill
 
+  transform_min_max:
+    cmd: python src/transform.py transform_min_max data/segmentate_5s.dill data/train_test_split_ratio02.json data/segments_min_max.dill data/transformer_min_max.dill
+    deps:
+    - data/segmentate_5s.dill
+    - src/transform.py
+    - src/utils/transformers.py
+    params:
+    - transform_min_max
+    outs:
+    - data/segments_min_max.dill 
+    - data/transformer_min_max.dill
+
+  transform_standardize:
+    cmd: python src/transform.py transform_standardize data/segmentate_5s.dill data/train_test_split_ratio02.json data/segments_standardized.dill data/transformer_standardize.dill
+    deps:
+    - data/segmentate_5s.dill
+    - src/transform.py
+    - src/utils/transformers.py
+    params:
+    - transform_standardize
+    outs:
+    - data/segments_standardized.dill 
+    - data/transformer_standardize.dill
+
+  transform_pca:
+    cmd: python src/transform.py transform_pca data/segmentate_5s.dill data/train_test_split_ratio02.json data/segments_pca.dill data/transformer_pca.dill
+    deps:
+    - data/segmentate_5s.dill
+    - src/transform.py
+    - src/utils/transformers.py
+    params:
+    - transform_pca
+    outs:
+    - data/segments_pca.dill 
+    - data/transformer_pca.dill
+
+
   dvclive:
     cmd: python src/model_runner.py dvclive data/correlations_pearson.parquet data/train_test_split_ratio02.json data/model.pkl data/output_test.csv
     deps:

@@ -54,6 +54,20 @@ aggregate_mean_median_std:
 - median
 - std
 
+transform_min_max:
+  transformation: min-max
+  transformation_params:
+    feature_range_min: 0
+    feature_range_max: 1
+
+transform_standardize:
+  transformation: standardize
+
+transform_pca:
+  transformation: pca
+  transformation_params:
+    n_components: 6
+
 # MLP model
 # dvclive:
 #   model: MLP
