@@ -56,7 +56,13 @@ def combine_df(segments: dict, train_ids:list, test_ids:list):
             else:
                 raise Exception("segment_id not found in train_ids or test_ids")
             
-    return pd.concat(train_dfs_list, axis=0).astype(train_dfs_list[0].dtypes), pd.concat(test_dfs_list, axis=0).astype(test_dfs_list[0].dtypes) #convert to dataframe and return
+    train_df = pd.concat(train_dfs_list, axis=0, ignore_index=True)
+    train_df = train_df.astype(train_dfs_list[0].dtypes.apply(lambda x: x.name).to_dict())
+
+    test_df = pd.concat(test_dfs_list, axis=0, ignore_index=True)
+    test_df = test_df.astype(test_dfs_list[0].dtypes.apply(lambda x: x.name).to_dict())
+            
+    return train_df, test_df #convert to dataframe and return
 
 def reconstruct_segments_dict(dict_structure: dict, train_df:pd.DataFrame, test_df:pd.DataFrame, train_ids:list, test_ids:list):
     segments = {}
@@ -65,10 +71,10 @@ def reconstruct_segments_dict(dict_structure: dict, train_df:pd.DataFrame, test_
         df_list = []
         for id in ids:
             if id in train_ids:
-                df_list.append(train_df.loc[train_df.segment_id == id]) #append dataframe
+                df_list.append(train_df[train_df.segment_id == id]) #append dataframe
 
             elif id in test_ids:
-                df_list.append(test_df.loc[test_df.segment_id == id]) #append dataframe
+                df_list.append(test_df[test_df.segment_id == id]) #append dataframe
 
             else:
                 raise Exception("id found which is not in train or test split")
