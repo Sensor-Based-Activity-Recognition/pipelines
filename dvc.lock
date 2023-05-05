@@ -425,3 +425,20 @@ stages:
     - path: data/transformer_pca.dill
       md5: 65e1a3a7ea0579e0c2b2cb4e6b32a632
       size: 1712
+  moving_average_01s:
+    cmd: python src/moving_average.py moving_average_01s data/segmentate_5s.dill data/moving_average_01s.parquet
+    deps:
+    - path: data/segmentate_5s.dill
+      md5: 0095ea796c2877fccd2d2f63f8227bcc
+      size: 128345824
+    - path: src/moving_average.py
+      md5: c5124ab3ad46ccfef083c2b522638279
+      size: 1644
+    params:
+      params.yaml:
+        moving_average_01s:
+          window_len_s: 0.1
+    outs:
+    - path: data/moving_average_01s.parquet
+      md5: 13e4e40265ce6c210b13cf3dfdbd843d
+      size: 209513257

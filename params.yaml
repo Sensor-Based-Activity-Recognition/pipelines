@@ -30,8 +30,8 @@ filter_highpass_ord3_cut01:
   order: 3
   cutoff_f_Hz: 0.1
 
-moving_average_5s:
-  window_len_s: 0.5
+moving_average_01s:
+  window_len_s: 0.1
 
 train_test_split_ratio02:
   type: person

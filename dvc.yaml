@@ -70,15 +70,15 @@ stages:
     outs:
     - data/highpass_ord3_cut01.dill
 
-  moving_average_5s:
-    cmd: python src/moving_average.py moving_average_5s data/resample_50Hz.parquet data/moving_average_5s.parquet
+  moving_average_01s:
+    cmd: python src/moving_average.py moving_average_01s data/segmentate_5s.dill data/moving_average_01s.parquet
     deps:
-    - data/resample_50Hz.parquet
+    - data/segmentate_5s.dill
     - src/moving_average.py
     params:
-    - moving_average_5s
+    - moving_average_01s
     outs:
-    - data/moving_average_5s.parquet
+    - data/moving_average_01s.parquet
 
   train_test_split_ratio02:
     cmd: python src/train_test_split.py train_test_split_ratio02 data/segmentate_5s.dill data/train_test_split_ratio02.json
