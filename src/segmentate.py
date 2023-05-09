@@ -60,7 +60,11 @@ def segmentate(df:pd.DataFrame, window_len_s:float, overlap_percent:int):
         df.loc[selected_rows, "segment_id"] = segment_id
         segment_id += 1
 
-        windows.append(df.loc[selected_rows])
+        #segmentate dataframe and make a copy
+        df_window = df.loc[selected_rows].copy()
+        df_window["segment_id"] = df_window["segment_id"].astype("category") #make segment_id categorial so filters / fft / etc dont alter this column
+
+        windows.append(df_window)
         window_start = window_end - overlap_timedelta
 
 # segmentate

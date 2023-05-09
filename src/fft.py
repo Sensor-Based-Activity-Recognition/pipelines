@@ -34,13 +34,25 @@ def get_fft(df:pd.DataFrame):
 
     #generate spectrum from each column
     data = {}
-    for col in df.columns:
-        if np.issubdtype(df[col].dtype, np.number): #only do fft transformation on numeric columns
-            yf = fft(df[col].values)
+    for col in df.select_dtypes(include=["number"]).columns: #only select numeric columns
+        yf = fft(df[col].values)
 
-            data[col] = 2.0/N * np.abs(yf[0:N//2])
+        data[col] = 2.0/N * np.abs(yf[0:N//2])
+    
+    df_transformed = pd.DataFrame(data=data, index=xf) #create dataframe a with sample frequencies on index and corresponding fft on columns
 
-    return pd.DataFrame(data=data, index=xf) #return dataframe with sample frequencies on index and corresponding fft on columns
+    #copy all non numerical values into dataframe
+    for col in df.select_dtypes(exclude=["number"]).columns:
+        series:np.array = df[col].values #copy column
+
+        if len(np.unique(series)) != 1: #if series has more than one distinct value
+            raise Exception("a non transformed column has more than one unique value... to prevent unexpected behavior, the transformation was stoped")
+        
+        df_transformed[col] = col[:len(xf)] #truncate values from column
+
+        df_transformed[col] = df_transformed[col].astype(df[col].dtype) #set correct datatype
+
+    return df_transformed #return dataframe 
 
 # execute transformation
 with open(input_filename, "rb") as fr: #load data
