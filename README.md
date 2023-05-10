@@ -15,7 +15,7 @@ Zusätzlich wird nach jedem Commit anhand von CML ein Workflow gestartet, welche
 
 ### Stages
 Die Pipelines bestehen aus Stages. Eine Stage ist eine einzelne Aufgabe, welche in einer Pipeline ausgeführt wird.
-Eine Auflistung zu den Pipelines kann man unter [src/README.md](src/README.md) finden.
+Eine Auflistung zu den Stages kann man unter [src/README.md](src/README.md) finden.
 
 #### dvc.yaml and dvc.lock
 Die dvc.yaml ist die Konfigurationsdatei für DVC. In dieser Datei wird die Pipeline anhand der Stages definiert.
@@ -27,36 +27,37 @@ Die dvc.lock Datei ist die Datei, welche die Abhängigkeiten der Stages definier
 Um sich mit DVC vertraut zu machen, hat Iterative.ai eine gute Zusammenfassung geschrieben:
 https://dvc.org/doc/start
 
-Die wichtigsten Befehle sind:
+#### Most used commands
+Hier ist eine kurze Zusammenfassung der wichtigsten DVC Befehle.
 
-Installation von DVC mittels pip
+Installation von DVC mittels pip:
 ```bash
 pip install dvc
 ```
 
-Initialisierung eines DVC Repositories
+Initialisierung eines DVC Repositories:
 ```bash
 dvc init
 ```
 
-Pullen der Daten (dvc)
+Pullen der Daten (dvc):
 ```bash
 dvc pull
 ```
 
-Reproduzieren der Pipeline
+Reproduzieren der Pipeline:
 ```bash
 dvc repro
 ```
 
-Pushen der Daten (dvc)
+Pushen der Daten (dvc):
 ```bash
 dvc push
 ```
 
-Hinzufügen einer Stage
+Hinzufügen einer Stage:
 ```bash
-dvc stage add -n <stage-name> -p <used-parameters-from-params-yaml> -d <dependencie> -o <output> python <script.py> <argvs>
+dvc stage add -n <stage-name> -p <used-parameters-from-params-yaml> -d <dependencies> -o <outputs> python <script.py> <argvs>
 ```
 Eine Stage darf auch manuell im dvc.yaml File erfasst werden. Dafür kann man sich an den anderen Stages orientieren.
 
