@@ -1,1 +1,1 @@
-TODO: Add description for the pipelines
+TODO: Add reference on how to add new pipelines

@@ -1,1 +1,1 @@
-TODO: Add description for workflows
+TODO: Add description on how workflows work
