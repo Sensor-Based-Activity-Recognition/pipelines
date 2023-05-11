@@ -30,3 +30,4 @@
 /segments_pca.dill
 /transformer_pca.dill
 /moving_average_01s.parquet
+/moving_average_01s.dill
