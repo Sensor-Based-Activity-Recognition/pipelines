@@ -1,4 +1,5 @@
 import sys
+import warnings
 import pandas as pd
 import yaml
 
@@ -35,12 +36,33 @@ def correlate(index, segment_data):
     corr.index = corr.index.map("_corr_".join)
     # convert to dataframe
     corr = pd.DataFrame(corr, columns=[index]).T
-    # join corr with activity, hash, person and segment id,
+
+    # join corr with activity, hash, person and segment id
     corr["activity"] = segment_data["activity"][0]
     corr["hash"] = segment_data["hash"][0]
     corr["person"] = segment_data["person"][0]
     corr["segment_id"] = segment_id
-    # return data
+
+    # Generate correlation column names so we can check existence of all columns later
+    corr_column_names = []
+    segment_data_features = segment_data.select_dtypes(include="float32")
+    for col_left in segment_data_features.columns:
+        for col_right in segment_data_features.columns:
+            if col_left != col_right:
+                corr_column_names.append(f"{col_left}_corr_{col_right}")
+
+    # Warn if segment has columns with all same values
+    all_same_value_cols = []
+    for col in segment_data_features.columns:
+        if segment_data_features[col].nunique() == 1:
+            all_same_value_cols.append(col)
+    if len(all_same_value_cols) > 0:
+        warnings.warn(f"Segment {segment_id} of measurement {segment.index[0]} has columns {all_same_value_cols} with all same values. Correlation with other columns will be NA and therefore imputed.")
+
+    # Make sure we read cols and impute with 0 where correlation between two cols led to NA
+    missing_columns = set(corr_column_names) - set(corr.columns)
+    for col_left in missing_columns:
+        corr[col_left] = 0
     return corr
 
 
@@ -54,10 +76,40 @@ for index_measurement, measurement in tqdm(data.items()):
     for segment in measurement:
         # correlate columns in segment
         temp_corr = correlate(index_measurement, segment)
+
+        # make sure segment has 13 cols
+        if temp_corr.shape[1] != 76:
+            print(segment.shape, segment.columns)
+            raise ValueError(f"temp_corr for segment {segment['segment_id'][0]} has {temp_corr.shape[1]} columns instead of 76")
+
+        # check for NA values 
+        if temp_corr.isna().sum().sum() > 0:
+            raise ValueError(f"NA values in segment after correlate {segment['segment_id'][0]}")
+
         # add to segment correlations
         temp_segment = pd.concat([temp_segment, temp_corr], axis=0)
+
+        # check for NA values 
+        if temp_segment.isna().sum().sum() > 0:
+            raise ValueError(f"NA values in segment after concat {segment['segment_id'][0]}")
+
+    # check for NA values 
+    if corr_data.isna().sum().sum() > 0:
+        raise ValueError(f"NA values in corr_data before concat with segment {segment['segment_id'][0]}")
+    
+    # check for NA values 
+    if temp_segment.isna().sum().sum() > 0:
+        raise ValueError(f"NA values in temp_segment before concat with segment {segment['segment_id'][0]}")
+
+    print(corr_data.shape, temp_segment.shape)
+
     # add to all correlations
     corr_data = pd.concat([corr_data, temp_segment], axis=0)
+
+    # check for NA values
+    if corr_data.isna().sum().sum() > 0:
+        raise ValueError(f"{corr_data.isna().sum().sum()} NA values in corr_data after concat to all {segment['segment_id'][0]}")
+
 # set index
 corr_data = corr_data.set_index("segment_id")
 
