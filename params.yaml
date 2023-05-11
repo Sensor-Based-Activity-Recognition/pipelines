@@ -98,8 +98,8 @@ dvclive:
   data:
     type: Sklearn
   model_hparams:
-    learning_rate: 1.0
-    n_estimators: 50
+    learning_rate: 0.5
+    n_estimators: 200
     random_state: 42
 
 # KNeighborsClassifier model

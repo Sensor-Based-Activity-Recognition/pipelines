@@ -148,8 +148,8 @@ stages:
       md5: 0095ea796c2877fccd2d2f63f8227bcc
       size: 128345824
     - path: src/correlations.py
-      md5: 914a87f80d9ff97e6502183308a654a3
-      size: 3361
+      md5: 873dc9d29c91821565509bc9ccc1d548
+      size: 3309
     params:
       params.yaml:
         correlations_pearson:
@@ -195,20 +195,20 @@ stages:
             type: Sklearn
           model_hparams:
             learning_rate: 1.0
-            n_estimators: 50
+            n_estimators: 200
             random_state: 42
     outs:
     - path: data/model.pkl
-      md5: 91f79bc0bc3b805ed07e98a36148626c
-      size: 33924
+      md5: 3ba4df58b5bbb3d268c43cd64e17778c
+      size: 132192
     - path: data/output_test.csv
-      md5: eef0c9f6658afc54e0a4d9aca8478ac2
+      md5: 138fcd8f013d5c5cd7c4c380d1b70979
       size: 5604
     - path: dvclive/metrics.json
-      md5: 31336a292a2e42a14f11c5e90e1992e4
+      md5: 4e2ff4bbb04a191ae3594ead1d1dca77
       size: 171
     - path: dvclive/plots
-      md5: c42bd70843c0ed2455525d03b556b238.dir
+      md5: 2ee446faaf37e004c79fb8efc4aa2c8a.dir
       size: 165
       nfiles: 4
   moving_average_5s:
@@ -314,15 +314,15 @@ stages:
     cmd: python src/evaluate.py evaluate data/output_test.csv evaluation/confusion_matrix.png
     deps:
     - path: data/output_test.csv
-      md5: eef0c9f6658afc54e0a4d9aca8478ac2
+      md5: 138fcd8f013d5c5cd7c4c380d1b70979
       size: 5604
     - path: src/evaluate.py
       md5: dc1806850d7da42ff3015912d5828ac6
       size: 981
     outs:
     - path: evaluation/confusion_matrix.png
-      md5: 678f09a6c6f08fc0b1f50c37ebb00629
-      size: 42571
+      md5: d983dd12a02f4c4a6d9630cdfd14ef36
+      size: 42268
   filter_lowpass_ord3_cut100:
     cmd: python src/butterworth_filter.py filter_lowpass_ord3_cut100 data/segmentate_5s.dill
       data/lowpass_ord3_cut100.dill
