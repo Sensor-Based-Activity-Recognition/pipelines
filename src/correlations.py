@@ -57,7 +57,6 @@ def correlate(index, segment_data):
         if segment_data_features[col].nunique() == 1:
             all_same_value_cols.append(col)
     if len(all_same_value_cols) > 0:
-        # append to warnings dict with index as key
         warnings.append((index, segment_id, all_same_value_cols))
 
     # Make sure we read cols and impute with 0 where correlation between two cols led to NA

@@ -92,15 +92,15 @@ transform_pca:
 #     max_bins: 255
 
 # AdaBoostStumpClassifier model
-# dvclive:
-#   model: AdaBoostStumpClassifier
-#   seed: 42
-#   data:
-#     type: Sklearn
-#   model_hparams:
-#     learning_rate: 1.0
-#     n_estimators: 50
-#     random_state: 42
+dvclive:
+  model: AdaBoostStumpClassifier
+  seed: 42
+  data:
+    type: Sklearn
+  model_hparams:
+    learning_rate: 1.0
+    n_estimators: 50
+    random_state: 42
 
 # KNeighborsClassifier model
 # dvclive:
@@ -116,13 +116,13 @@ transform_pca:
 #     metric: minkowski
 
 # RandomForestClassifier model
-dvclive:  
-  model: RandomForestClassifier
-  seed: 42
-  data:
-    type: Sklearn
-  model_hparams:
-    n_estimators: 100
-    criterion: gini
-    max_depth: null
-    random_state: 42
+# dvclive:  
+#   model: RandomForestClassifier
+#   seed: 42
+#   data:
+#     type: Sklearn
+#   model_hparams:
+#     n_estimators: 100
+#     criterion: gini
+#     max_depth: null
+#     random_state: 42
