@@ -57,7 +57,7 @@ def correlate(index, segment_data):
         if segment_data_features[col].nunique() == 1:
             all_same_value_cols.append(col)
     if len(all_same_value_cols) > 0:
-        warnings.warn(f"Segment {segment_id} of measurement {segment.index[0]} has columns {all_same_value_cols} with all same values. Correlation with other columns will be NA and therefore imputed.")
+        warnings.warn(f"Segment {segment_id} of measurement {index} has columns {all_same_value_cols} with all same values. Correlation with other columns will be NA and therefore imputed.")
 
     # Make sure we read cols and impute with 0 where correlation between two cols led to NA
     missing_columns = set(corr_column_names) - set(corr.columns)
@@ -76,39 +76,11 @@ for index_measurement, measurement in tqdm(data.items()):
     for segment in measurement:
         # correlate columns in segment
         temp_corr = correlate(index_measurement, segment)
-
-        # make sure segment has 13 cols
-        if temp_corr.shape[1] != 76:
-            print(segment.shape, segment.columns)
-            raise ValueError(f"temp_corr for segment {segment['segment_id'][0]} has {temp_corr.shape[1]} columns instead of 76")
-
-        # check for NA values 
-        if temp_corr.isna().sum().sum() > 0:
-            raise ValueError(f"NA values in segment after correlate {segment['segment_id'][0]}")
-
         # add to segment correlations
         temp_segment = pd.concat([temp_segment, temp_corr], axis=0)
 
-        # check for NA values 
-        if temp_segment.isna().sum().sum() > 0:
-            raise ValueError(f"NA values in segment after concat {segment['segment_id'][0]}")
-
-    # check for NA values 
-    if corr_data.isna().sum().sum() > 0:
-        raise ValueError(f"NA values in corr_data before concat with segment {segment['segment_id'][0]}")
-    
-    # check for NA values 
-    if temp_segment.isna().sum().sum() > 0:
-        raise ValueError(f"NA values in temp_segment before concat with segment {segment['segment_id'][0]}")
-
-    print(corr_data.shape, temp_segment.shape)
-
     # add to all correlations
     corr_data = pd.concat([corr_data, temp_segment], axis=0)
-
-    # check for NA values
-    if corr_data.isna().sum().sum() > 0:
-        raise ValueError(f"{corr_data.isna().sum().sum()} NA values in corr_data after concat to all {segment['segment_id'][0]}")
 
 # set index
 corr_data = corr_data.set_index("segment_id")
