@@ -1,5 +1,4 @@
 import sys
-import warnings
 import pandas as pd
 import yaml
 
@@ -11,7 +10,7 @@ stage_name = sys.argv[1]
 input_filename = sys.argv[2]
 output_filename = sys.argv[3]
 
-#get params
+# get params
 params = yaml.safe_load(open("params.yaml"))[stage_name]
 correlation_method = params["correlation_method"]
 
@@ -19,6 +18,7 @@ correlation_method = params["correlation_method"]
 with open(input_filename, "rb") as f:
     data = load(f)
 
+warnings = []
 
 def correlate(index, segment_data):
     """
@@ -57,7 +57,8 @@ def correlate(index, segment_data):
         if segment_data_features[col].nunique() == 1:
             all_same_value_cols.append(col)
     if len(all_same_value_cols) > 0:
-        warnings.warn(f"Segment {segment_id} of measurement {index} has columns {all_same_value_cols} with all same values. Correlation with other columns will be NA and therefore imputed.")
+        # append to warnings dict with index as key
+        warnings.append((index, segment_id, all_same_value_cols))
 
     # Make sure we read cols and impute with 0 where correlation between two cols led to NA
     missing_columns = set(corr_column_names) - set(corr.columns)
@@ -82,19 +83,15 @@ for index_measurement, measurement in tqdm(data.items()):
     # add to all correlations
     corr_data = pd.concat([corr_data, temp_segment], axis=0)
 
+# print warnings
+affected_measurements = set()
+for warning in warnings:
+    affected_measurements.add(warning[0])
+    print(f"Warning: Measurement {warning[0]} has segment {warning[1]} with cols {warning[2]} all same values. Correlation with other columns will be NA and therefore imputed to 0.")
+print(f"Affected measurements: {affected_measurements}")
+
 # set index
 corr_data = corr_data.set_index("segment_id")
-
-# drop rows with NA values
-na_by_col = corr_data.isna().sum()
-for n in na_by_col:
-    if n > 1:
-        print(f"Warning: corr_data has at least {n} unexpected NA values. Dropping affected rows.")
-        # corr_data = corr_data.dropna()
-        break
-
-# TODO: remove, bfill NA for testing purpose
-# corr_data = corr_data.fillna(method="bfill")
 
 # save to parquet
 corr_data.to_parquet(output_filename, index=True)
