@@ -14,10 +14,6 @@ segmentate_5s:
   window_len_s: 5
   overlap_percent: 0
 
-min-max-scale_min0_max1:
-  feature_range_min: 0
-  feature_range_max: 1
-
 filter_bandpass_ord3_low01_high100:
   filter_type: bandpass
   order: 3
@@ -37,9 +33,6 @@ filter_highpass_ord3_cut01:
 moving_average_5s:
   window_len_s: 0.5
 
-pca_comp6:
-  n_components: 6
-
 train_test_split_ratio02:
   type: person
   test_ratio: 0.2
@@ -53,6 +46,20 @@ aggregate_mean_median_std:
 - mean
 - median
 - std
+
+transform_min_max:
+  transformation: min-max
+  transformation_params:
+    feature_range_min: 0
+    feature_range_max: 1
+
+transform_standardize:
+  transformation: standardize
+
+transform_pca:
+  transformation: pca
+  transformation_params:
+    n_components: 6
 
 # MLP model
 # dvclive:

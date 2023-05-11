@@ -23,3 +23,9 @@
 /confusion_matrix.png
 /model.pkl
 /output_test.csv
+/segments_min_max.dill
+/transformer_min_max.dill
+/segments_standardized.dill
+/transformer_standardize.dill
+/segments_pca.dill
+/transformer_pca.dill
