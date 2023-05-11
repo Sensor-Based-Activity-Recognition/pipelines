@@ -6,7 +6,7 @@ Die Pipelines werden mit DVC verwaltet und können mit DVC reproduziert werden.
 Um neue Funktionen zu implementieren, muss ein neuer Branch erstellt werden.
 Dieser soll danach von einem anderen Teammitglied reviewed werden.
 Nicht funktionierende Pipelines (Fehler im Workflow) sollen nicht gemerged werden.
-Daten müssen nicht umbedingt mit DVC gepusht werden, da der Workflow dies bereits übernimmt.
+Daten müssen nicht unbedingt mit DVC gepusht werden, da der Workflow dies bereits übernimmt.
 
 ## DVC
 DVC ist ein Tool von Iterative.ai, welches es ermöglicht, Pipelines zu verwalten und zu reproduzieren. 
