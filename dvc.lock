@@ -268,8 +268,8 @@ stages:
       md5: 20a5446519af97f135682be727731a9f
       size: 49755
     - path: src/model_runner.py
-      md5: 043bda54b1aa92801802520bbc2f1a45
-      size: 4572
+      md5: b3f492e8cc7152571d7aefad392b8fbb
+      size: 4644
     - path: src/models/MLP.py
       md5: 8b236f50b46b6385db26e8e434db95e3
       size: 1353
@@ -297,9 +297,10 @@ stages:
             criterion: gini
             max_depth:
             random_state: 42
+            verbose: 1
     outs:
     - path: data/model.pkl
-      md5: 54e32d80c926f9d977892c72e53e81d3
+      md5: b34522b894806d5b7ab0ab87cf05c869
       size: 13075549
     - path: data/output_test.csv
       md5: 3a8759f9d1bf1016d5b4e3e3904501d7
