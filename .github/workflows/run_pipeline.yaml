@@ -16,10 +16,8 @@ jobs:
           # Setup project
           pip install -r requirements.txt
 
-          # Remove DVC cache and dvc.lock
-          rm -rf .dvc/cache
-          rm -f .dvc/lock
-
+          # Remove dvc.lock
+          rm -f dvc.lock
 
           # Get data and artifacsts from DVC remote
           dvc pull
