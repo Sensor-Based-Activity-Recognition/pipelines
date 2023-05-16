@@ -15,14 +15,17 @@ class CNN(IModel):
             out_channels=32,
             kernel_size=5
         )
+        self.pool1 = nn.MaxPool2d(
+            kernel_size=2,
+            stride=2
+        )
         # Convolutional layer 2
         self.conv2 = nn.Conv2d(
             in_channels=32,
             out_channels=64,
             kernel_size=4
         )
-        # pooling layer
-        self.pool = nn.MaxPool2d(
+        self.pool2 = nn.MaxPool2d(
             kernel_size=2,
             stride=2
         )
@@ -52,8 +55,9 @@ class CNN(IModel):
 
     def forward(self, x):
         x = F.leaky_relu(self.conv1(x))
+        x = self.pool1(x)
         x = F.leaky_relu(self.conv2(x))
-        x = self.pool(x)
+        x = self.pool2(x)
         x = F.leaky_relu(self.conv3(x))
         x = self.gap(x)
         x = x.view(-1, 128)

@@ -172,8 +172,8 @@ stages:
       md5: ad9532fdccf6c908e641f2b87b94ddc7
       size: 3918
     - path: src/models/CNN.py
-      md5: e55171de451f19c4577a072bffbb967c
-      size: 1646
+      md5: 41cca439e10dc712da4814a2437edd30
+      size: 1747
     - path: src/models/__IModel.py
       md5: a2a67fca041256c488b0480ca87afbe9
       size: 1878
@@ -196,23 +196,23 @@ stages:
             train_val_split: 0.8
             batch_size: 64
           model_hparams:
-            num_epochs: 10
-            learning_rate: 0.04
+            num_epochs: 25
+            learning_rate: 0.05
             weight_decay: 0.0005
             momentum: 0.9
     outs:
     - path: data/model.pkl
-      md5: bb7ed5b3f478567a63c43031151ee272
-      size: 988838
+      md5: 7d0bd0040c9410c53b8cbb393fd54dc4
+      size: 988902
     - path: data/output_test.csv
-      md5: 11ca53f12f7a5a229054f9289bb12014
+      md5: 8721ab53c2de2978d5185f9e573507fd
       size: 7000
     - path: dvclive/metrics.json
-      md5: da9f778e263ae10c04b2e424b1c66158
-      size: 901
+      md5: ef50846564826aa4eb9baa7171523942
+      size: 918
     - path: dvclive/plots
-      md5: 8b9cc12694aea029b4808bbdb24773f9.dir
-      size: 76106
+      md5: 2f8070eab77db6613b8d1aef21d9bcbd.dir
+      size: 197543
       nfiles: 17
   moving_average_5s:
     cmd: python src/moving_average.py moving_average_5s data/resample_50Hz.parquet
@@ -317,15 +317,15 @@ stages:
     cmd: python src/evaluate.py evaluate data/output_test.csv evaluation/confusion_matrix.png
     deps:
     - path: data/output_test.csv
-      md5: 11ca53f12f7a5a229054f9289bb12014
+      md5: 8721ab53c2de2978d5185f9e573507fd
       size: 7000
     - path: src/evaluate.py
       md5: dc1806850d7da42ff3015912d5828ac6
       size: 1019
     outs:
     - path: evaluation/confusion_matrix.png
-      md5: 35edf456f33ec89887cb4ff10bc27453
-      size: 40231
+      md5: 26222fc0d7be3d83d7230e37f84eaabb
+      size: 40029
   filter_lowpass_ord3_cut100:
     cmd: python src/butterworth_filter.py filter_lowpass_ord3_cut100 data/segmentate_5s.dill
       data/lowpass_ord3_cut100.dill
