@@ -6,8 +6,10 @@ from argparse import Namespace
 
 # Internal Libraries
 from models.MLP import MLP
+from models.CNN import CNN
 from models.utils.DataLoaderTabular import DataModuleTabular
 from models.utils.DataLoaderSklearn import DataLoaderSklearn
+from models.utils.DataLoaderNDArray import DataModuleNDArray
 
 # 3rd Party Libraries
 import torch
@@ -22,6 +24,7 @@ from sklearn.metrics import accuracy_score, f1_score
 def get_model(model_name, config):
     pytorch_models = {
         "MLP": MLP,
+        "CNN": CNN,
     }
 
     sklearn_models = {
@@ -48,16 +51,15 @@ config = Namespace(**yaml.safe_load(open("params.yaml"))[stagename])
 model_type, model = get_model(config.model, config)
 
 # Define datamodule
-if config.data["type"] == "Tabular":
-    datamodule = DataModuleTabular(
-        config, input_filename_data, input_filename_train_test_split
-    )
-elif config.data["type"] == "Sklearn":
-    datamodule = DataLoaderSklearn(
-        config, input_filename_data, input_filename_train_test_split
-    )
-else:
-    raise NotImplementedError(f"Datamodule {config.type} not implemented")
+datamodule_class = {
+    "Tabular": DataModuleTabular,
+    "NDArray": DataModuleNDArray,
+    "Sklearn": DataLoaderSklearn,
+}
+
+datamodule = datamodule_class[config.data["type"]](
+    config, input_filename_data, input_filename_train_test_split
+)
 
 if model_type == "pytorch":
     # Define trainer

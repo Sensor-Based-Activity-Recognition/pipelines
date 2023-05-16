@@ -28,7 +28,8 @@ def get_stft(df:pd.DataFrame):
     for col in df.select_dtypes(include=np.number).columns:
         f, t, Zxx = stft(df[col], fs=50, noverlap=95, nperseg=100)
         spectogram.append(np.abs(Zxx))
-    return np.array(spectogram)
+    segment_id = df["segment_id"].iloc[0]
+    return (segment_id, np.array(spectogram))
 
 # execute transformation
 with open(input_filename, "rb") as fr: #load data
