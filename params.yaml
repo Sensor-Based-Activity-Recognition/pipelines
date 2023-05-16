@@ -63,7 +63,7 @@ transform_pca:
 
 dvclive:
   model: CNN
-  seed: 41
+  seed: 40
   data:
     type: NDArray
     output_size: 6
