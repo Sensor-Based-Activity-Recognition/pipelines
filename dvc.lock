@@ -187,7 +187,7 @@ stages:
       params.yaml:
         dvclive:
           model: CNN
-          seed: 41
+          seed: 42
           data:
             type: NDArray
             output_size: 6
@@ -201,17 +201,17 @@ stages:
             momentum: 0.9
     outs:
     - path: data/model.pkl
-      md5: 305f46d1e557e0f7083a1250d3184ead
+      md5: d139358787a44d830dd1b301145e95da
       size: 988838
     - path: data/output_test.csv
-      md5: 75d410cb02d9f4b9105e2d160108f7ba
+      md5: 2746f35305246a3abeb19008ffbd52c0
       size: 8500
     - path: dvclive/metrics.json
-      md5: 8f46db39a0f3c3b427d5517a9f306589
-      size: 908
+      md5: ef6c9f9df44fdeb1b6fb51ec74262b8b
+      size: 910
     - path: dvclive/plots
-      md5: e08b06819ec8582c8e84d96a9337295e.dir
-      size: 5887
+      md5: 255675e160f0fd2b62ba77c7dea27f7f.dir
+      size: 5911
       nfiles: 17
   moving_average_5s:
     cmd: python src/moving_average.py moving_average_5s data/resample_50Hz.parquet
@@ -316,15 +316,15 @@ stages:
     cmd: python src/evaluate.py evaluate data/output_test.csv evaluation/confusion_matrix.png
     deps:
     - path: data/output_test.csv
-      md5: 75d410cb02d9f4b9105e2d160108f7ba
+      md5: 2746f35305246a3abeb19008ffbd52c0
       size: 8500
     - path: src/evaluate.py
       md5: dc1806850d7da42ff3015912d5828ac6
       size: 1019
     outs:
     - path: evaluation/confusion_matrix.png
-      md5: dadfd6c6a3dcc3ddcaa7cf78889ea2e3
-      size: 37592
+      md5: 6c3f23a980acb15e90d42c0e295202f6
+      size: 42024
   filter_lowpass_ord3_cut100:
     cmd: python src/butterworth_filter.py filter_lowpass_ord3_cut100 data/segmentate_5s.dill
       data/lowpass_ord3_cut100.dill
