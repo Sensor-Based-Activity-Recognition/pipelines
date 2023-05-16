@@ -7,7 +7,7 @@ from argparse import Namespace
 # Internal Libraries
 from models.MLP import MLP
 from models.utils.DataLoaderTabular import DataModuleTabular
-from models.utils.DataLoaderSklearn import DataLoaderSklearn
+from models.utils.DataLoaderSklearn import DataLoaderSklearn_Tabular, DataLoaderSklearn_Segments
 
 # 3rd Party Libraries
 import torch
@@ -52,9 +52,13 @@ if config.data["type"] == "Tabular":
     datamodule = DataModuleTabular(
         config, input_filename_data, input_filename_train_test_split
     )
-elif config.data["type"] == "Sklearn":
-    datamodule = DataLoaderSklearn(
-        config, input_filename_data, input_filename_train_test_split
+elif config.data["type"] == "Sklearn_Tabular":
+    datamodule = DataLoaderSklearn_Tabular(
+        config.data.get("params"), input_filename_data, input_filename_train_test_split
+    )
+elif config.data["type"] == "Sklearn_Segments":
+    datamodule = DataLoaderSklearn_Segments(
+        config.data.get("params"), input_filename_data, input_filename_train_test_split
     )
 else:
     raise NotImplementedError(f"Datamodule {config.type} not implemented")
