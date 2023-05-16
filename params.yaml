@@ -71,7 +71,7 @@ dvclive:
     train_val_split: 0.8
     batch_size: 64
   model_hparams:
-    num_epochs: 1
+    num_epochs: 15
     learning_rate: 0.05
     weight_decay: 0.0005
     momentum: 0.9
