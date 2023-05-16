@@ -80,7 +80,7 @@ transform_pca:
 
 dvclive:
   model: CNN
-  seed: 41
+  seed: 42
   data:
     type: NDArray
     input_size: 72
@@ -90,6 +90,6 @@ dvclive:
     batch_size: 64
   model_hparams:
     num_epochs: 10
-    learning_rate: 0.1
+    learning_rate: 0.04
     weight_decay: 0.0005
     momentum: 0.9
