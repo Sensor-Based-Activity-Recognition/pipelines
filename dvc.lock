@@ -169,8 +169,8 @@ stages:
       md5: 1babc49cc8fcdded8c99ef9980407f17
       size: 49755
     - path: src/model_runner.py
-      md5: 040383c1c4439773b4a5fe213b007cd3
-      size: 3930
+      md5: 018a538a3cafb09c95dacbccd0852889
+      size: 3919
     - path: src/models/CNN.py
       md5: 41cca439e10dc712da4814a2437edd30
       size: 1747
@@ -195,23 +195,23 @@ stages:
             train_val_split: 0.8
             batch_size: 64
           model_hparams:
-            num_epochs: 25
+            num_epochs: 1
             learning_rate: 0.05
             weight_decay: 0.0005
             momentum: 0.9
     outs:
     - path: data/model.pkl
-      md5: a20668847555a2f56fef316813f4f5c3
+      md5: 305f46d1e557e0f7083a1250d3184ead
       size: 988838
     - path: data/output_test.csv
-      md5: 04a7132074de793876e3a126f2214e53
+      md5: 75d410cb02d9f4b9105e2d160108f7ba
       size: 8500
     - path: dvclive/metrics.json
-      md5: 83172480706ee3012a55efe2f4668b2f
-      size: 931
+      md5: 8f46db39a0f3c3b427d5517a9f306589
+      size: 908
     - path: dvclive/plots
-      md5: 46361e38e8383cb2c69982b528f12095.dir
-      size: 157090
+      md5: e08b06819ec8582c8e84d96a9337295e.dir
+      size: 5887
       nfiles: 17
   moving_average_5s:
     cmd: python src/moving_average.py moving_average_5s data/resample_50Hz.parquet
@@ -316,15 +316,15 @@ stages:
     cmd: python src/evaluate.py evaluate data/output_test.csv evaluation/confusion_matrix.png
     deps:
     - path: data/output_test.csv
-      md5: 04a7132074de793876e3a126f2214e53
+      md5: 75d410cb02d9f4b9105e2d160108f7ba
       size: 8500
     - path: src/evaluate.py
       md5: dc1806850d7da42ff3015912d5828ac6
       size: 1019
     outs:
     - path: evaluation/confusion_matrix.png
-      md5: 941266a2e8776231e9f8299c24670c65
-      size: 40244
+      md5: dadfd6c6a3dcc3ddcaa7cf78889ea2e3
+      size: 37592
   filter_lowpass_ord3_cut100:
     cmd: python src/butterworth_filter.py filter_lowpass_ord3_cut100 data/segmentate_5s.dill
       data/lowpass_ord3_cut100.dill
