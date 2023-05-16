@@ -64,13 +64,12 @@ datamodule = datamodule_class[config.data["type"]](
 if model_type == "pytorch":
     # Define trainer
     trainer = Trainer(
-        accelerator="auto",
-        logger=DVCLiveLogger(),
+        accelerator="auto", 
+        logger=DVCLiveLogger(report=None),
         max_epochs=config.model_hparams["num_epochs"],
         enable_progress_bar=True,
         log_every_n_steps=1,
         check_val_every_n_epoch=1,
-        profiler="simple",
     )
 
     # Train model
