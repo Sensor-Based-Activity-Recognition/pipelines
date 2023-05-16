@@ -31,3 +31,4 @@
 /transformer_pca.dill
 /moving_average_01s.parquet
 /moving_average_01s.dill
+/stft.dill

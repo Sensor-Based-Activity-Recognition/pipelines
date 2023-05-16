@@ -442,3 +442,16 @@ stages:
     - path: data/moving_average_01s.dill
       md5: 14c13f81438401957948ac355c107486
       size: 210057114
+  stft:
+    cmd: python src/stft.py stft data/segmentate_5s.dill data/stft.dill
+    deps:
+    - path: data/segmentate_5s.dill
+      md5: 0095ea796c2877fccd2d2f63f8227bcc
+      size: 128345824
+    - path: src/stft.py
+      md5: f36aa9611a177b27a44fc21cf2441654
+      size: 1165
+    outs:
+    - path: data/stft.dill
+      md5: 2968b3755bd6a31af2c354217567d28c
+      size: 809477946

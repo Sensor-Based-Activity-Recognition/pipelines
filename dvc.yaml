@@ -37,6 +37,14 @@ stages:
     outs:
     - data/fft.dill
 
+  stft:
+    cmd: python src/stft.py stft data/segmentate_5s.dill data/stft.dill
+    deps:
+    - data/segmentate_5s.dill
+    - src/stft.py
+    outs:
+    - data/stft.dill
+
   filter_bandpass_ord3_low01_high100:
     cmd: python src/butterworth_filter.py filter_bandpass_ord3_low01_high100 data/segmentate_5s.dill data/bandpass_ord3_low01_high100.dill
     deps:
