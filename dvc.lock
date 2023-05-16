@@ -178,8 +178,8 @@ stages:
       md5: a2a67fca041256c488b0480ca87afbe9
       size: 1878
     - path: src/models/utils/DataLoaderNDArray.py
-      md5: 3e1a585cb62ca7661cbd33b3ce7a491f
-      size: 4166
+      md5: e3e412ba2e09297313f5ab20ed387e9c
+      size: 2013
     - path: src/models/utils/DataSetTabular.py
       md5: fea93aac0c6f741cf12f95f82fa82eb7
       size: 347
@@ -201,17 +201,17 @@ stages:
             momentum: 0.9
     outs:
     - path: data/model.pkl
-      md5: 2f70284c4f272905583de9d623b61341
+      md5: 1fe4026c2f92f5543f44a1b5a320b0f9
       size: 988838
     - path: data/output_test.csv
-      md5: 82a945992046ec7bb03089fbf1f05be5
+      md5: 7af53ff7d1752becfacbf2727f4b3083
       size: 8500
     - path: dvclive/metrics.json
-      md5: ae23d7c3886e0afa9878b769bd9ce7d9
-      size: 928
+      md5: 1b6ce2934f79a8e6c96fa2f6c63bbb1f
+      size: 876
     - path: dvclive/plots
-      md5: 9b26eda50e0678edf5480bf71f149cb8.dir
-      size: 156609
+      md5: ec7e94e8bd041c7d7125a9979c71119c.dir
+      size: 162376
       nfiles: 17
   moving_average_5s:
     cmd: python src/moving_average.py moving_average_5s data/resample_50Hz.parquet
@@ -316,15 +316,15 @@ stages:
     cmd: python src/evaluate.py evaluate data/output_test.csv evaluation/confusion_matrix.png
     deps:
     - path: data/output_test.csv
-      md5: 82a945992046ec7bb03089fbf1f05be5
+      md5: 7af53ff7d1752becfacbf2727f4b3083
       size: 8500
     - path: src/evaluate.py
       md5: dc1806850d7da42ff3015912d5828ac6
       size: 1019
     outs:
     - path: evaluation/confusion_matrix.png
-      md5: f412337691a4ccc7bfb8b28801bdadc1
-      size: 40486
+      md5: aebd44aa36e6172e5bdebfe7805e4cbc
+      size: 30926
   filter_lowpass_ord3_cut100:
     cmd: python src/butterworth_filter.py filter_lowpass_ord3_cut100 data/segmentate_5s.dill
       data/lowpass_ord3_cut100.dill
