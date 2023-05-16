@@ -66,7 +66,7 @@ class AbstractDataModule(LightningDataModule, ABC):
     def val_dataloader(self):
         return DataLoader(
             self.val_dataset,
-            batch_size=self.batch_size,
+            batch_size=len(self.val_dataset),
             pin_memory=True,
             num_workers=self.num_workers,
         )
