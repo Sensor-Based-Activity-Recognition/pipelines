@@ -70,6 +70,7 @@ if model_type == "pytorch":
         enable_progress_bar=True,
         log_every_n_steps=1,
         check_val_every_n_epoch=1,
+        profiler="simple",
     )
 
     # Train model

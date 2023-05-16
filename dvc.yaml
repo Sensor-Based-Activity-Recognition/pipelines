@@ -161,7 +161,7 @@ stages:
     - src/model_runner.py
     - src/models/__IModel.py
     - src/models/CNN.py
-    - src/models/utils/DataLoaderTabular.py
+    - src/models/utils/DataLoaderNDArray.py
     - src/models/utils/DataSetTabular.py
     - data/stft.dill
     - data/train_test_split_ratio02.json

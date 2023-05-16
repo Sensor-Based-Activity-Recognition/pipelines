@@ -59,19 +59,15 @@ class DataModuleNDArray(LightningDataModule):
             for segment_id, segment in segments:
                 # segment is a 3d numpy array (columns, frequency components, time)
                 if segment_id in train_test_split_ids["train"]:
-                    temp_train_data.append(segment)
+                    temp_train_data.append(torch.from_numpy(segment))
                     temp_train_labels.append(onehotencode[key[0]])
                 elif segment_id in train_test_split_ids["test"]:
-                    temp_test_data.append(segment)
+                    temp_test_data.append(torch.from_numpy(segment))
                     temp_test_labels.append(onehotencode[key[0]])
                 else:
                     raise ValueError(f"segment_id {segment_id} not in train or test")
                 
-        temp_train_data = torch.from_numpy(np.array(temp_train_data))
-        temp_train_labels = torch.from_numpy(np.array(temp_train_labels, dtype=np.int64))
-        temp_test_data = torch.from_numpy(np.array(temp_test_data))
-        temp_test_labels = torch.from_numpy(np.array(temp_test_labels, dtype=np.int64))
-
+        temp_test_data = torch.stack(temp_test_data)
        
         # Combine data and labels and convert to tensor
         self.train_data = DataSetTabular(temp_train_data, temp_train_labels)
@@ -98,13 +94,15 @@ class DataModuleNDArray(LightningDataModule):
         return DataLoader(
             self.train_dataset,
             batch_size=self.batch_size,
+            pin_memory=True,
             num_workers=self.num_workers,
         )
 
     def val_dataloader(self):
         return DataLoader(
             self.val_dataset,
-            batch_size=self.batch_size,
+            batch_size=len(self.val_dataset),
+            pin_memory=True,
             num_workers=self.num_workers,
         )
 
@@ -112,5 +110,6 @@ class DataModuleNDArray(LightningDataModule):
         return DataLoader(
             self.test_dataset,
             batch_size=len(self.test_dataset),
-            num_workers=self.num_workers,
+            pin_memory=True,
+            num_workers=self.num_workers
         )
