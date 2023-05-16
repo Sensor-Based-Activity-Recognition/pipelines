@@ -48,7 +48,7 @@ def get_fft(df:pd.DataFrame):
         if len(np.unique(series)) != 1: #if series has more than one distinct value
             raise Exception("a non transformed column has more than one unique value... to prevent unexpected behavior, the transformation was stoped")
         
-        df_transformed[col] = col[:len(xf)] #truncate values from column
+        df_transformed[col] = series[:len(xf)] #truncate values from column
 
         df_transformed[col] = df_transformed[col].astype(df[col].dtype) #set correct datatype
 
