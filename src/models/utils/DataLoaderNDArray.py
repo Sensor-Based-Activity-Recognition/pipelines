@@ -6,8 +6,6 @@ from .AbstractDataModule import AbstractDataModule
 import pandas as pd
 from dill import load
 import torch
-from torch import Generator
-from torch.utils.data import random_split
 
 class DataModuleNDArray(AbstractDataModule):
     """

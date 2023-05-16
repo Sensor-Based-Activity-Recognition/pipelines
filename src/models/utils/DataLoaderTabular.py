@@ -7,8 +7,6 @@ import pandas as pd
 import torchvision.transforms as transforms
 import torch
 import numpy as np
-from torch import Generator
-from torch.utils.data import random_split
 
 
 class DataModuleTabular(AbstractDataModule):

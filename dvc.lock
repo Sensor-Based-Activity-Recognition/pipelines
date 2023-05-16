@@ -178,8 +178,8 @@ stages:
       md5: a2a67fca041256c488b0480ca87afbe9
       size: 1878
     - path: src/models/utils/DataLoaderNDArray.py
-      md5: e3e412ba2e09297313f5ab20ed387e9c
-      size: 2013
+      md5: c158d3ac810f1c02789b385a6693d796
+      size: 1941
     - path: src/models/utils/DataSetTabular.py
       md5: fea93aac0c6f741cf12f95f82fa82eb7
       size: 347
@@ -187,7 +187,7 @@ stages:
       params.yaml:
         dvclive:
           model: CNN
-          seed: 42
+          seed: 41
           data:
             type: NDArray
             output_size: 6
@@ -196,22 +196,22 @@ stages:
             batch_size: 64
           model_hparams:
             num_epochs: 25
-            learning_rate: 0.1
+            learning_rate: 0.05
             weight_decay: 0.0005
             momentum: 0.9
     outs:
     - path: data/model.pkl
-      md5: 1fe4026c2f92f5543f44a1b5a320b0f9
+      md5: a20668847555a2f56fef316813f4f5c3
       size: 988838
     - path: data/output_test.csv
-      md5: 7af53ff7d1752becfacbf2727f4b3083
+      md5: 04a7132074de793876e3a126f2214e53
       size: 8500
     - path: dvclive/metrics.json
-      md5: 1b6ce2934f79a8e6c96fa2f6c63bbb1f
-      size: 876
+      md5: 83172480706ee3012a55efe2f4668b2f
+      size: 931
     - path: dvclive/plots
-      md5: ec7e94e8bd041c7d7125a9979c71119c.dir
-      size: 162376
+      md5: 46361e38e8383cb2c69982b528f12095.dir
+      size: 157090
       nfiles: 17
   moving_average_5s:
     cmd: python src/moving_average.py moving_average_5s data/resample_50Hz.parquet
@@ -316,15 +316,15 @@ stages:
     cmd: python src/evaluate.py evaluate data/output_test.csv evaluation/confusion_matrix.png
     deps:
     - path: data/output_test.csv
-      md5: 7af53ff7d1752becfacbf2727f4b3083
+      md5: 04a7132074de793876e3a126f2214e53
       size: 8500
     - path: src/evaluate.py
       md5: dc1806850d7da42ff3015912d5828ac6
       size: 1019
     outs:
     - path: evaluation/confusion_matrix.png
-      md5: aebd44aa36e6172e5bdebfe7805e4cbc
-      size: 30926
+      md5: 941266a2e8776231e9f8299c24670c65
+      size: 40244
   filter_lowpass_ord3_cut100:
     cmd: python src/butterworth_filter.py filter_lowpass_ord3_cut100 data/segmentate_5s.dill
       data/lowpass_ord3_cut100.dill
