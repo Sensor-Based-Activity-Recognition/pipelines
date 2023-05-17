@@ -100,7 +100,7 @@ dvclive:
   model_hparams:
     learning_rate: 0.5
     n_estimators: 200
-    random_state: 69
+    random_state: 42
 
 # KNeighborsClassifier model
 # dvclive:
