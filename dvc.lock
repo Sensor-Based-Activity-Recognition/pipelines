@@ -5,10 +5,10 @@ stages:
     deps:
     - path: src/pull_data.py
       md5: 1a42c5257353dba8807288bf70df52d5
-      size: 1350
+      size: 1407
     - path: src/utils/dbconnector.py
       md5: b7188e7cd2f1bbd97582ac4344a12c2b
-      size: 1445
+      size: 1499
     params:
       params.yaml:
         pull_data_calibrated:
@@ -38,13 +38,13 @@ stages:
           interpolation_method: linear
     outs:
     - path: data/resample_50Hz.parquet
-      md5: 816b70cbdfd4208db96e8525156c821f
+      md5: 9290d141b480d5b7d4a93cfcccbaffe6
       size: 88337427
   segmentate_5s:
     cmd: python src/segmentate.py segmentate_5s data/resample_50Hz.parquet data/segmentate_5s.dill
     deps:
     - path: data/resample_50Hz.parquet
-      md5: 816b70cbdfd4208db96e8525156c821f
+      md5: 9290d141b480d5b7d4a93cfcccbaffe6
       size: 88337427
     - path: src/segmentate.py
       md5: 88b4c1ea896ec9e7f13a795d6f2fb9a7
@@ -135,12 +135,12 @@ stages:
       md5: 0095ea796c2877fccd2d2f63f8227bcc
       size: 128345824
     - path: src/fft.py
-      md5: 9db99a6af3ff1576c1f09b8a94d9bc87
-      size: 2177
+      md5: e008bd7f88f60389d4e5f18edbf37208
+      size: 2180
     outs:
     - path: data/fft.dill
-      md5: c95b934d04e8f85163672fe5a7a12b68
-      size: 58808547
+      md5: f27cdccd4275ff5d6b1e678cee55a815
+      size: 67080904
   correlations_pearson:
     cmd: python src/correlations.py correlations_pearson data/segmentate_5s.dill data/correlations_pearson.parquet
     deps:
@@ -159,18 +159,18 @@ stages:
       md5: a1e87229a3157e95095d925dec56928d
       size: 6067695
   dvclive:
-    cmd: python src/model_runner.py dvclive data/correlations_pearson.parquet data/train_test_split_ratio02.json
+    cmd: python src/model_runner.py dvclive data/fft.dill data/train_test_split_ratio02.json
       data/model.pkl data/output_test.csv
     deps:
-    - path: data/correlations_pearson.parquet
-      md5: a1e87229a3157e95095d925dec56928d
-      size: 6067695
+    - path: data/fft.dill
+      md5: f27cdccd4275ff5d6b1e678cee55a815
+      size: 67080904
     - path: data/train_test_split_ratio02.json
       md5: 20a5446519af97f135682be727731a9f
       size: 49755
     - path: src/model_runner.py
-      md5: 2abb254ae71201cbf475842f5df104e8
-      size: 3810
+      md5: bc01ef2c8cfd0142deda0cf50d2dace9
+      size: 4068
     - path: src/models/MLP.py
       md5: 8b236f50b46b6385db26e8e434db95e3
       size: 1353
@@ -178,8 +178,8 @@ stages:
       md5: a2a67fca041256c488b0480ca87afbe9
       size: 1819
     - path: src/models/utils/DataLoaderSklearn.py
-      md5: af3e0b6410bc2993fa19350e206b4522
-      size: 1624
+      md5: b24a18bf4730f3736a83241d22f0e9a7
+      size: 3768
     - path: src/models/utils/DataLoaderTabular.py
       md5: ccff705dbb7fd3667c865f8d9a40ea2f
       size: 3818
@@ -192,7 +192,9 @@ stages:
           model: HistGradientBoostingClassifier
           seed: 41
           data:
-            type: Sklearn
+            type: Sklearn_Segments
+            params:
+              columns: numeric
           model_hparams:
             learning_rate: 0.2
             max_iter: 2000
@@ -201,17 +203,17 @@ stages:
             max_bins: 255
     outs:
     - path: data/model.pkl
-      md5: 7a531da9e910e9bbc64bc3ddfda4f11f
-      size: 4849746
+      md5: d313905e2d9546ed8b796b9267cfd925
+      size: 5392958
     - path: data/output_test.csv
-      md5: 31c549b1447fa4263195463d778e8737
+      md5: 9784666b6449de1cefda8c0f41522c22
       size: 5604
     - path: dvclive/metrics.json
-      md5: d6a10a37b7e49eec3861c9844a5ae7ff
-      size: 141
+      md5: 4a70098304667aae76d91edad54b3d93
+      size: 140
     - path: dvclive/plots
-      md5: 1982e2e260f75b7d5a44643a3e6dbddd.dir
-      size: 135
+      md5: 169be493bfebf52519ea79b90b01998d.dir
+      size: 134
       nfiles: 4
   moving_average_5s:
     cmd: python src/moving_average.py moving_average_5s data/resample_50Hz.parquet
@@ -316,15 +318,15 @@ stages:
     cmd: python src/evaluate.py evaluate data/output_test.csv evaluation/confusion_matrix.png
     deps:
     - path: data/output_test.csv
-      md5: 31c549b1447fa4263195463d778e8737
-      size: 5604
+      md5: 9784666b6449de1cefda8c0f41522c22
+      size: 7000
     - path: src/evaluate.py
       md5: dc1806850d7da42ff3015912d5828ac6
-      size: 981
+      size: 1019
     outs:
     - path: evaluation/confusion_matrix.png
-      md5: 341dea7c82f36237c36c9178afbe1d0f
-      size: 42696
+      md5: a3e0ffbc669b2ebfb6c5c09f468971c5
+      size: 39424
   filter_lowpass_ord3_cut100:
     cmd: python src/butterworth_filter.py filter_lowpass_ord3_cut100 data/segmentate_5s.dill
       data/lowpass_ord3_cut100.dill
@@ -420,10 +422,10 @@ stages:
             n_components: 6
     outs:
     - path: data/segments_pca.dill
-      md5: 6efec87fd62f83cecaf0f522e306fc31
+      md5: 6f49da6fd8285f82fb5fd09af77143f3
       size: 106226311
     - path: data/transformer_pca.dill
-      md5: b8baa66c3aec4a1f51db18945e3e0240
+      md5: 2859122f75d5ba979c8dafc6144cf233
       size: 1678
   moving_average_01s:
     cmd: python src/moving_average.py moving_average_01s data/segmentate_5s.dill data/moving_average_01s.dill
