@@ -22,8 +22,6 @@ Hier werden alle Skripts aufgelistet, welche Segmentierte Daten (.dill) als Inpu
 | moving_average.py     | Berechnet den Moving Average der Daten              | Segmente               |
 | train_test_split.py   | Teilt die Daten in Trainings- und Testdaten auf     | JSON Element           |
 | transform.py          | Verarbeitet die Daten mit Scaler oder PCA           | Segmente + Transformer |
-## Skripts für Tabulare und Segmentierte Daten
-Hier werden alle Skripts aufgelistet, welche Tabulare oder Segmentierte Daten als Input verwenden können.
 
 ## Skripts für Trainieren und Evaluieren von Modellen
 Hier werden alle Skripts aufgelistet, welche für das Trainieren und Evaluieren von Modellen verwendet werden.
