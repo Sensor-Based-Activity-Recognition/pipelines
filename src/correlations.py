@@ -10,7 +10,7 @@ stage_name = sys.argv[1]
 input_filename = sys.argv[2]
 output_filename = sys.argv[3]
 
-#get params
+# get params
 params = yaml.safe_load(open("params.yaml"))[stage_name]
 correlation_method = params["correlation_method"]
 

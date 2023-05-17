@@ -12,7 +12,7 @@ if __name__ == "__main__":
     input_filename = sys.argv[2]
     output_filename = sys.argv[3]
 
-    #get params
+    # get params
     params = yaml.safe_load(open("params.yaml"))[stage_name]
     split_type = params["type"]
     split_ratio = params["test_ratio"]
