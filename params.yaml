@@ -34,7 +34,7 @@ moving_average_01s:
   window_len_s: 0.1
 
 train_test_split_ratio02:
-  type: person
+  type: segment
   test_ratio: 0.2
   seed: 9458
   stratified: true
