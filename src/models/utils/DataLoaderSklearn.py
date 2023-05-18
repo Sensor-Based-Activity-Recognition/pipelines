@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from dill import load
 
+
 class DataLoaderSklearn_Tabular:
     """
     DataModule for tabular data with segment_id index
@@ -47,6 +48,7 @@ class DataLoaderSklearn_Tabular:
         self.test_data = temp_test_data
         self.test_labels = temp_test_labels
 
+
 class DataLoaderSklearn_Segments:
     """
     DataModule for segmential data with segment_id index
@@ -67,15 +69,17 @@ class DataLoaderSklearn_Segments:
         )
 
         # Load the datasets
-        with open(self.data_filename, "rb") as fr: #load data
-            data:dict = load(fr)
+        with open(self.data_filename, "rb") as fr:  # load data
+            data: dict = load(fr)
 
         columns = self.config["columns"]
 
-        #if columns is a string
+        # if columns is a string
         if type(columns) is str:
             if columns == "numeric":
-                columns = list(data.values())[0][0].select_dtypes(include=["number"]).columns #get numeric columns
+                columns = (
+                    list(data.values())[0][0].select_dtypes(include=["number"]).columns
+                )  # get numeric columns
             else:
                 raise Exception("unknown column identifier")
 
@@ -104,7 +108,9 @@ class DataLoaderSklearn_Segments:
                     y_test_temp.append(y)
 
                 else:
-                    raise Exception(f"oh buoy nod gud... unknown segment id: {segment_id}")
+                    raise Exception(
+                        f"oh buoy nod gud... unknown segment id: {segment_id}"
+                    )
 
         # Train data
         self.train_data = x_train_temp
@@ -113,6 +119,7 @@ class DataLoaderSklearn_Segments:
         # Test data
         self.test_data = x_test_temp
         self.test_labels = y_test_temp
+
 
 # Load the OneHotEncodings
 onehotencode = {

@@ -7,7 +7,10 @@ from argparse import Namespace
 # Internal Libraries
 from models.MLP import MLP
 from models.utils.DataLoaderTabular import DataModuleTabular
-from models.utils.DataLoaderSklearn import DataLoaderSklearn_Tabular, DataLoaderSklearn_Segments
+from models.utils.DataLoaderSklearn import (
+    DataLoaderSklearn_Tabular,
+    DataLoaderSklearn_Segments,
+)
 
 # 3rd Party Libraries
 import torch
@@ -17,6 +20,7 @@ from dvclive.lightning import DVCLiveLogger
 from dvclive import Live
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.metrics import accuracy_score, f1_score
+
 
 # Helper functions
 def get_model(model_name, config):
@@ -34,6 +38,7 @@ def get_model(model_name, config):
         return "sklearn", sklearn_models[model_name](**config.model_hparams)
     else:
         raise NotImplementedError(f"Model {model_name} not implemented")
+
 
 # get args
 stagename = sys.argv[1]
@@ -132,5 +137,5 @@ elif model_type == "sklearn":
     ).to_csv(output_prediction, index=False)
 
     # Save model
-    with open(output_model, 'wb') as f:
+    with open(output_model, "wb") as f:
         pickle.dump(model, f)
