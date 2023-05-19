@@ -34,7 +34,7 @@ moving_average_01s:
   window_len_s: 0.1
 
 train_test_split_ratio02:
-  type: segment
+  type: person
   test_ratio: 0.2
   seed: 9458
   stratified: true
@@ -85,7 +85,7 @@ dvclive:
   data:
     type: Sklearn_Segments
     params:
-      columns: "numeric"
+      columns: numeric
   model_hparams:
     learning_rate: 0.2
     max_iter: 2000
