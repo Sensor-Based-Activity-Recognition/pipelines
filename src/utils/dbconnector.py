@@ -9,6 +9,7 @@ import yaml
 # 3rd Party Modules
 import polars as pl
 
+
 class Database:
     """
     Class to connect to QuestDB and get data

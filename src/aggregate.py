@@ -33,7 +33,7 @@ if __name__ == "__main__":
     input_filename = sys.argv[2]
     output_filename = sys.argv[3]
 
-    #get params
+    # get params
     aggregation_functions = yaml.safe_load(open("params.yaml"))[stage_name]
 
     print(
@@ -44,9 +44,11 @@ if __name__ == "__main__":
     with open(input_filename, "rb") as fr:
         data = {}
         for key, segments in tqdm(load(fr).items()):
-            data[key] = [aggregate(segment, aggregation_functions) for segment in segments]
+            data[key] = [
+                aggregate(segment, aggregation_functions) for segment in segments
+            ]
 
         with open(output_filename, "wb") as fw:
             dump(data, fw)
-            
+
 time.sleep(1)
