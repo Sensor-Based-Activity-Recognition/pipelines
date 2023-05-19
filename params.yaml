@@ -96,7 +96,9 @@ dvclive:
   model: AdaBoostStumpClassifier
   seed: 42
   data:
-    type: Sklearn
+    type: Sklearn_Segments
+    params:
+      columns: "numeric"
   model_hparams:
     learning_rate: 0.5
     n_estimators: 200

@@ -7,7 +7,10 @@ from argparse import Namespace
 # Internal Libraries
 from models.MLP import MLP
 from models.utils.DataLoaderTabular import DataModuleTabular
-from models.utils.DataLoaderSklearn import DataLoaderSklearn
+from models.utils.DataLoaderSklearn import (
+    DataLoaderSklearn_Tabular,
+    DataLoaderSklearn_Segments,
+)
 
 # 3rd Party Libraries
 import torch
@@ -19,6 +22,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import HistGradientBoostingClassifier, AdaBoostClassifier, RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, f1_score
+
 
 # Helper functions
 from sklearn.ensemble import AdaBoostClassifier
@@ -48,6 +52,7 @@ def get_model(model_name, config):
     else:
         raise NotImplementedError(f"Model {model_name} not implemented")
 
+
 # get args
 stagename = sys.argv[1]
 input_filename_data = sys.argv[2]
@@ -65,9 +70,13 @@ if config.data["type"] == "Tabular":
     datamodule = DataModuleTabular(
         config, input_filename_data, input_filename_train_test_split
     )
-elif config.data["type"] == "Sklearn":
-    datamodule = DataLoaderSklearn(
-        config, input_filename_data, input_filename_train_test_split
+elif config.data["type"] == "Sklearn_Tabular":
+    datamodule = DataLoaderSklearn_Tabular(
+        config.data.get("params"), input_filename_data, input_filename_train_test_split
+    )
+elif config.data["type"] == "Sklearn_Segments":
+    datamodule = DataLoaderSklearn_Segments(
+        config.data.get("params"), input_filename_data, input_filename_train_test_split
     )
 else:
     raise NotImplementedError(f"Datamodule {config.type} not implemented")
@@ -141,5 +150,5 @@ elif model_type == "sklearn":
     ).to_csv(output_prediction, index=False)
 
     # Save model
-    with open(output_model, 'wb') as f:
+    with open(output_model, "wb") as f:
         pickle.dump(model, f)
