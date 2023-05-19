@@ -120,13 +120,13 @@ stages:
     params:
       params.yaml:
         train_test_split_ratio02:
-          type: measurement
+          type: segment
           test_ratio: 0.2
           seed: 9458
           stratified: true
     outs:
     - path: data/train_test_split_ratio02.json
-      md5: 1153fe6b0db922306d09641ea0cf07ba
+      md5: 1babc49cc8fcdded8c99ef9980407f17
       size: 49755
   fft:
     cmd: python src/fft.py fft data/segmentate_5s.dill data/fft.dill
@@ -166,7 +166,7 @@ stages:
       md5: f27cdccd4275ff5d6b1e678cee55a815
       size: 67080904
     - path: data/train_test_split_ratio02.json
-      md5: 1153fe6b0db922306d09641ea0cf07ba
+      md5: 1babc49cc8fcdded8c99ef9980407f17
       size: 49755
     - path: src/model_runner.py
       md5: d8f51667a1b4bf841079d165c49a8913
@@ -201,16 +201,16 @@ stages:
             random_state: 42
     outs:
     - path: data/model.pkl
-      md5: 7ecc77cdc05e6689313113cbe67168b7
+      md5: df2950a766414c064d6beb235e791fb5
       size: 132793
     - path: data/output_test.csv
-      md5: de574574ceafd67b09f736143a0d748b
-      size: 7344
+      md5: 2f898d783d05c1465765a5a3e0eefb10
+      size: 6804
     - path: dvclive/metrics.json
-      md5: 4dcd4a13461228c538fec77ff4c47966
+      md5: 89c9307b7781160f9b36b8764ec4a737
       size: 170
     - path: dvclive/plots
-      md5: 0f437e0f5f6ff0ffa4fe3a20287c2008.dir
+      md5: 5632718b655e6d256bacf9b3cea64c8a.dir
       size: 164
       nfiles: 4
   moving_average_5s:
@@ -316,15 +316,15 @@ stages:
     cmd: python src/evaluate.py evaluate data/output_test.csv evaluation/confusion_matrix.png
     deps:
     - path: data/output_test.csv
-      md5: de574574ceafd67b09f736143a0d748b
-      size: 7344
+      md5: 2f898d783d05c1465765a5a3e0eefb10
+      size: 6804
     - path: src/evaluate.py
       md5: 1d1a8fa2598be16d9b78212e528e284f
       size: 982
     outs:
     - path: evaluation/confusion_matrix.png
-      md5: 6b4b1845d5aeecb950093c5c71edf7e0
-      size: 41387
+      md5: d54d780fd2e95ff6e1a57122b1c283e0
+      size: 41408
   filter_lowpass_ord3_cut100:
     cmd: python src/butterworth_filter.py filter_lowpass_ord3_cut100 data/segmentate_5s.dill
       data/lowpass_ord3_cut100.dill
