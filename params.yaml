@@ -81,7 +81,7 @@ transform_pca:
 # HistGradientBoostingClassifier model
 dvclive:
   model: HistGradientBoostingClassifier
-  seed: 42
+  seed: 41
   data:
     type: Sklearn_Segments
     params:
