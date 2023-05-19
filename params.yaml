@@ -34,7 +34,7 @@ moving_average_01s:
   window_len_s: 0.1
 
 train_test_split_ratio02:
-  type: person
+  type: measurement
   test_ratio: 0.2
   seed: 9458
   stratified: true
@@ -79,16 +79,52 @@ transform_pca:
 #     momentum: 0.9
 
 # HistGradientBoostingClassifier model
+# dvclive:
+#   model: HistGradientBoostingClassifier
+#   seed: 41
+#   data:
+#     type: Sklearn
+#   model_hparams:
+#     learning_rate: 0.2
+#     max_iter: 2000
+#     max_leaf_nodes: 31
+#     min_samples_leaf: 20
+#     max_bins: 255
+
+# AdaBoostStumpClassifier model
 dvclive:
-  model: HistGradientBoostingClassifier
-  seed: 41
+  model: AdaBoostStumpClassifier
+  seed: 42
   data:
     type: Sklearn_Segments
     params:
       columns: "numeric"
   model_hparams:
-    learning_rate: 0.2
-    max_iter: 2000
-    max_leaf_nodes: 31
-    min_samples_leaf: 20
-    max_bins: 255
+    learning_rate: 0.5
+    n_estimators: 200
+    random_state: 42
+
+# KNeighborsClassifier model
+# dvclive:
+#   model: KNeighborsClassifier
+#   seed: 42
+#   data:
+#     type: Sklearn
+#   model_hparams:
+#     n_neighbors: 5
+#     weights: uniform
+#     algorithm: auto
+#     leaf_size: 30
+#     metric: minkowski
+
+# RandomForestClassifier model
+# dvclive:  
+#   model: RandomForestClassifier
+#   seed: 42
+#   data:
+#     type: Sklearn
+#   model_hparams:
+#     n_estimators: 100
+#     criterion: gini
+#     max_depth: null
+#     random_state: 42
