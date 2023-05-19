@@ -38,13 +38,13 @@ stages:
           interpolation_method: linear
     outs:
     - path: data/resample_50Hz.parquet
-      md5: 9290d141b480d5b7d4a93cfcccbaffe6
+      md5: 816b70cbdfd4208db96e8525156c821f
       size: 88337427
   segmentate_5s:
     cmd: python src/segmentate.py segmentate_5s data/resample_50Hz.parquet data/segmentate_5s.dill
     deps:
     - path: data/resample_50Hz.parquet
-      md5: 9290d141b480d5b7d4a93cfcccbaffe6
+      md5: 816b70cbdfd4208db96e8525156c821f
       size: 88337427
     - path: src/segmentate.py
       md5: e6a2f7138c08e4dfed9be8818a214b9d
@@ -148,16 +148,16 @@ stages:
       md5: 0095ea796c2877fccd2d2f63f8227bcc
       size: 128345824
     - path: src/correlations.py
-      md5: d72987af39f0bcf7939e02e7d572c0ed
-      size: 1995
+      md5: 873dc9d29c91821565509bc9ccc1d548
+      size: 3309
     params:
       params.yaml:
         correlations_pearson:
           correlation_method: pearson
     outs:
     - path: data/correlations_pearson.parquet
-      md5: 8912b07cc5006ea6082edfc64e26012f
-      size: 6067695
+      md5: ff3acb370e6f06ffb7c6b3c83fe30e6f
+      size: 6067947
   dvclive:
     cmd: python src/model_runner.py dvclive data/fft.dill data/train_test_split_ratio02.json
       data/model.pkl data/output_test.csv
@@ -169,8 +169,8 @@ stages:
       md5: 1153fe6b0db922306d09641ea0cf07ba
       size: 49755
     - path: src/model_runner.py
-      md5: 1a16fc790d83858ec4b96a0ac7b20239
-      size: 4083
+      md5: d8f51667a1b4bf841079d165c49a8913
+      size: 4845
     - path: src/models/MLP.py
       md5: 8b236f50b46b6385db26e8e434db95e3
       size: 1353
@@ -201,17 +201,17 @@ stages:
             random_state: 42
     outs:
     - path: data/model.pkl
-      md5: 3e40565de892bb97e4782975cf20f8d1
-      size: 5392958
+      md5: 7ecc77cdc05e6689313113cbe67168b7
+      size: 132793
     - path: data/output_test.csv
-      md5: 9784666b6449de1cefda8c0f41522c22
-      size: 5604
+      md5: de574574ceafd67b09f736143a0d748b
+      size: 7344
     - path: dvclive/metrics.json
-      md5: 4a70098304667aae76d91edad54b3d93
-      size: 140
+      md5: 4dcd4a13461228c538fec77ff4c47966
+      size: 170
     - path: dvclive/plots
-      md5: 169be493bfebf52519ea79b90b01998d.dir
-      size: 134
+      md5: 0f437e0f5f6ff0ffa4fe3a20287c2008.dir
+      size: 164
       nfiles: 4
   moving_average_5s:
     cmd: python src/moving_average.py moving_average_5s data/resample_50Hz.parquet
@@ -316,15 +316,15 @@ stages:
     cmd: python src/evaluate.py evaluate data/output_test.csv evaluation/confusion_matrix.png
     deps:
     - path: data/output_test.csv
-      md5: 9784666b6449de1cefda8c0f41522c22
-      size: 7000
+      md5: de574574ceafd67b09f736143a0d748b
+      size: 7344
     - path: src/evaluate.py
       md5: 1d1a8fa2598be16d9b78212e528e284f
       size: 982
     outs:
     - path: evaluation/confusion_matrix.png
-      md5: 025ddc508f17e11a8a4efeca184542dc
-      size: 39347
+      md5: 6b4b1845d5aeecb950093c5c71edf7e0
+      size: 41387
   filter_lowpass_ord3_cut100:
     cmd: python src/butterworth_filter.py filter_lowpass_ord3_cut100 data/segmentate_5s.dill
       data/lowpass_ord3_cut100.dill
@@ -420,10 +420,10 @@ stages:
             n_components: 6
     outs:
     - path: data/segments_pca.dill
-      md5: 08c93c861dc4f1be072dd8d1c4a5c436
-      size: 106226311
+      md5: 1dc9409e87854cf6e66dd37f59103528
+      size: 106239361
     - path: data/transformer_pca.dill
-      md5: 887bee7789e7ac28249ce6d32b60dbbb
+      md5: ffde3448527dea770f7acf4b770e252d
       size: 1678
   moving_average_01s:
     cmd: python src/moving_average.py moving_average_01s data/segmentate_5s.dill data/moving_average_01s.dill
