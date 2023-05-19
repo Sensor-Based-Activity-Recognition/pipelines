@@ -146,7 +146,6 @@ stages:
     - data/segments_pca.dill 
     - data/transformer_pca.dill
 
-
   dvclive:
     cmd: python src/model_runner.py dvclive data/fft.dill data/train_test_split_ratio02.json data/model.pkl data/output_test.csv
     deps:
