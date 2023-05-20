@@ -34,7 +34,7 @@ moving_average_01s:
   window_len_s: 0.1
 
 train_test_split_ratio02:
-  type: measurement
+  type: segment
   test_ratio: 0.2
   seed: 9458
   stratified: true
@@ -61,70 +61,17 @@ transform_pca:
   transformation_params:
     n_components: 6
 
-# MLP model
-# dvclive:
-#   model: MLP
-#   seed: 42
-#   data:
-#     type: Tabular
-#     input_size: 72
-#     output_size: 6
-#     num_workers: 0
-#     train_val_split: 0.8
-#     batch_size: 64
-#   model_hparams:
-#     num_epochs: 10
-#     learning_rate: 0.1
-#     weight_decay: 0.0005
-#     momentum: 0.9
-
-# HistGradientBoostingClassifier model
-# dvclive:
-#   model: HistGradientBoostingClassifier
-#   seed: 41
-#   data:
-#     type: Sklearn
-#   model_hparams:
-#     learning_rate: 0.2
-#     max_iter: 2000
-#     max_leaf_nodes: 31
-#     min_samples_leaf: 20
-#     max_bins: 255
-
-# AdaBoostStumpClassifier model
 dvclive:
-  model: AdaBoostStumpClassifier
-  seed: 42
+  model: CNN
+  seed: 40
   data:
-    type: Sklearn_Segments
-    params:
-      columns: "numeric"
+    type: NDArray
+    output_size: 6
+    num_workers: 0
+    train_val_split: 0.8
+    batch_size: 64
   model_hparams:
-    learning_rate: 0.5
-    n_estimators: 200
-    random_state: 42
-
-# KNeighborsClassifier model
-# dvclive:
-#   model: KNeighborsClassifier
-#   seed: 42
-#   data:
-#     type: Sklearn
-#   model_hparams:
-#     n_neighbors: 5
-#     weights: uniform
-#     algorithm: auto
-#     leaf_size: 30
-#     metric: minkowski
-
-# RandomForestClassifier model
-# dvclive:  
-#   model: RandomForestClassifier
-#   seed: 42
-#   data:
-#     type: Sklearn
-#   model_hparams:
-#     n_estimators: 100
-#     criterion: gini
-#     max_depth: null
-#     random_state: 42
+    num_epochs: 15
+    learning_rate: 0.05
+    weight_decay: 0.0005
+    momentum: 0.9

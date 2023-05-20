@@ -37,6 +37,14 @@ stages:
     outs:
     - data/fft.dill
 
+  stft:
+    cmd: python src/stft.py stft data/segmentate_5s.dill data/stft.dill
+    deps:
+    - data/segmentate_5s.dill
+    - src/stft.py
+    outs:
+    - data/stft.dill
+
   filter_bandpass_ord3_low01_high100:
     cmd: python src/butterworth_filter.py filter_bandpass_ord3_low01_high100 data/segmentate_5s.dill data/bandpass_ord3_low01_high100.dill
     deps:
@@ -114,6 +122,7 @@ stages:
     cmd: python src/transform.py transform_min_max data/segmentate_5s.dill data/train_test_split_ratio02.json data/segments_min_max.dill data/transformer_min_max.dill
     deps:
     - data/segmentate_5s.dill
+    - data/train_test_split_ratio02.json
     - src/transform.py
     - src/utils/transformers.py
     params:
@@ -126,6 +135,7 @@ stages:
     cmd: python src/transform.py transform_standardize data/segmentate_5s.dill data/train_test_split_ratio02.json data/segments_standardized.dill data/transformer_standardize.dill
     deps:
     - data/segmentate_5s.dill
+    - data/train_test_split_ratio02.json
     - src/transform.py
     - src/utils/transformers.py
     params:
@@ -138,6 +148,7 @@ stages:
     cmd: python src/transform.py transform_pca data/segmentate_5s.dill data/train_test_split_ratio02.json data/segments_pca.dill data/transformer_pca.dill
     deps:
     - data/segmentate_5s.dill
+    - data/train_test_split_ratio02.json
     - src/transform.py
     - src/utils/transformers.py
     params:
@@ -148,15 +159,14 @@ stages:
 
 
   dvclive:
-    cmd: python src/model_runner.py dvclive data/fft.dill data/train_test_split_ratio02.json data/model.pkl data/output_test.csv
+    cmd: python src/model_runner.py dvclive data/stft.dill data/train_test_split_ratio02.json data/model.pkl data/output_test.csv
     deps:
     - src/model_runner.py
-    - src/models/MLP.py
     - src/models/__IModel.py
-    - src/models/utils/DataLoaderSklearn.py
-    - src/models/utils/DataLoaderTabular.py
+    - src/models/CNN.py
+    - src/models/utils/DataLoaderNDArray.py
     - src/models/utils/DataSetTabular.py
-    - data/fft.dill
+    - data/stft.dill
     - data/train_test_split_ratio02.json
     params:
     - dvclive
