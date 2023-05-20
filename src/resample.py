@@ -8,7 +8,7 @@ stage_name = sys.argv[1]
 input_filename = sys.argv[2]
 output_filename = sys.argv[3]
 
-#get params
+# get params
 params = yaml.safe_load(open("params.yaml"))[stage_name]
 resample_frequency_hz = params["resample_frequency_hz"]
 interpolation_method = params["interpolation_method"]
@@ -34,7 +34,9 @@ for _, recording in tqdm(data):
     na_by_col = recording.isna().sum()
     for col in na_by_col:
         if col > 1:
-            print(f"Warning: recording has more than 1 NA values in column with index {col}. Backward filling.")
+            print(
+                f"Warning: recording has more than 1 NA values in column with index {col}. Backward filling."
+            )
     recording = recording.fillna(method="bfill")
 
     # save to combined dataframe

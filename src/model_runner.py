@@ -8,7 +8,10 @@ from argparse import Namespace
 from models.MLP import MLP
 from models.CNN import CNN
 from models.utils.DataLoaderTabular import DataModuleTabular
-from models.utils.DataLoaderSklearn import DataLoaderSklearn
+from models.utils.DataLoaderSklearn import (
+    DataLoaderSklearn_Tabular,
+    DataLoaderSklearn_Segments,
+)
 from models.utils.DataLoaderNDArray import DataModuleNDArray
 
 # 3rd Party Libraries
@@ -17,10 +20,21 @@ import pandas as pd
 from pytorch_lightning import Trainer
 from dvclive.lightning import DVCLiveLogger
 from dvclive import Live
-from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import HistGradientBoostingClassifier, AdaBoostClassifier, RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, f1_score
 
+
 # Helper functions
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.tree import DecisionTreeClassifier
+
+class AdaBoostStumpClassifier(AdaBoostClassifier):
+    def __init__(self, n_estimators=50, learning_rate=1.0, algorithm='SAMME.R', random_state=None):
+        stump = DecisionTreeClassifier(max_depth=1)
+        super().__init__(estimator=stump, n_estimators=n_estimators, learning_rate=learning_rate, algorithm=algorithm, random_state=random_state)
+
 def get_model(model_name, config):
     pytorch_models = {
         "MLP": MLP,
@@ -29,6 +43,9 @@ def get_model(model_name, config):
 
     sklearn_models = {
         "HistGradientBoostingClassifier": HistGradientBoostingClassifier,
+        "AdaBoostStumpClassifier": AdaBoostStumpClassifier,
+        "KNeighborsClassifier": KNeighborsClassifier,
+        "RandomForestClassifier": RandomForestClassifier,
     }
 
     if model_name in pytorch_models:
@@ -37,6 +54,7 @@ def get_model(model_name, config):
         return "sklearn", sklearn_models[model_name](**config.model_hparams)
     else:
         raise NotImplementedError(f"Model {model_name} not implemented")
+
 
 # get args
 stagename = sys.argv[1]
@@ -54,7 +72,8 @@ model_type, model = get_model(config.model, config)
 datamodule_class = {
     "Tabular": DataModuleTabular,
     "NDArray": DataModuleNDArray,
-    "Sklearn": DataLoaderSklearn,
+    "Sklearn_Tabular": DataLoaderSklearn_Tabular,
+    "Sklearn_Segments": DataLoaderSklearn_Segments,
 }
 
 datamodule = datamodule_class[config.data["type"]](
@@ -130,5 +149,5 @@ elif model_type == "sklearn":
     ).to_csv(output_prediction, index=False)
 
     # Save model
-    with open(output_model, 'wb') as f:
+    with open(output_model, "wb") as f:
         pickle.dump(model, f)

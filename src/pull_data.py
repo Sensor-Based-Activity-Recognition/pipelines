@@ -18,7 +18,9 @@ fetch_get_calibrated = params["get_calibrated"]
 TABLENAME = params_db["table_name"]
 
 if fetch_get_calibrated:
-    dbconnector.Database(params_db).get_data(quote(f"""
+    dbconnector.Database(params_db).get_data(
+        quote(
+            f"""
     SELECT  
         timestamp,
         Accelerometer_x,
@@ -35,9 +37,13 @@ if fetch_get_calibrated:
         person
     FROM 
         {TABLENAME};
-    """)).write_parquet(output_filename)
+    """
+        )
+    ).write_parquet(output_filename)
 else:
-    dbconnector.Database(params_db).get_data(quote(f"""
+    dbconnector.Database(params_db).get_data(
+        quote(
+            f"""
     SELECT
         timestamp,
         AccelerometerUncalibrated_x,
@@ -54,4 +60,6 @@ else:
         person
     FROM
         {TABLENAME};
-    """)).write_parquet(output_filename)
+    """
+        )
+    ).write_parquet(output_filename)
