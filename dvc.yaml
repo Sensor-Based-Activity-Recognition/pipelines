@@ -134,6 +134,7 @@ stages:
     cmd: python src/transform.py transform_standardize data/segmentate_5s.dill data/train_test_split_ratio02.json data/segments_standardized.dill data/transformer_standardize.dill
     deps:
     - data/segmentate_5s.dill
+    - data/train_test_split_ratio02.json
     - src/transform.py
     - src/utils/transformers.py
     params:
