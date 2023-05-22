@@ -60,18 +60,3 @@ transform_pca:
   transformation: pca
   transformation_params:
     n_components: 6
-
-dvclive:
-  model: CNN
-  seed: 40
-  data:
-    type: NDArray
-    output_size: 6
-    num_workers: 0
-    train_val_split: 0.8
-    batch_size: 64
-  model_hparams:
-    num_epochs: 15
-    learning_rate: 0.05
-    weight_decay: 0.0005
-    momentum: 0.9
