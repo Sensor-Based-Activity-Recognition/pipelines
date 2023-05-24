@@ -172,8 +172,8 @@ stages:
       md5: f81670ca24e7b95e03000d518880aee1
       size: 4830
     - path: src/models/CNN.py
-      md5: 9e77b00599ed39d7e5b9eef2b7c0f41d
-      size: 2009
+      md5: 41cca439e10dc712da4814a2437edd30
+      size: 1747
     - path: src/models/__IModel.py
       md5: a2a67fca041256c488b0480ca87afbe9
       size: 1878
@@ -201,17 +201,17 @@ stages:
             momentum: 0.9
     outs:
     - path: data/model.pkl
-      md5: 1dab4bd8b5942e8e82836b7cc8178b1b
-      size: 1514784
+      md5: 2bfbd51f3d594af7f1b3335a04a04133
+      size: 988838
     - path: data/output_test.csv
-      md5: 5baab2e1514ac8205334259b36ace205
+      md5: 44c137aeddfd33ada6749464c6ffdccf
       size: 8500
     - path: dvclive/metrics.json
-      md5: 6073a35554073ee4fd935aee4d41bc3b
-      size: 919
+      md5: a31bc2874075c349f5a8a69bdc720c7d
+      size: 927
     - path: dvclive/plots
-      md5: e6e45566d985ad74370aaa8b3a673c00.dir
-      size: 92082
+      md5: 887b45972c721d0377f7e189d80e22a7.dir
+      size: 91912
       nfiles: 17
   moving_average_5s:
     cmd: python src/moving_average.py moving_average_5s data/resample_50Hz.parquet
@@ -316,15 +316,15 @@ stages:
     cmd: python src/evaluate.py evaluate data/output_test.csv evaluation/confusion_matrix.png
     deps:
     - path: data/output_test.csv
-      md5: 5baab2e1514ac8205334259b36ace205
+      md5: 44c137aeddfd33ada6749464c6ffdccf
       size: 8500
     - path: src/evaluate.py
       md5: 1d1a8fa2598be16d9b78212e528e284f
       size: 1021
     outs:
     - path: evaluation/confusion_matrix.png
-      md5: 304d8d48985884aa8d141e9c9e5b68f4
-      size: 40209
+      md5: 024b8a2a49d844b3ef88cb253160290a
+      size: 40890
   filter_lowpass_ord3_cut100:
     cmd: python src/butterworth_filter.py filter_lowpass_ord3_cut100 data/segmentate_5s.dill
       data/lowpass_ord3_cut100.dill
