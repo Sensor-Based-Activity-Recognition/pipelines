@@ -60,3 +60,18 @@ transform_pca:
   transformation: pca
   transformation_params:
     n_components: null
+
+# HistGradientBoostingClassifier model
+dvclive:
+  model: HistGradientBoostingClassifier
+  seed: 41
+  data:
+    type: Sklearn_Segments
+    params:
+      columns: numeric
+  model_hparams:
+    learning_rate: 0.2
+    max_iter: 2000
+    max_leaf_nodes: 31
+    min_samples_leaf: 20
+    max_bins: 255

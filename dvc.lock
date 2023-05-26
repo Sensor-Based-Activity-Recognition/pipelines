@@ -315,3 +315,73 @@ stages:
     - path: data/stft.dill
       md5: cce57c6e443b6d328dcb5ebc3177a071
       size: 794097681
+  dvclive:
+    cmd: python src/model_runner.py dvclive data/fft.dill data/train_test_split_ratio02.json
+      data/model.pkl data/output_test.csv
+    deps:
+    - path: data/fft.dill
+      md5: 92743b085a4232b05d4e04fe1a467bbe
+      size: 67080904
+    - path: data/train_test_split_ratio02.json
+      md5: 1babc49cc8fcdded8c99ef9980407f17
+      size: 49755
+    - path: src/model_runner.py
+      md5: 129d6161b5f601b3e71702e24267f321
+      size: 4965
+    - path: src/models/MLP.py
+      md5: 8b236f50b46b6385db26e8e434db95e3
+      size: 1395
+    - path: src/models/__IModel.py
+      md5: a2a67fca041256c488b0480ca87afbe9
+      size: 1878
+    - path: src/models/utils/DataLoaderSklearn.py
+      md5: c9ac5d9223ea82eba03e2ff2f2746044
+      size: 4015
+    - path: src/models/utils/DataLoaderTabular.py
+      md5: ca4642b7b1aa7ee18344d1a2f35b4066
+      size: 1894
+    - path: src/models/utils/DataSetTabular.py
+      md5: fea93aac0c6f741cf12f95f82fa82eb7
+      size: 347
+    params:
+      params.yaml:
+        dvclive:
+          model: HistGradientBoostingClassifier
+          seed: 41
+          data:
+            type: Sklearn_Segments
+            params:
+              columns: numeric
+          model_hparams:
+            learning_rate: 0.2
+            max_iter: 2000
+            max_leaf_nodes: 31
+            min_samples_leaf: 20
+            max_bins: 255
+    outs:
+    - path: data/model.pkl
+      md5: 54e2570543e2c6c2020d6f218e2c76e4
+      size: 5440802
+    - path: data/output_test.csv
+      md5: c9a22b0d2a1bfdc4e7f2da72e7591563
+      size: 8500
+    - path: dvclive/metrics.json
+      md5: c6043ee3fd670714da7a608214169c16
+      size: 145
+    - path: dvclive/plots
+      md5: d7440eb7bd03af4841ed706e85562bcf.dir
+      size: 142
+      nfiles: 4
+  evaluate:
+    cmd: python src/evaluate.py evaluate data/output_test.csv evaluation/confusion_matrix.png
+    deps:
+    - path: data/output_test.csv
+      md5: c9a22b0d2a1bfdc4e7f2da72e7591563
+      size: 8500
+    - path: src/evaluate.py
+      md5: 1d1a8fa2598be16d9b78212e528e284f
+      size: 1021
+    outs:
+    - path: evaluation/confusion_matrix.png
+      md5: 5d6d131b64afc6c5bc67c1441dbb8225
+      size: 39883
