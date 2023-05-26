@@ -73,4 +73,4 @@ Nach dem hinzufügen einer Stage, soll überprüft werden, ob neue Python Packag
 Falls ja, müssen diese in der requirements.txt Datei mit der dazugehörigen Version hinzugefügt werden.
 
 ## Models and Results
-Alle Resultate unserer Modelle werden unter [RESULTS.md](RESULTS.md) dokumentiert.
+Alle Resultate unserer Modelle werden unter [Modelle.md](https://github.com/Sensor-Based-Activity-Recognition/docs/blob/doc_patch/Modelle.md) dokumentiert.
