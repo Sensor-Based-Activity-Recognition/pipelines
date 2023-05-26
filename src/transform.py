@@ -56,12 +56,12 @@ def combine_df(segments: dict, train_ids: list, test_ids: list):
             else:
                 raise Exception("segment_id not found in train_ids or test_ids")
 
-    train_df = pd.concat(train_dfs_list, axis=0, ignore_index=True)
+    train_df = pd.concat(train_dfs_list, axis=0, ignore_index=False)
     train_df = train_df.astype(
         train_dfs_list[0].dtypes.apply(lambda x: x.name).to_dict()
     )
 
-    test_df = pd.concat(test_dfs_list, axis=0, ignore_index=True)
+    test_df = pd.concat(test_dfs_list, axis=0, ignore_index=False)
     test_df = test_df.astype(test_dfs_list[0].dtypes.apply(lambda x: x.name).to_dict())
 
     return train_df, test_df  # convert to dataframe and return

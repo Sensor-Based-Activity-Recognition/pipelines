@@ -54,7 +54,7 @@ def segmentate(df: pd.DataFrame, window_len_s: float, overlap_percent: int):
         if window_end > df.index[-1]:
             return windows
 
-        selected_rows = (df.index >= window_start) & (df.index <= window_end)
+        selected_rows = (df.index >= window_start) & (df.index < window_end)
 
         # add segment id
         global segment_id
