@@ -35,16 +35,6 @@ class CNN(IModel):
             out_channels=128,
             kernel_size=3
         )
-        self.pool3 = nn.MaxPool2d(
-            kernel_size=2,
-            stride=2
-        )
-        # Convolutional layer 4
-        self.conv4 = nn.Conv2d(
-            in_channels=128,
-            out_channels=256,
-            kernel_size=2
-        )
         # global average pooling layer
         self.gap = nn.AdaptiveAvgPool2d(
             output_size=1
