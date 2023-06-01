@@ -18,6 +18,7 @@ from models.utils.DataLoaderNDArray import DataModuleNDArray
 import torch
 import pandas as pd
 from pytorch_lightning import Trainer
+from pytorch_lightning.callbacks import EarlyStopping
 from dvclive.lightning import DVCLiveLogger
 from dvclive import Live
 from sklearn.tree import DecisionTreeClassifier
@@ -86,6 +87,7 @@ if model_type == "pytorch":
         accelerator="auto", 
         logger=DVCLiveLogger(report=None),
         max_epochs=config.model_hparams["num_epochs"],
+        callbacks=[EarlyStopping(monitor="val_loss", patience=5, mode="min")],
         enable_progress_bar=True,
         log_every_n_steps=1,
         check_val_every_n_epoch=1,

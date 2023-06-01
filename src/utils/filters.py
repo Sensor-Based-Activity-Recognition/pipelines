@@ -30,17 +30,17 @@ def butterworth_filter(
 
     if filter_type == "bandpass":
         assert isinstance(cutoff_freq, tuple)
-        btype = "band"
+        btype = "bandpass"
         cutoff = (cutoff_freq[0] / nyq, cutoff_freq[1] / nyq)
 
     elif filter_type == "lowpass":
         assert isinstance(cutoff_freq, numbers.Number)
-        btype = "low"
+        btype = "lowpass"
         cutoff = cutoff_freq / nyq
 
     elif filter_type == "highpass":
         assert isinstance(cutoff_freq, numbers.Number)
-        btype = "high"
+        btype = "highpass"
         cutoff = cutoff_freq / nyq
 
     else:

@@ -39,7 +39,7 @@ def moving_average(df: pd.DataFrame, window_len_s: float):
     # calculate moving average for each group along the rows
     for name, group in grouped:
         df.loc[group.index, numeric_cols] = (
-            group[numeric_cols].rolling(window_size).mean()
+            group[numeric_cols].rolling(window_size, center=True, min_periods=1).mean()
         )
 
     return df
