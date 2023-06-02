@@ -6,16 +6,19 @@ from argparse import Namespace
 
 # Internal Libraries
 from models.MLP import MLP
+from models.CNN import CNN
 from models.utils.DataLoaderTabular import DataModuleTabular
 from models.utils.DataLoaderSklearn import (
     DataLoaderSklearn_Tabular,
     DataLoaderSklearn_Segments,
 )
+from models.utils.DataLoaderNDArray import DataModuleNDArray
 
 # 3rd Party Libraries
 import torch
 import pandas as pd
 from pytorch_lightning import Trainer
+from pytorch_lightning.callbacks import EarlyStopping
 from dvclive.lightning import DVCLiveLogger
 from dvclive import Live
 from sklearn.tree import DecisionTreeClassifier
@@ -36,6 +39,7 @@ class AdaBoostStumpClassifier(AdaBoostClassifier):
 def get_model(model_name, config):
     pytorch_models = {
         "MLP": MLP,
+        "CNN": CNN,
     }
 
     sklearn_models = {
@@ -66,27 +70,24 @@ config = Namespace(**yaml.safe_load(open("params.yaml"))[stagename])
 model_type, model = get_model(config.model, config)
 
 # Define datamodule
-if config.data["type"] == "Tabular":
-    datamodule = DataModuleTabular(
-        config, input_filename_data, input_filename_train_test_split
-    )
-elif config.data["type"] == "Sklearn_Tabular":
-    datamodule = DataLoaderSklearn_Tabular(
-        config.data.get("params"), input_filename_data, input_filename_train_test_split
-    )
-elif config.data["type"] == "Sklearn_Segments":
-    datamodule = DataLoaderSklearn_Segments(
-        config.data.get("params"), input_filename_data, input_filename_train_test_split
-    )
-else:
-    raise NotImplementedError(f"Datamodule {config.type} not implemented")
+datamodule_class = {
+    "Tabular": DataModuleTabular,
+    "NDArray": DataModuleNDArray,
+    "Sklearn_Tabular": DataLoaderSklearn_Tabular,
+    "Sklearn_Segments": DataLoaderSklearn_Segments,
+}
+
+datamodule = datamodule_class[config.data["type"]](
+    config, input_filename_data, input_filename_train_test_split
+)
 
 if model_type == "pytorch":
     # Define trainer
     trainer = Trainer(
-        accelerator="auto",
-        logger=DVCLiveLogger(),
+        accelerator="auto", 
+        logger=DVCLiveLogger(report=None),
         max_epochs=config.model_hparams["num_epochs"],
+        callbacks=[EarlyStopping(monitor="val_loss", patience=5, mode="min")],
         enable_progress_bar=True,
         log_every_n_steps=1,
         check_val_every_n_epoch=1,

@@ -17,7 +17,7 @@ segmentate_5s:
 filter_bandpass_ord3_low01_high100:
   filter_type: bandpass
   order: 3
-  lowcut_f_Hz: 0.1
+  lowcut_f_Hz: 0.00001
   highcut_f_Hz: 100
 
 filter_lowpass_ord3_cut100:
@@ -28,7 +28,7 @@ filter_lowpass_ord3_cut100:
 filter_highpass_ord3_cut01:
   filter_type: highpass
   order: 3
-  cutoff_f_Hz: 0.1
+  cutoff_f_Hz: 0.00001
 
 moving_average_01s:
   window_len_s: 0.1
@@ -59,17 +59,19 @@ transform_standardize:
 transform_pca:
   transformation: pca
   transformation_params:
-    n_components: 6
+    n_components: null
 
-# AdaBoostStumpClassifier model
+# HistGradientBoostingClassifier model
 dvclive:
-  model: AdaBoostStumpClassifier
-  seed: 42
+  model: HistGradientBoostingClassifier
+  seed: 41
   data:
     type: Sklearn_Segments
     params:
-      columns: "numeric"
+      columns: numeric
   model_hparams:
-    learning_rate: 0.5
-    n_estimators: 200
-    random_state: 42
+    learning_rate: 0.2
+    max_iter: 2000
+    max_leaf_nodes: 31
+    min_samples_leaf: 20
+    max_bins: 255

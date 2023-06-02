@@ -58,7 +58,7 @@ class DataLoaderSklearn_Segments:
         # Read all needed parameters
         self.train_test_split_filename = train_test_split_filename
         self.data_filename = data_filename
-        self.config = config
+        self.config = config.data.get("params")
 
         self.setup()
 
