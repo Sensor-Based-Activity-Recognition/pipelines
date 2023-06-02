@@ -5,9 +5,6 @@ from .__IModel import IModel
 import torch.nn as nn
 import torch.nn.functional as F
 
-# ipython display
-from IPython.display import display
-
 
 class MLP(IModel):
     def __init__(self, hparams):
