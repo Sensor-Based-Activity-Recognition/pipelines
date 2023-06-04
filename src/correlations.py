@@ -5,39 +5,46 @@ import yaml
 from tqdm import tqdm
 from dill import load
 
-# get args
-stage_name = sys.argv[1]
-input_filename = sys.argv[2]
-output_filename = sys.argv[3]
+# Gather command line arguments
+stage_name = sys.argv[1]  # Stage name argument
+input_filename = sys.argv[2]  # Input filename argument
+output_filename = sys.argv[3]  # Output filename argument
 
-# get params
+# Load parameters from a YAML file
 params = yaml.safe_load(open("params.yaml"))[stage_name]
-correlation_method = params["correlation_method"]
+correlation_method = params["correlation_method"]  # Correlation method parameter
 
-# read pickle file
+# Load data from a pickle file
 with open(input_filename, "rb") as f:
     data = load(f)
 
-warnings = []
+warnings = []  # List to store warnings
 
 def correlate(index, segment_data):
     """
-    Correlate columns in segments.
+    This function performs correlation between columns in a segment of data.
+
+    Args:
+        index (int): The index of the segment.
+        segment_data (DataFrame): The segment data to be correlated.
+
+    Returns:
+        DataFrame: The dataframe containing the correlation results.
     """
-    # get segment id
+    # Get segment id
     segment_id = segment_data["segment_id"][0]
-    # remove segment id from data
+    # Remove segment id from data
     segment_data = segment_data.drop(columns=["segment_id"])
-    # get correlations
+    # Calculate correlations
     corr = segment_data.corr(numeric_only=True, method=correlation_method).stack()
-    # remove self correlations
+    # Remove self correlations
     corr = corr[corr.index.get_level_values(0) != corr.index.get_level_values(1)]
-    # join index
+    # Join index
     corr.index = corr.index.map("_corr_".join)
-    # convert to dataframe
+    # Convert to dataframe
     corr = pd.DataFrame(corr, columns=[index]).T
 
-    # join corr with activity, hash, person and segment id
+    # Join corr with activity, hash, person and segment id
     corr["activity"] = segment_data["activity"][0]
     corr["hash"] = segment_data["hash"][0]
     corr["person"] = segment_data["person"][0]
@@ -66,31 +73,34 @@ def correlate(index, segment_data):
     return corr
 
 
-# create empty dataframe for all correlations
+# Create an empty dataframe for all correlations
 corr_data = pd.DataFrame()
-# loop over measurements
+
+# Loop over measurements
 for index_measurement, measurement in tqdm(data.items()):
-    # create empty dataframe for correlations in measurement
+    # Create an empty dataframe for correlations in the current measurement
     temp_segment = pd.DataFrame()
-    # loop over segments
+
+    # Loop over segments in the current measurement
     for segment in measurement:
-        # correlate columns in segment
+        # Perform correlation for the current segment
         temp_corr = correlate(index_measurement, segment)
-        # add to segment correlations
+
+        # Add the current segment correlation to the measurement correlations
         temp_segment = pd.concat([temp_segment, temp_corr], axis=0)
 
-    # add to all correlations
+    # Add the measurement correlations to the overall correlations
     corr_data = pd.concat([corr_data, temp_segment], axis=0)
 
-# print warnings
+# Print all warnings
 affected_measurements = set()
 for warning in warnings:
     affected_measurements.add(warning[0])
     print(f"Warning: Measurement {warning[0]} has segment {warning[1]} with cols {warning[2]} all same values. Correlation with other columns will be NA and therefore imputed to 0.")
 print(f"Affected measurements: {affected_measurements}")
 
-# set index
+# Set 'segment_id' as index for the correlation data
 corr_data = corr_data.set_index("segment_id")
 
-# save to parquet
+# Save correlation data to a parquet file
 corr_data.to_parquet(output_filename, index=True)

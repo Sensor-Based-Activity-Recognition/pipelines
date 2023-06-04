@@ -4,39 +4,44 @@ import yaml
 from tqdm import tqdm
 from dill import load, dump
 
-# get args
-stage_name = sys.argv[1]
-input_filename = sys.argv[2]
-output_filename = sys.argv[3]
+# Collect command line arguments
+stage_name = sys.argv[1]  # The stage name argument
+input_filename = sys.argv[2]  # The input filename argument
+output_filename = sys.argv[3]  # The output filename argument
 
-# get params
+# Load parameters from a YAML file
 params = yaml.safe_load(open("params.yaml"))[stage_name]
-moving_average_window_len_s = params["window_len_s"]
+moving_average_window_len_s = params["window_len_s"]  # Length of moving average window in seconds
 
+# Print starting message
 print(
     f"Calculating moving average for {input_filename} with window length {moving_average_window_len_s}s"
 )
 
-
-# helper function
 def moving_average(df: pd.DataFrame, window_len_s: float):
-    """Calculates moving average for each column in dataframe by grouping by hash
-    Args:
-        df (pd.DataFrame): dataframe with timestamps on index
-        window_len_s (float): each window has this length in seconds
     """
+    This function calculates the moving average for each column in the dataframe by grouping by hash.
 
-    # get frequency of timestamps
+    Args:
+        df (pd.DataFrame): Dataframe with timestamps on index.
+        window_len_s (float): Each window has this length in seconds.
+
+    Returns:
+        pd.DataFrame: Dataframe with the moving averages.
+    """
+    # Get frequency of timestamps
     freq = 1 / (df.index[1] - df.index[0]).total_seconds()
 
-    # get number of observations per window
+    # Determine number of observations per window
     window_size = int(window_len_s * freq)
 
-    # group by hash
+    # Group dataframe by hash
     grouped = df.groupby("hash")
+
+    # Select numeric columns only
     numeric_cols = df.select_dtypes(include=["number"]).columns
 
-    # calculate moving average for each group along the rows
+    # Calculate moving average for each group along the rows
     for name, group in grouped:
         df.loc[group.index, numeric_cols] = (
             group[numeric_cols].rolling(window_size, center=True, min_periods=1).mean()
@@ -44,16 +49,17 @@ def moving_average(df: pd.DataFrame, window_len_s: float):
 
     return df
 
-
-# execute transformation
-with open(input_filename, "rb") as fr:  # load data
+# Execute transformation
+with open(input_filename, "rb") as fr:  # Load data
     data = {}
+
+    # Iterate over each key-value pair in the loaded data
     for key, segments in tqdm(load(fr).items()):
-        # transform each segment
+        # Transform each segment using the moving average function
         data[key] = [
             moving_average(segment, moving_average_window_len_s) for segment in segments
         ]
 
-    # write output
+    # Write transformed data to the output file
     with open(output_filename, "wb") as fw:
         dump(data, fw)
