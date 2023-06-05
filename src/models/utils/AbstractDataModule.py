@@ -1,3 +1,4 @@
+# Importiert erforderliche Bibliotheken
 from abc import ABC, abstractmethod
 from torch import Generator
 from torch.utils.data import random_split, DataLoader
@@ -5,13 +6,21 @@ from pytorch_lightning import LightningDataModule
 
 class AbstractDataModule(LightningDataModule, ABC):
     """
-    Abstract DataModule for common functionality
-    """
+    Abstrakte Klasse für ein LightningDataModule. Diese Klasse stellt gemeinsame Funktionen für
+    LightningDataModule bereit und soll von spezifischen DataModules geerbt werden.
 
+    Attribute:
+        train_test_split_filename (str): Dateiname für den Train-Test-Split
+        data_filename (str): Dateiname für die Daten
+        seed (int): Seed-Wert für die Reproduzierbarkeit der Ergebnisse
+        train_val_split (float): Verhältnis von Training zu Validierung
+        batch_size (int): Größe der Datenbatches
+        num_workers (int): Anzahl der Prozesse/Threads, die zum Laden der Daten verwendet werden sollen
+    """
     def __init__(self, config, data_filename, train_test_split_filename):
         super().__init__()
 
-        # Read all needed parameters
+        # Liest alle benötigten Parameter
         self.train_test_split_filename = train_test_split_filename
         self.data_filename = data_filename
         self.seed = config.seed
@@ -20,24 +29,32 @@ class AbstractDataModule(LightningDataModule, ABC):
         self.num_workers = config.data["num_workers"]
 
     def prepare_data(self):
-        ## Used for downloading data, we don't need it
+        """
+        Wird verwendet, um Daten herunterzuladen. Hier jedoch nicht benötigt, daher pass.
+        """
         pass
 
     @abstractmethod
     def get_dataset(self):
         """
-        Returns the dataset
+        Gibt das Datenset zurück. 
 
         Returns:
-            train_data: The training dataset
-            test_data: The test dataset
+            train_data: Das Training-Datenset
+            test_data: Das Test-Datenset
         """
         pass
 
     def setup(self, stage="fit"):
+        """
+        Bereitet die Datensätze für das Training, die Validierung und das Testen vor.
+
+        Args:
+            stage (str, optional): Phase des Trainings ("fit", "validate" oder "test"). Defaults to "fit".
+        """
         self.train_data, self.test_data = self.get_dataset()
 
-        # Stage fit or validate (Both are generated in one step)
+        # Bühne für "fit" oder "validate" (Beide werden in einem Schritt generiert)
         if stage in ("fit", "validate"):
             generator = Generator().manual_seed(self.seed)
             train_val_split = [
@@ -50,12 +67,18 @@ class AbstractDataModule(LightningDataModule, ABC):
                 generator=generator,
             )
 
-        # Stage test or predict (They are the same)
+        # Bühne für "test" oder "predict" (Beide sind gleich)
         if stage == "test":
             self.test_dataset = self.test_data
 
 
     def train_dataloader(self):
+        """
+        Gibt den DataLoader für das Training zurück.
+
+        Returns:
+            DataLoader: DataLoader für das Training
+        """
         return DataLoader(
             self.train_dataset,
             batch_size=self.batch_size,
@@ -64,6 +87,12 @@ class AbstractDataModule(LightningDataModule, ABC):
         )
 
     def val_dataloader(self):
+        """
+        Gibt den DataLoader für die Validierung zurück.
+
+        Returns:
+            DataLoader: DataLoader für die Validierung
+        """
         return DataLoader(
             self.val_dataset,
             batch_size=len(self.val_dataset),
@@ -72,6 +101,12 @@ class AbstractDataModule(LightningDataModule, ABC):
         )
 
     def test_dataloader(self):
+        """
+        Gibt den DataLoader für das Testen zurück.
+
+        Returns:
+            DataLoader: DataLoader für das Testen
+        """
         return DataLoader(
             self.test_dataset,
             batch_size=len(self.test_dataset),
@@ -79,8 +114,7 @@ class AbstractDataModule(LightningDataModule, ABC):
             num_workers=self.num_workers
         )
 
-
-    # Load the OneHotEncodings
+    # Lädt die OneHot-Kodierungen
     onehotencode = {
         "Sitzen": 0,
         "Laufen": 1,

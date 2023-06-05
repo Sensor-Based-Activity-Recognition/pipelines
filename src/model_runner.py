@@ -26,17 +26,30 @@ from sklearn.ensemble import HistGradientBoostingClassifier, AdaBoostClassifier,
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, f1_score
 
-
 # Helper functions
-from sklearn.ensemble import AdaBoostClassifier
-from sklearn.tree import DecisionTreeClassifier
-
 class AdaBoostStumpClassifier(AdaBoostClassifier):
+    """A customized AdaBoostClassifier that uses Decision Tree stumps as base estimators.
+
+    Args:
+        n_estimators (int, optional): The maximum number of estimators at which boosting is terminated. Default is 50.
+        learning_rate (float, optional): Weight applied to each classifier at each boosting iteration. Default is 1.0.
+        algorithm (str, optional): The algorithm to use; {‘SAMME’, ‘SAMME.R’}. Default is 'SAMME.R'.
+        random_state (int, optional): Controls the randomness of the estimator. Default is None.
+    """
     def __init__(self, n_estimators=50, learning_rate=1.0, algorithm='SAMME.R', random_state=None):
         stump = DecisionTreeClassifier(max_depth=1)
         super().__init__(estimator=stump, n_estimators=n_estimators, learning_rate=learning_rate, algorithm=algorithm, random_state=random_state)
 
 def get_model(model_name, config):
+    """Fetches the model instance based on model name and configuration.
+
+    Args:
+        model_name (str): Name of the model to instantiate.
+        config (argparse.Namespace): Configuration namespace with model parameters.
+
+    Returns:
+        tuple: A tuple containing the type of model ('pytorch' or 'sklearn') and the instantiated model.
+    """
     pytorch_models = {
         "MLP": MLP,
         "CNN": CNN,
@@ -122,6 +135,16 @@ elif model_type == "sklearn":
     model.fit(X_train, y_train)
 
     def calc_metrics(model, X, y):
+        """Calculate and return the accuracy and f1 score of a model.
+
+        Args:
+            model (sklearn.base.BaseEstimator): A scikit-learn model that implements the 'predict' method.
+            X (numpy.ndarray): The input samples.
+            y (numpy.ndarray): The target values.
+
+        Returns:
+            tuple: A tuple containing the accuracy and f1 score of the model.
+        """
         y_pred = model.predict(X)
         acc = accuracy_score(y, y_pred)
         f1 = f1_score(y, y_pred, average="macro")

@@ -5,31 +5,29 @@ import time
 import yaml
 from tqdm import tqdm
 
-# get args
+# Argumente werden geholt.
 stage_name = sys.argv[1]
 input_filename = sys.argv[2]
 output_filename = sys.argv[3]
 
-# get params
+# Parameter werden geholt.
 params = yaml.safe_load(open("params.yaml"))[stage_name]
-filter_type = params["filter_type"]
-order = params["order"]  # get order
+filter_type = params["filter_type"]  # Filtertyp wird festgelegt.
+order = params["order"]  # Ordnung des Filters wird geholt.
 
-
-# execute filtering
-with open(input_filename, "rb") as fr:  # load data
-    # compose cutoff frequency argument
-    if filter_type == "bandpass":  # check if filter type is bandpass -> two cutoffs
+# Filterung wird ausgeführt.
+with open(input_filename, "rb") as fr:  # Daten werden geladen.
+    # "cutoff frequency" Argument wird zusammengesetzt.
+    if filter_type == "bandpass":  # Wenn der Filtertyp "bandpass" ist, werden zwei Cutoff-Frequenzen benötigt.
         cutoff_freq = (params["lowcut_f_Hz"], params["highcut_f_Hz"])
-
-    else:  # is filtertype lowpass or highpass -> only one cutoff
+    else:  # Wenn der Filtertyp "lowpass" oder "highpass" ist, wird nur eine Cutoff-Frequenz benötigt.
         cutoff_freq = params["cutoff_f_Hz"]
 
     print(
         f"Apply {filter_type} filter on {input_filename} with cutoff: {cutoff_freq} and order: {order}"
-    )
+    )  # Information über die Anwendung des Filters wird ausgegeben.
 
-    # apply filter on all segments
+    # Filter wird auf alle Segmente angewendet.
     data = {}
     for key, segments in tqdm(load(fr).items()):
         data[key] = [
@@ -37,8 +35,8 @@ with open(input_filename, "rb") as fr:  # load data
             for segment in segments
         ]
 
-    # save data
+    # Daten werden gespeichert.
     with open(output_filename, "wb") as fw:
         dump(data, fw)
 
-time.sleep(1)  # wait a second until file closed
+time.sleep(1)  # Das Skript wartet eine Sekunde bis die Datei geschlossen wird.

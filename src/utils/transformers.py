@@ -3,204 +3,192 @@ from sklearn.decomposition import PCA
 
 
 class Transformer_Min_Max:
-    """Executes a min_max transformation"""
+    """
+    Eine Klasse, die eine Min-Max-Transformation auf Daten durchführt.
+    """
 
     def __init__(self, feature_range_min: float, feature_range_max: float) -> None:
-        """This class performs a min max transformation and scales to a new range
-        Args:
-            feature_range_min (float): data minimum scaled to this value
-            feature_range_max (float): data maximum scaled to this value
         """
+        Konstruktor für die Transformer_Min_Max Klasse.
 
+        Args:
+            feature_range_min (float): Minimum des Skalierungsbereichs für die Transformation.
+            feature_range_max (float): Maximum des Skalierungsbereichs für die Transformation.
+        """
         self.feature_range_min = feature_range_min
         self.feature_range_max = feature_range_max
         self.__fit_performed = False
 
     def fit_transform(self, df: pd.DataFrame):
-        """Execute transformation (only on numeric columns) and store values required for transform
+        """
+        Führt eine Min-Max-Transformation auf numerischen Spalten eines DataFrame durch und speichert die notwendigen
+        Werte für die Transformationsmethode.
+
         Args:
-            df (pd.DataFrame): data to transform
+            df (pd.DataFrame): DataFrame, das transformiert werden soll.
 
         Returns:
-            transformed DataFrame
+            pd.DataFrame: DataFrame mit skalierten numerischen Spalten.
         """
+        self.numeric_columns = df.select_dtypes(include=["number"]).columns  # Ermittelt die numerischen Spalten.
 
-        self.numeric_columns = df.select_dtypes(
-            include=["number"]
-        ).columns  # get numeric columns
+        numeric_data = df[self.numeric_columns]  # Wählt nur die numerischen Daten aus.
 
-        numeric_data = df[self.numeric_columns]  # only get data from numeric columns
+        self.mins = numeric_data.min()  # Berechnet das Minimum für jede numerische Spalte.
+        self.maxs = numeric_data.max()  # Berechnet das Maximum für jede numerische Spalte.
 
-        # get mins
-        self.mins = numeric_data.min()
-        # get maxs
-        self.maxs = numeric_data.max()
+        df_copy = df.copy()  # Erstellt eine Kopie des DataFrames, um das Original nicht zu manipulieren.
 
-        df_copy = df.copy()  # copy dataframe to not manipulate the original one
-
-        # min-max scale
-        df_copy[numeric_data.columns] = (numeric_data - self.mins) / (
-            self.maxs - self.mins
-        )
-        # scale to feature range
+        # Skaliert die Daten auf den Bereich [feature_range_min, feature_range_max].
         df_copy[numeric_data.columns] = (
-            df_copy[numeric_data.columns]
-            * (self.feature_range_max - self.feature_range_min)
-            + self.feature_range_min
-        )
+            (numeric_data - self.mins) / (self.maxs - self.mins)
+        ) * (self.feature_range_max - self.feature_range_min) + self.feature_range_min
 
-        self.__fit_performed = True  # set flag
+        self.__fit_performed = True  # Markiert, dass fit_transform ausgeführt wurde.
 
-        return df_copy  # return dataframe with scaled numeric columns
+        return df_copy
 
     def transform(self, df: pd.DataFrame):
-        """Execute transformation (only on numeric columns)
+        """
+        Führt eine Min-Max-Transformation auf numerischen Spalten eines DataFrame durch.
+
         Args:
-            df (pd.DataFrame): data to transform
+            df (pd.DataFrame): DataFrame, das transformiert werden soll.
 
         Returns:
-            transformed DataFrame
+            pd.DataFrame: DataFrame mit skalierten numerischen Spalten.
         """
-
         if not self.__fit_performed:
             raise Exception("please execute fit_transform first")
 
-        numeric_data = df[self.numeric_columns]  # only get data from numeric columns
+        numeric_data = df[self.numeric_columns]  # Wählt nur die numerischen Daten aus.
 
-        df_copy = df.copy()  # copy dataframe to not manipulate the original one
+        df_copy = df.copy()  # Erstellt eine Kopie des DataFrames, um das Original nicht zu manipulieren.
 
-        # min-max scale
-        df_copy[numeric_data.columns] = (numeric_data - self.mins) / (
-            self.maxs - self.mins
-        )
-        # scale to feature range
+        # Skaliert die Daten auf den Bereich [feature_range_min, feature_range_max].
         df_copy[numeric_data.columns] = (
-            df_copy[numeric_data.columns]
-            * (self.feature_range_max - self.feature_range_min)
-            + self.feature_range_min
-        )
+            (numeric_data - self.mins) / (self.maxs - self.mins)
+        ) * (self.feature_range_max - self.feature_range_min) + self.feature_range_min
 
-        return df_copy  # return dataframe with scaled numeric columns
+        return df_copy
 
 
 class Transformer_Standardize:
-    """Executes a standardization"""
+    """
+    Eine Klasse, die eine Standardisierung auf Daten durchführt.
+    """
 
     def __init__(self) -> None:
-        """This class performs a standardization"""
-
+        """
+        Konstruktor für die Transformer_Standardize Klasse.
+        """
         self.__fit_performed = False
 
     def fit_transform(self, df: pd.DataFrame):
-        """Execute standardization (only on numeric columns) and store values required for transform
+        """
+        Führt eine Standardisierung auf numerischen Spalten eines DataFrame durch und speichert die notwendigen
+        Werte für die Transformationsmethode.
+
         Args:
-            df (pd.DataFrame): data to transform
+            df (pd.DataFrame): DataFrame, das transformiert werden soll.
 
         Returns:
-            transformed DataFrame
+            pd.DataFrame: DataFrame mit standardisierten numerischen Spalten.
         """
+        self.numeric_columns = df.select_dtypes(include=["number"]).columns  # Ermittelt die numerischen Spalten.
 
-        self.numeric_columns = df.select_dtypes(
-            include=["number"]
-        ).columns  # get numeric columns
+        numeric_data = df[self.numeric_columns]  # Wählt nur die numerischen Daten aus.
 
-        numeric_data = df[self.numeric_columns]  # only get data from numeric columns
+        self.means = numeric_data.mean()  # Berechnet den Durchschnitt für jede numerische Spalte.
+        self.stds = numeric_data.std()  # Berechnet die Standardabweichung für jede numerische Spalte.
 
-        # get means
-        self.means = numeric_data.mean()
-        # get stds
-        self.stds = numeric_data.std()
+        df_copy = df.copy()  # Erstellt eine Kopie des DataFrames, um das Original nicht zu manipulieren.
 
-        df_copy = df.copy()  # copy dataframe to not manipulate the original one
-
-        # standardize
+        # Standardisiert die Daten.
         df_copy[numeric_data.columns] = (numeric_data - self.means) / self.stds
 
-        self.__fit_performed = True  # set flag
+        self.__fit_performed = True  # Markiert, dass fit_transform ausgeführt wurde.
 
-        return df_copy  # return dataframe with scaled numeric columns
+        return df_copy
 
     def transform(self, df: pd.DataFrame):
-        """Execute transformation (only on numeric columns)
+        """
+        Führt eine Standardisierung auf numerischen Spalten eines DataFrame durch.
+
         Args:
-            df (pd.DataFrame): data to transform
+            df (pd.DataFrame): DataFrame, das transformiert werden soll.
 
         Returns:
-            transformed DataFrame
+            pd.DataFrame: DataFrame mit standardisierten numerischen Spalten.
         """
-
         if not self.__fit_performed:
             raise Exception("please execute fit_transform first")
 
-        numeric_data = df[self.numeric_columns]  # only get data from numeric columns
+        numeric_data = df[self.numeric_columns]  # Wählt nur die numerischen Daten aus.
 
-        df_copy = df.copy()  # copy dataframe to not manipulate the original one
+        df_copy = df.copy()  # Erstellt eine Kopie des DataFrames, um das Original nicht zu manipulieren.
 
-        # standardize
+        # Standardisiert die Daten.
         df_copy[numeric_data.columns] = (numeric_data - self.means) / self.stds
 
-        return df_copy  # return dataframe with scaled numeric columns
+        return df_copy
 
 
 class Transformer_PCA:
-    """Send observations to eigenspace"""
+    """
+    Eine Klasse, die eine PCA-Transformation auf Daten durchführt.
+    """
 
     def __init__(self, n_components: int) -> None:
-        """This class performs a PCA on numeric observations
+        """
+        Konstruktor für die Transformer_PCA Klasse.
+
         Args:
-            n_components (int): number of components in subspace
+            n_components (int): Anzahl der Komponenten im Ergebnisraum.
         """
         self.n_components = n_components
 
     def fit_transform(self, df: pd.DataFrame):
-        """Execute PCA on numeric columns of df
+        """
+        Führt eine PCA auf numerischen Spalten eines DataFrame durch.
+
         Args:
-            df (pd.DataFrame): data to transform
+            df (pd.DataFrame): DataFrame, das transformiert werden soll.
 
         Returns:
-            transformed DataFrame
+            pd.DataFrame: DataFrame mit den Komponenten der PCA-Transformation.
         """
+        self.numeric_columns = df.select_dtypes(include=["number"]).columns  # Ermittelt die numerischen Spalten.
+        self.non_numeric_columns = df.select_dtypes(exclude=["number"]).columns  # Ermittelt die nicht numerischen Spalten.
 
-        self.numeric_columns = df.select_dtypes(
-            include=["number"]
-        ).columns  # get numeric columns
-        self.non_numeric_columns = df.select_dtypes(
-            exclude=["number"]
-        ).columns  # get non numeric columns
+        self.pca_converter = PCA(n_components=self.n_components)  # Initialisiert den PCA-Konverter.
 
-        self.pca_converter = PCA(
-            n_components=self.n_components
-        )  # init converter with n_components
-
-        transformed_data = self.pca_converter.fit_transform(
-            df[self.numeric_columns].to_numpy()
-        )  # fit and transform on numeric data
+        # Führt die PCA auf den numerischen Daten durch.
+        transformed_data = self.pca_converter.fit_transform(df[self.numeric_columns].to_numpy())
 
         df_transformed = df[self.non_numeric_columns].copy()
 
-        df_transformed[
-            [f"c_{i}" for i in range(transformed_data.shape[1])]
-        ] = transformed_data  # append components as columns with prefix 'c_'
+        # Fügt die Komponenten als Spalten mit dem Präfix 'c_' hinzu.
+        df_transformed[[f"c_{i}" for i in range(transformed_data.shape[1])]] = transformed_data
 
         return df_transformed
 
     def transform(self, df: pd.DataFrame):
-        """Execute transformation (only on numeric columns)
+        """
+        Führt eine PCA auf numerischen Spalten eines DataFrame durch.
+
         Args:
-            df (pd.DataFrame): data to transform
+            df (pd.DataFrame): DataFrame, das transformiert werden soll.
 
         Returns:
-            transformed DataFrame
+            pd.DataFrame: DataFrame mit den Komponenten der PCA-Transformation.
         """
-
-        transformed_data = self.pca_converter.transform(
-            df[self.numeric_columns].to_numpy()
-        )  # transform on numeric data
+        # Führt die PCA auf den numerischen Daten durch.
+        transformed_data = self.pca_converter.transform(df[self.numeric_columns].to_numpy())
 
         df_transformed = df[self.non_numeric_columns].copy()
 
-        df_transformed[
-            [f"c_{i}" for i in range(transformed_data.shape[1])]
-        ] = transformed_data  # append components as columns with prefix 'c_'
+        # Fügt die Komponenten als Spalten mit dem Präfix 'c_' hinzu.
+        df_transformed[[f"c_{i}" for i in range(transformed_data.shape[1])]] = transformed_data
 
         return df_transformed

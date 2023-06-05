@@ -5,30 +5,31 @@ import pandas as pd
 import json
 from sklearn.model_selection import train_test_split
 
-
 if __name__ == "__main__":
-    # get args
-    stage_name = sys.argv[1]
-    input_filename = sys.argv[2]
-    output_filename = sys.argv[3]
+    # Retrieve arguments from command line
+    stage_name = sys.argv[1]  # The stage name argument
+    input_filename = sys.argv[2]  # The input filename argument
+    output_filename = sys.argv[3]  # The output filename argument
 
-    # get params
+    # Load parameters from a YAML file
     params = yaml.safe_load(open("params.yaml"))[stage_name]
-    split_type = params["type"]
-    split_ratio = params["test_ratio"]
-    random_seed = params["seed"]
-    stratified = params["stratified"]
+    split_type = params["type"]  # The type of split
+    split_ratio = params["test_ratio"]  # The ratio for splitting data into test set
+    random_seed = params["seed"]  # The seed for random number generator
+    stratified = params["stratified"]  # Whether the split should be stratified
 
     print(
         f"Splitting {input_filename} into train and test set with {split_type} split and {split_ratio} test ratio"
     )
 
-    # read dill file
+    # Load data from a dill file
     print("Reading dill file...")
     with open(input_filename, "rb") as fr:
-        data = []  # list with dicts { activity, person, hash, segment_id }
+        data = []  # Initialize list to hold dictionaries
+        # Iterate over each key-value pair in the loaded data
         for key, segments in load(fr).items():
             for segment in segments:
+                # Append dictionary to the list
                 data.append(
                     {
                         "activity": key[0],
@@ -38,9 +39,10 @@ if __name__ == "__main__":
                     }
                 )
 
+    # Convert list of dictionaries into a pandas DataFrame
     df = pd.DataFrame(data)
 
-    # split nach segment
+    # If split type is 'segment', perform train test split on the DataFrame
     if split_type == "segment":
         train, test = train_test_split(
             df,
@@ -48,7 +50,7 @@ if __name__ == "__main__":
             random_state=random_seed,
             stratify=df[["activity"]] if stratified else None,
         )
-    # split nach person oder measurement
+    # If split type is 'measurement' or 'person', group DataFrame and perform train test split
     elif split_type in ["measurement", "person"]:
         group_by_columns = [
             "activity",
@@ -64,7 +66,7 @@ if __name__ == "__main__":
             stratify=df_grouped[["activity"]] if stratified else None,
         )
         train, test = train.explode("segment_id"), test.explode("segment_id")
-    # unbekannter split type
+    # If split type is not recognized, raise an error
     else:
         raise ValueError(f"Unknown split type {split_type}")
 
@@ -72,7 +74,7 @@ if __name__ == "__main__":
         f"Train test split done: {len(train)} train, {len(test)} test, test-ratio {len(test) / (len(train) + len(test))}"
     )
 
-    # dump, json file with list for train and test segment ids
+    # Dump the train and test data into a JSON file
     print("Dumping...")
     with open(output_filename, "w") as fw:
         json.dump(
