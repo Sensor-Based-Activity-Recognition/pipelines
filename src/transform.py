@@ -206,7 +206,8 @@ if transformation_type == "min-max":
 
     # write the transformed segments and the scaler to files
     write_files(segments_transformed, scaler)
-elif transformation_type == "standardization":
+    
+elif transformation_type == "standardize":
     print("Applying standardization")
 
     # read segment dictionary and train_test_split segment_ids
