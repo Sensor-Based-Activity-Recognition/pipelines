@@ -107,7 +107,7 @@ def reconstruct_segments_dict(
     Returns:
         segments (dict): Reconstructed dictionary of segments
     """
-    
+
     segments = {}
     for key, ids in dict_structure.items():
         df_list = []
@@ -168,90 +168,112 @@ transformation_type = params["transformation"]
 transformation_params = params.get("transformation_params", None)
 
 # Perform the appropriate transformation based on the transformation_type
-match transformation_type:
-    case "min-max":
-        # retrieve the feature range for the transformation
-        feature_range_min = transformation_params["feature_range_min"]
-        feature_range_max = transformation_params["feature_range_max"]
+if transformation_type == "min-max":
+    # retrieve the feature range for the transformation
+    feature_range_min = transformation_params["feature_range_min"]
+    feature_range_max = transformation_params["feature_range_max"]
 
-        print(
-            f"Applying min-max scaler with feature_range_min:{feature_range_min} and feature_range_max:{feature_range_max}"
-        )
+    print(
+        f"Applying min-max scaler with feature_range_min:{feature_range_min} and feature_range_max:{feature_range_max}"
+    )
 
-        # read segment dictionary and train_test_split segment_ids
-        segments, train_test_split = read_files()
+    # read segment dictionary and train_test_split segment_ids
+    segments, train_test_split = read_files()
 
-        # get structure of segments dict
-        structure = get_structure_dict(segments)
+    # get structure of segments dict
+    structure = get_structure_dict(segments)
 
-        # split segments into two separate dataframes containing train and test data
-        train_df, test_df = combine_df(segments, train_test_split["train"], train_test_split["test"])
+    # split segments into two separate dataframes containing train and test data
+    train_df, test_df = combine_df(
+        segments, train_test_split["train"], train_test_split["test"]
+    )
 
-        # initialize the Min-Max scaler with the defined feature range
-        scaler = transformers.Transformer_Min_Max(feature_range_min, feature_range_max)
+    # initialize the Min-Max scaler with the defined feature range
+    scaler = transformers.Transformer_Min_Max(feature_range_min, feature_range_max)
 
-        # fit and transform the train and test datasets
-        train_df_transformed = scaler.fit_transform(train_df)
-        test_df_transformed = scaler.transform(test_df)
+    # fit and transform the train and test datasets
+    train_df_transformed = scaler.fit_transform(train_df)
+    test_df_transformed = scaler.transform(test_df)
 
-        # reconstruct the segments dictionary
-        segments_transformed = reconstruct_segments_dict(structure, train_df_transformed, test_df_transformed, train_test_split["train"], train_test_split["test"])
+    # reconstruct the segments dictionary
+    segments_transformed = reconstruct_segments_dict(
+        structure,
+        train_df_transformed,
+        test_df_transformed,
+        train_test_split["train"],
+        train_test_split["test"],
+    )
 
-        # write the transformed segments and the scaler to files
-        write_files(segments_transformed, scaler)
+    # write the transformed segments and the scaler to files
+    write_files(segments_transformed, scaler)
+elif transformation_type == "standardization":
+    print("Applying standardization")
 
-    case "standardize":
-        print("Applying standardization")
-        
-        # read segment dictionary and train_test_split segment_ids
-        segments, train_test_split = read_files()
-        
-        # get structure of segments dict
-        structure = get_structure_dict(segments)
-        
-        # split segments into two separate dataframes containing train and test data
-        train_df, test_df = combine_df(segments, train_test_split["train"], train_test_split["test"])
+    # read segment dictionary and train_test_split segment_ids
+    segments, train_test_split = read_files()
 
-        # initialize the Standard Scaler
-        scaler = transformers.Transformer_Standardize()
+    # get structure of segments dict
+    structure = get_structure_dict(segments)
 
-        # fit and transform the train and test datasets
-        train_df_transformed = scaler.fit_transform(train_df)
-        test_df_transformed = scaler.transform(test_df)
+    # split segments into two separate dataframes containing train and test data
+    train_df, test_df = combine_df(
+        segments, train_test_split["train"], train_test_split["test"]
+    )
 
-        # reconstruct the segments dictionary
-        segments_transformed = reconstruct_segments_dict(structure, train_df_transformed, test_df_transformed, train_test_split["train"], train_test_split["test"])
+    # initialize the Standard Scaler
+    scaler = transformers.Transformer_Standardize()
 
-        # write the transformed segments and the scaler to files
-        write_files(segments_transformed, scaler)
+    # fit and transform the train and test datasets
+    train_df_transformed = scaler.fit_transform(train_df)
+    test_df_transformed = scaler.transform(test_df)
 
-    case "pca":
-        # retrieve the number of components for the PCA transformation
-        n_components = params["transformation_params"]["n_components"]
+    # reconstruct the segments dictionary
+    segments_transformed = reconstruct_segments_dict(
+        structure,
+        train_df_transformed,
+        test_df_transformed,
+        train_test_split["train"],
+        train_test_split["test"],
+    )
 
-        print(f"Applying pca with n_components:{n_components}")
+    # write the transformed segments and the scaler to files
+    write_files(segments_transformed, scaler)
 
-        # read segment dictionary and train_test_split segment_ids
-        segments, train_test_split = read_files()
-        
-        # get structure of segments dict
-        structure = get_structure_dict(segments)
-        
-        # split segments into two separate dataframes containing train and test data
-        train_df, test_df = combine_df(segments, train_test_split["train"], train_test_split["test"])
+elif transformation_type == "pca":
+    # retrieve the number of components for the PCA transformation
+    n_components = params["transformation_params"]["n_components"]
 
-        # initialize the PCA transformer with the defined number of components
-        scaler = transformers.Transformer_PCA(n_components)
+    print(f"Applying pca with n_components:{n_components}")
 
-        # fit and transform the train and test datasets
-        train_df_transformed = scaler.fit_transform(train_df)
-        test_df_transformed = scaler.transform(test_df)
+    # read segment dictionary and train_test_split segment_ids
+    segments, train_test_split = read_files()
 
-        # reconstruct the segments dictionary
-        segments_transformed = reconstruct_segments_dict(structure, train_df_transformed, test_df_transformed, train_test_split["train"], train_test_split["test"])
+    # get structure of segments dict
+    structure = get_structure_dict(segments)
 
-        # write the transformed segments and the scaler to files
-        write_files(segments_transformed, scaler)
+    # split segments into two separate dataframes containing train and test data
+    train_df, test_df = combine_df(
+        segments, train_test_split["train"], train_test_split["test"]
+    )
 
-    case _:
-        raise Exception(f"unknown transformation: '{transformation_type}'")
+    # initialize the PCA transformer with the defined number of components
+    scaler = transformers.Transformer_PCA(n_components)
+
+    # fit and transform the train and test datasets
+    train_df_transformed = scaler.fit_transform(train_df)
+    test_df_transformed = scaler.transform(test_df)
+
+    # reconstruct the segments dictionary
+    segments_transformed = reconstruct_segments_dict(
+        structure,
+        train_df_transformed,
+        test_df_transformed,
+        train_test_split["train"],
+        train_test_split["test"],
+    )
+
+    # write the transformed segments and the scaler to files
+    write_files(segments_transformed, scaler)
+
+else:
+    raise Exception(f"unknown transformation: '{transformation_type}'")
