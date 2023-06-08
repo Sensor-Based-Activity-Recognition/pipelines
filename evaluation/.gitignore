@@ -1,3 +1,4 @@
 .*
 !.gitignore
 /confusion_matrix.png
+/metrics_cv.png
