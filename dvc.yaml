@@ -240,7 +240,7 @@ stages:
     - data/output_test_cv_2.csv
 
   cross_validation_run_3:
-    cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_3.json data/model_cv_3.pkl data/output_test_cv_3.csv
+    cmd: python src/model_runner.py dvclive data/stft.dill data/cross_validation_split_3.json data/model_cv_3.pkl data/output_test_cv_3.csv
     deps:
     - src/model_runner.py
     - src/models/__IModel.py
@@ -256,7 +256,7 @@ stages:
     - data/output_test_cv_3.csv
 
   cross_validation_run_4:
-    cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_4.json data/model_cv_4.pkl data/output_test_cv_4.csv
+    cmd: python src/model_runner.py dvclive data/stft.dill data/cross_validation_split_4.json data/model_cv_4.pkl data/output_test_cv_4.csv
     deps:
     - src/model_runner.py
     - src/models/__IModel.py
@@ -272,7 +272,7 @@ stages:
     - data/output_test_cv_4.csv
 
   cross_validation_run_5:
-    cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_5.json data/model_cv_5.pkl data/output_test_cv_5.csv
+    cmd: python src/model_runner.py dvclive data/stft.dill data/cross_validation_split_5.json data/model_cv_5.pkl data/output_test_cv_5.csv
     deps:
     - src/model_runner.py
     - src/models/__IModel.py
@@ -288,7 +288,7 @@ stages:
     - data/output_test_cv_5.csv
 
   cross_validation_run_6:
-    cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_6.json data/model_cv_6.pkl data/output_test_cv_6.csv
+    cmd: python src/model_runner.py dvclive data/stft.dill data/cross_validation_split_6.json data/model_cv_6.pkl data/output_test_cv_6.csv
     deps:
     - src/model_runner.py
     - src/models/__IModel.py
@@ -304,7 +304,7 @@ stages:
     - data/output_test_cv_6.csv
 
   cross_validation_run_7:
-    cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_7.json data/model_cv_7.pkl data/output_test_cv_7.csv
+    cmd: python src/model_runner.py dvclive data/stft.dill data/cross_validation_split_7.json data/model_cv_7.pkl data/output_test_cv_7.csv
     deps:
     - src/model_runner.py
     - src/models/__IModel.py
@@ -320,7 +320,7 @@ stages:
     - data/output_test_cv_7.csv
 
   cross_validation_run_8:
-    cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_8.json data/model_cv_8.pkl data/output_test_cv_8.csv
+    cmd: python src/model_runner.py dvclive data/stft.dill data/cross_validation_split_8.json data/model_cv_8.pkl data/output_test_cv_8.csv
     deps:
     - src/model_runner.py
     - src/models/__IModel.py
@@ -336,7 +336,7 @@ stages:
     - data/output_test_cv_8.csv
 
   cross_validation_run_9:
-    cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_9.json data/model_cv_9.pkl data/output_test_cv_9.csv
+    cmd: python src/model_runner.py dvclive data/stft.dill data/cross_validation_split_9.json data/model_cv_9.pkl data/output_test_cv_9.csv
     deps:
     - src/model_runner.py
     - src/models/__IModel.py
@@ -352,7 +352,7 @@ stages:
     - data/output_test_cv_9.csv
 
   cross_validation_run_10:
-    cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_10.json data/model_cv_10.pkl data/output_test_cv_10.csv
+    cmd: python src/model_runner.py dvclive data/stft.dill data/cross_validation_split_10.json data/model_cv_10.pkl data/output_test_cv_10.csv
     deps:
     - src/model_runner.py
     - src/models/__IModel.py
