@@ -66,17 +66,18 @@ transform_pca:
   transformation_params:
     n_components: null
 
-# HistGradientBoostingClassifier model
+# CNN model
 dvclive:
-  model: HistGradientBoostingClassifier
-  seed: 42
+  model: CNN
+  seed: 40
   data:
-    type: Sklearn_Segments
-    params:
-      columns: numeric
+    type: NDArray
+    output_size: 6
+    num_workers: 0
+    train_val_split: 0.8
+    batch_size: 64
   model_hparams:
-    learning_rate: 0.2
-    max_iter: 2000
-    max_leaf_nodes: 31
-    min_samples_leaf: 20
-    max_bins: 255
+    num_epochs: 15
+    learning_rate: 0.05
+    weight_decay: 0.0005
+    momentum: 0.9
