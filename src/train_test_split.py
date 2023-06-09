@@ -81,13 +81,12 @@ if __name__ == "__main__":
             df
         )
 
+        print(f"Dumping {splits} splits...")
         # create a train-test split for each split
-        for i in range(splits):
-            train, test = next(kfolds)
-            train, test = df.iloc[train], df.iloc[test]
+        for i, (train_idx, test_idx) in enumerate(kfolds):
+            train, test = df.iloc[train_idx], df.iloc[test_idx]
 
             # Dump the train and test data into a JSON file
-            print(f"Dumping split {i}...")
             with open(f"{output_filename}_{i + 1}.json", "w") as fw:
                 json.dump(
                     {
