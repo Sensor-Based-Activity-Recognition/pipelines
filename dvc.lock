@@ -167,7 +167,7 @@ stages:
       params.yaml:
         dvclive:
           model: HistGradientBoostingClassifier
-          seed: 42
+          seed: 41
           data:
             type: Sklearn_Segments
             params:
@@ -180,7 +180,7 @@ stages:
             max_bins: 255
     outs:
     - path: data/model_cv_1.pkl
-      md5: 69bfd16ac8e7c736146fac46c72e4914
+      md5: 5a5b2b0771223f5e9f24e4b7d35eb5af
       size: 5455211
     - path: data/output_test_cv_1.csv
       md5: 521c37a2e54c2b7e4bbd3b7fbd0fc629
@@ -217,7 +217,7 @@ stages:
       params.yaml:
         dvclive:
           model: HistGradientBoostingClassifier
-          seed: 42
+          seed: 41
           data:
             type: Sklearn_Segments
             params:
@@ -230,7 +230,7 @@ stages:
             max_bins: 255
     outs:
     - path: data/model_cv_2.pkl
-      md5: 2ce6a218ac2289c5f8a142c0ae598621
+      md5: 9826da5a8e11b52ba7633bd1778f4d08
       size: 5471584
     - path: data/output_test_cv_2.csv
       md5: ca8352592130f8a20372f3f88f61c6f1
@@ -267,7 +267,7 @@ stages:
       params.yaml:
         dvclive:
           model: HistGradientBoostingClassifier
-          seed: 42
+          seed: 41
           data:
             type: Sklearn_Segments
             params:
@@ -280,7 +280,7 @@ stages:
             max_bins: 255
     outs:
     - path: data/model_cv_3.pkl
-      md5: 9fd334d723b5978279d8bece4d7aae54
+      md5: d26439923a298c9ea103a1d130715806
       size: 5465959
     - path: data/output_test_cv_3.csv
       md5: 36e6e01fa812d7e6dbc97f8adf6a6f69
@@ -317,7 +317,7 @@ stages:
       params.yaml:
         dvclive:
           model: HistGradientBoostingClassifier
-          seed: 42
+          seed: 41
           data:
             type: Sklearn_Segments
             params:
@@ -330,7 +330,7 @@ stages:
             max_bins: 255
     outs:
     - path: data/model_cv_4.pkl
-      md5: c42a57af7d3e1afc9445685e247f825b
+      md5: 4de66d578767cb562f7fe96fb7c1f33d
       size: 5469186
     - path: data/output_test_cv_4.csv
       md5: 1006bc4ff88f1b47d9e71b3870707266
@@ -367,7 +367,7 @@ stages:
       params.yaml:
         dvclive:
           model: HistGradientBoostingClassifier
-          seed: 42
+          seed: 41
           data:
             type: Sklearn_Segments
             params:
@@ -380,7 +380,7 @@ stages:
             max_bins: 255
     outs:
     - path: data/model_cv_5.pkl
-      md5: c711f1e1634aef2dc815851d9174f365
+      md5: b831fce85f9282dcb18c2402565b1e1f
       size: 5476092
     - path: data/output_test_cv_5.csv
       md5: 6d6fd7b4cd3698d32919cdb0b8542fc9
@@ -417,7 +417,7 @@ stages:
       params.yaml:
         dvclive:
           model: HistGradientBoostingClassifier
-          seed: 42
+          seed: 41
           data:
             type: Sklearn_Segments
             params:
@@ -430,7 +430,7 @@ stages:
             max_bins: 255
     outs:
     - path: data/model_cv_6.pkl
-      md5: 8ee003d280ab039a16bfce2edb5f003d
+      md5: 31577952d2361b00a51a4f4b0247e41f
       size: 5463769
     - path: data/output_test_cv_6.csv
       md5: a4a7d909f659b9dc6fa5a77f2e83b06c
@@ -467,7 +467,7 @@ stages:
       params.yaml:
         dvclive:
           model: HistGradientBoostingClassifier
-          seed: 42
+          seed: 41
           data:
             type: Sklearn_Segments
             params:
@@ -480,7 +480,7 @@ stages:
             max_bins: 255
     outs:
     - path: data/model_cv_7.pkl
-      md5: f22b916a62265c0f78eed9bdc4bc673a
+      md5: b713ade913aad24cde264a053f5cf480
       size: 5468262
     - path: data/output_test_cv_7.csv
       md5: 2dd4ec47497eddb80f10197c9e4ba294
@@ -517,7 +517,7 @@ stages:
       params.yaml:
         dvclive:
           model: HistGradientBoostingClassifier
-          seed: 42
+          seed: 41
           data:
             type: Sklearn_Segments
             params:
@@ -530,7 +530,7 @@ stages:
             max_bins: 255
     outs:
     - path: data/model_cv_8.pkl
-      md5: bfe4f97d82d4d9fab5fea807cd1a0063
+      md5: f75213bccf1e9ca3f897e6211374fef3
       size: 5471492
     - path: data/output_test_cv_8.csv
       md5: cddc19258974d33081ed5ff2e779a546
@@ -567,7 +567,7 @@ stages:
       params.yaml:
         dvclive:
           model: HistGradientBoostingClassifier
-          seed: 42
+          seed: 41
           data:
             type: Sklearn_Segments
             params:
@@ -580,7 +580,7 @@ stages:
             max_bins: 255
     outs:
     - path: data/model_cv_9.pkl
-      md5: 419ba2cdaf9356df2715e5183c04bb5f
+      md5: 3927f65e7b4e1caf18857089860e63da
       size: 5465739
     - path: data/output_test_cv_9.csv
       md5: 74145ddfbad1927e63a09774f36e53f3
@@ -617,7 +617,7 @@ stages:
       params.yaml:
         dvclive:
           model: HistGradientBoostingClassifier
-          seed: 42
+          seed: 41
           data:
             type: Sklearn_Segments
             params:
@@ -630,7 +630,7 @@ stages:
             max_bins: 255
     outs:
     - path: data/model_cv_10.pkl
-      md5: a1b2e4a5c09dc2a613a644e8ee399aad
+      md5: 018d902e0ae0c4c86377342acb1c94e1
       size: 5476261
     - path: data/output_test_cv_10.csv
       md5: c0688b911ccab1752c4353c7f77c9540
@@ -775,7 +775,7 @@ stages:
       params.yaml:
         dvclive:
           model: HistGradientBoostingClassifier
-          seed: 42
+          seed: 41
           data:
             type: Sklearn_Segments
             params:
@@ -788,14 +788,14 @@ stages:
             max_bins: 255
     outs:
     - path: data/model.pkl
-      md5: 208665c3df54b554c86d6d8af50c3037
+      md5: 427ba689c5bc119ba4b6146da7bef2ad
       size: 5440826
     - path: data/output_test.csv
       md5: c9a22b0d2a1bfdc4e7f2da72e7591563
       size: 6804
     - path: dvclive/metrics.json
-      md5: dd73dcdfb481d6aa4f81039e6a4979bb
-      size: 141
+      md5: c6043ee3fd670714da7a608214169c16
+      size: 140
     - path: dvclive/plots
       md5: d7440eb7bd03af4841ed706e85562bcf.dir
       size: 134
