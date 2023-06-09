@@ -51,6 +51,9 @@ jobs:
           echo "### Confusion Matrix" >> report.md
           echo "![Confusion Matrix](evaluation/confusion_matrix.png)" >> report.md
 
+          echo "### CV Metrics" >> report.md
+          echo "![CV Metrics](evaluation/metrics_cv.png)" >> report.md
+
           # Create report
           cml comment create report.md
 

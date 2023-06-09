@@ -39,6 +39,11 @@ train_test_split_ratio02:
   seed: 9458
   stratified: true
 
+cross_validation_split:
+  type: cross_validation
+  seed: 9458
+  cv_splits: 10
+
 correlations_pearson:
   correlation_method: pearson
 
@@ -64,7 +69,7 @@ transform_pca:
 # HistGradientBoostingClassifier model
 dvclive:
   model: HistGradientBoostingClassifier
-  seed: 41
+  seed: 42
   data:
     type: Sklearn_Segments
     params:

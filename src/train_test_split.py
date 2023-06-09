@@ -3,7 +3,8 @@ import yaml
 from dill import load
 import pandas as pd
 import json
-from sklearn.model_selection import train_test_split
+import torch
+from sklearn.model_selection import train_test_split, KFold
 
 if __name__ == "__main__":
     # Retrieve arguments from command line
@@ -14,13 +15,7 @@ if __name__ == "__main__":
     # Load parameters from a YAML file
     params = yaml.safe_load(open("params.yaml"))[stage_name]
     split_type = params["type"]  # The type of split
-    split_ratio = params["test_ratio"]  # The ratio for splitting data into test set
     random_seed = params["seed"]  # The seed for random number generator
-    stratified = params["stratified"]  # Whether the split should be stratified
-
-    print(
-        f"Splitting {input_filename} into train and test set with {split_type} split and {split_ratio} test ratio"
-    )
 
     # Load data from a dill file
     print("Reading dill file...")
@@ -44,14 +39,27 @@ if __name__ == "__main__":
 
     # If split type is 'segment', perform train test split on the DataFrame
     if split_type == "segment":
+        split_ratio = params["test_ratio"]  # The ratio for splitting data into test set
+        stratified = params["stratified"]  # Whether the split should be stratified
+
+        print(
+            f"Splitting {input_filename} into train and test set with {split_type} split and {split_ratio} test ratio"
+        )
+
         train, test = train_test_split(
             df,
             test_size=split_ratio,
             random_state=random_seed,
             stratify=df[["activity"]] if stratified else None,
         )
-    # If split type is 'measurement' or 'person', group DataFrame and perform train test split
     elif split_type in ["measurement", "person"]:
+        split_ratio = params["test_ratio"]  # The ratio for splitting data into test set
+        stratified = params["stratified"]  # Whether the split should be stratified
+
+        print(
+            f"Splitting {input_filename} into train and test set with {split_type} split and {split_ratio} test ratio"
+        )
+
         group_by_columns = [
             "activity",
             ("hash" if split_type == "measurement" else "person"),
@@ -66,7 +74,33 @@ if __name__ == "__main__":
             stratify=df_grouped[["activity"]] if stratified else None,
         )
         train, test = train.explode("segment_id"), test.explode("segment_id")
-    # If split type is not recognized, raise an error
+    elif split_type == "cross_validation":
+        splits = params["cv_splits"]
+
+        kfolds = KFold(n_splits=splits, shuffle=True, random_state=random_seed).split(
+            df
+        )
+
+        print(f"Dumping {splits} splits...")
+        # create a train-test split for each split
+        for i, (train_idx, test_idx) in enumerate(kfolds):
+            train, test = df.iloc[train_idx], df.iloc[test_idx]
+
+            # Dump the train and test data into a JSON file
+            with open(f"{output_filename}_{i + 1}.json", "w") as fw:
+                json.dump(
+                    {
+                        "train": train["segment_id"].values.tolist(),
+                        "test": test["segment_id"].values.tolist(),
+                    },
+                    fw,
+                )
+
+        print("Cross validation splits done.")
+
+        # exit after creating all splits
+        sys.exit(0)
+
     else:
         raise ValueError(f"Unknown split type {split_type}")
 
