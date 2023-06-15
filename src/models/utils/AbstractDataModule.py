@@ -14,7 +14,7 @@ class AbstractDataModule(LightningDataModule, ABC):
         data_filename (str): Dateiname für die Daten
         seed (int): Seed-Wert für die Reproduzierbarkeit der Ergebnisse
         train_val_split (float): Verhältnis von Training zu Validierung
-        batch_size (int): Größe der Datenbatches
+        batch_size (int): Grösse der Datenbatches
         num_workers (int): Anzahl der Prozesse/Threads, die zum Laden der Daten verwendet werden sollen
     """
     def __init__(self, config, data_filename, train_test_split_filename):
