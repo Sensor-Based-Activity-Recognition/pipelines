@@ -149,7 +149,7 @@ stages:
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
     - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
+      md5: 5480c29e7f135a7a6ab8d63bf5b7cc54
       size: 1637
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
@@ -166,24 +166,22 @@ stages:
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
+          model: AdaBoostStumpClassifier
           seed: 42
           data:
             type: Sklearn_Segments
             params:
               columns: numeric
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            learning_rate: 0.5
+            n_estimators: 200
+            random_state: 42
     outs:
     - path: data/model_cv_1.pkl
-      md5: 69bfd16ac8e7c736146fac46c72e4914
-      size: 5455211
+      md5: 149794cde9f6ab559b0ed86f3a7bb357
+      size: 132793
     - path: data/output_test_cv_1.csv
-      md5: 521c37a2e54c2b7e4bbd3b7fbd0fc629
+      md5: 4ab55728d9e41e41dd374409edbe7d0e
       size: 3416
   cross_validation_run_2:
     cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_2.json
@@ -199,7 +197,7 @@ stages:
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
     - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
+      md5: 5480c29e7f135a7a6ab8d63bf5b7cc54
       size: 1637
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
@@ -216,24 +214,22 @@ stages:
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
+          model: AdaBoostStumpClassifier
           seed: 42
           data:
             type: Sklearn_Segments
             params:
               columns: numeric
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            learning_rate: 0.5
+            n_estimators: 200
+            random_state: 42
     outs:
     - path: data/model_cv_2.pkl
-      md5: 2ce6a218ac2289c5f8a142c0ae598621
-      size: 5471584
+      md5: 6d33053cddd68f92e02127202fa82d8c
+      size: 132793
     - path: data/output_test_cv_2.csv
-      md5: ca8352592130f8a20372f3f88f61c6f1
+      md5: 2277000695348a6558afb8dce588c88c
       size: 3416
   cross_validation_run_3:
     cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_3.json
@@ -249,7 +245,7 @@ stages:
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
     - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
+      md5: 5480c29e7f135a7a6ab8d63bf5b7cc54
       size: 1637
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
@@ -266,24 +262,22 @@ stages:
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
+          model: AdaBoostStumpClassifier
           seed: 42
           data:
             type: Sklearn_Segments
             params:
               columns: numeric
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            learning_rate: 0.5
+            n_estimators: 200
+            random_state: 42
     outs:
     - path: data/model_cv_3.pkl
-      md5: 9fd334d723b5978279d8bece4d7aae54
-      size: 5465959
+      md5: 19e1b41017b8c74ac20c30b8d4162a67
+      size: 132793
     - path: data/output_test_cv_3.csv
-      md5: 36e6e01fa812d7e6dbc97f8adf6a6f69
+      md5: 208ade241c7d149e96f19521845a905a
       size: 3416
   cross_validation_run_4:
     cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_4.json
@@ -299,7 +293,7 @@ stages:
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
     - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
+      md5: 5480c29e7f135a7a6ab8d63bf5b7cc54
       size: 1637
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
@@ -316,24 +310,22 @@ stages:
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
+          model: AdaBoostStumpClassifier
           seed: 42
           data:
             type: Sklearn_Segments
             params:
               columns: numeric
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            learning_rate: 0.5
+            n_estimators: 200
+            random_state: 42
     outs:
     - path: data/model_cv_4.pkl
-      md5: c42a57af7d3e1afc9445685e247f825b
-      size: 5469186
+      md5: 2d2fb38727875d1e7ed596b85b16a299
+      size: 132793
     - path: data/output_test_cv_4.csv
-      md5: 1006bc4ff88f1b47d9e71b3870707266
+      md5: 45d1d5065de89049fba53d1a92c73a3e
       size: 3416
   cross_validation_run_5:
     cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_5.json
@@ -349,7 +341,7 @@ stages:
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
     - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
+      md5: 5480c29e7f135a7a6ab8d63bf5b7cc54
       size: 1637
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
@@ -366,24 +358,22 @@ stages:
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
+          model: AdaBoostStumpClassifier
           seed: 42
           data:
             type: Sklearn_Segments
             params:
               columns: numeric
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            learning_rate: 0.5
+            n_estimators: 200
+            random_state: 42
     outs:
     - path: data/model_cv_5.pkl
-      md5: c711f1e1634aef2dc815851d9174f365
-      size: 5476092
+      md5: a410e8f756c193c3b3154e7c15446e06
+      size: 132793
     - path: data/output_test_cv_5.csv
-      md5: 6d6fd7b4cd3698d32919cdb0b8542fc9
+      md5: ddc30299ee67b7eb7d518c068e838053
       size: 3412
   cross_validation_run_6:
     cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_6.json
@@ -399,7 +389,7 @@ stages:
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
     - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
+      md5: 5480c29e7f135a7a6ab8d63bf5b7cc54
       size: 1637
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
@@ -416,24 +406,22 @@ stages:
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
+          model: AdaBoostStumpClassifier
           seed: 42
           data:
             type: Sklearn_Segments
             params:
               columns: numeric
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            learning_rate: 0.5
+            n_estimators: 200
+            random_state: 42
     outs:
     - path: data/model_cv_6.pkl
-      md5: 8ee003d280ab039a16bfce2edb5f003d
-      size: 5463769
+      md5: 9157452fdc5bcc9f81f9902df5be34e9
+      size: 132793
     - path: data/output_test_cv_6.csv
-      md5: a4a7d909f659b9dc6fa5a77f2e83b06c
+      md5: b6138ae8fc9f420a0adc62b608f261aa
       size: 3412
   cross_validation_run_7:
     cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_7.json
@@ -449,7 +437,7 @@ stages:
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
     - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
+      md5: 5480c29e7f135a7a6ab8d63bf5b7cc54
       size: 1637
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
@@ -466,24 +454,22 @@ stages:
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
+          model: AdaBoostStumpClassifier
           seed: 42
           data:
             type: Sklearn_Segments
             params:
               columns: numeric
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            learning_rate: 0.5
+            n_estimators: 200
+            random_state: 42
     outs:
     - path: data/model_cv_7.pkl
-      md5: f22b916a62265c0f78eed9bdc4bc673a
-      size: 5468262
+      md5: 3fa76626655d08509f7c12e8f081d1d5
+      size: 132793
     - path: data/output_test_cv_7.csv
-      md5: 2dd4ec47497eddb80f10197c9e4ba294
+      md5: 5d06741910dc17cb398fedcead3de3a2
       size: 3412
   cross_validation_run_8:
     cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_8.json
@@ -499,7 +485,7 @@ stages:
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
     - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
+      md5: 5480c29e7f135a7a6ab8d63bf5b7cc54
       size: 1637
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
@@ -516,24 +502,22 @@ stages:
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
+          model: AdaBoostStumpClassifier
           seed: 42
           data:
             type: Sklearn_Segments
             params:
               columns: numeric
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            learning_rate: 0.5
+            n_estimators: 200
+            random_state: 42
     outs:
     - path: data/model_cv_8.pkl
-      md5: bfe4f97d82d4d9fab5fea807cd1a0063
-      size: 5471492
+      md5: 524575fc47d3df379ee600ba7a856292
+      size: 132793
     - path: data/output_test_cv_8.csv
-      md5: cddc19258974d33081ed5ff2e779a546
+      md5: abf53d95deab45fc06ab4582c07ab507
       size: 3412
   cross_validation_run_9:
     cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_9.json
@@ -549,7 +533,7 @@ stages:
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
     - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
+      md5: 5480c29e7f135a7a6ab8d63bf5b7cc54
       size: 1637
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
@@ -566,24 +550,22 @@ stages:
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
+          model: AdaBoostStumpClassifier
           seed: 42
           data:
             type: Sklearn_Segments
             params:
               columns: numeric
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            learning_rate: 0.5
+            n_estimators: 200
+            random_state: 42
     outs:
     - path: data/model_cv_9.pkl
-      md5: 419ba2cdaf9356df2715e5183c04bb5f
-      size: 5465739
+      md5: 3dac8d3cfe7b5eb3b4afdf1f6d457a35
+      size: 132793
     - path: data/output_test_cv_9.csv
-      md5: 74145ddfbad1927e63a09774f36e53f3
+      md5: c68f4a880537e42d65c47731bcd62467
       size: 3412
   cross_validation_run_10:
     cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_10.json
@@ -599,7 +581,7 @@ stages:
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
     - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
+      md5: 5480c29e7f135a7a6ab8d63bf5b7cc54
       size: 1637
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
@@ -616,65 +598,63 @@ stages:
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
+          model: AdaBoostStumpClassifier
           seed: 42
           data:
             type: Sklearn_Segments
             params:
               columns: numeric
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            learning_rate: 0.5
+            n_estimators: 200
+            random_state: 42
     outs:
     - path: data/model_cv_10.pkl
-      md5: a1b2e4a5c09dc2a613a644e8ee399aad
-      size: 5476261
+      md5: 2edeff7e37154ca4000c840042ef988b
+      size: 132793
     - path: data/output_test_cv_10.csv
-      md5: c0688b911ccab1752c4353c7f77c9540
+      md5: d9cca7601fd4514de972a15a7c005a18
       size: 3412
   evaluate_cv:
     cmd: python src/evaluate_cv.py evaluate_cv data/output_test_cv_ evaluation/metrics_cv.png
     deps:
     - path: data/output_test_cv_1.csv
-      md5: 521c37a2e54c2b7e4bbd3b7fbd0fc629
+      md5: 4ab55728d9e41e41dd374409edbe7d0e
       size: 3416
     - path: data/output_test_cv_10.csv
-      md5: c0688b911ccab1752c4353c7f77c9540
+      md5: d9cca7601fd4514de972a15a7c005a18
       size: 3412
     - path: data/output_test_cv_2.csv
-      md5: ca8352592130f8a20372f3f88f61c6f1
+      md5: 2277000695348a6558afb8dce588c88c
       size: 3416
     - path: data/output_test_cv_3.csv
-      md5: 36e6e01fa812d7e6dbc97f8adf6a6f69
+      md5: 208ade241c7d149e96f19521845a905a
       size: 3416
     - path: data/output_test_cv_4.csv
-      md5: 1006bc4ff88f1b47d9e71b3870707266
+      md5: 45d1d5065de89049fba53d1a92c73a3e
       size: 3416
     - path: data/output_test_cv_5.csv
-      md5: 6d6fd7b4cd3698d32919cdb0b8542fc9
+      md5: ddc30299ee67b7eb7d518c068e838053
       size: 3412
     - path: data/output_test_cv_6.csv
-      md5: a4a7d909f659b9dc6fa5a77f2e83b06c
+      md5: b6138ae8fc9f420a0adc62b608f261aa
       size: 3412
     - path: data/output_test_cv_7.csv
-      md5: 2dd4ec47497eddb80f10197c9e4ba294
+      md5: 5d06741910dc17cb398fedcead3de3a2
       size: 3412
     - path: data/output_test_cv_8.csv
-      md5: cddc19258974d33081ed5ff2e779a546
+      md5: abf53d95deab45fc06ab4582c07ab507
       size: 3412
     - path: data/output_test_cv_9.csv
-      md5: 74145ddfbad1927e63a09774f36e53f3
+      md5: c68f4a880537e42d65c47731bcd62467
       size: 3412
     - path: src/evaluate_cv.py
       md5: 2ecdd88c439b0a7272a6979843c18452
       size: 2229
     outs:
     - path: evaluation/metrics_cv.png
-      md5: d441b946d9d38e44004ee96c2755b2f5
-      size: 80252
+      md5: 23f354c91503adbf78c0dbb10d8831ec
+      size: 79173
   aggregate_mean_median_std:
     cmd: python src/aggregate.py aggregate_mean_median_std data/segmentate_5s.dill
       data/aggregate_mean_median_std.dill
@@ -757,7 +737,7 @@ stages:
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
     - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
+      md5: 5480c29e7f135a7a6ab8d63bf5b7cc54
       size: 1637
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
@@ -774,31 +754,29 @@ stages:
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
+          model: AdaBoostStumpClassifier
           seed: 42
           data:
             type: Sklearn_Segments
             params:
               columns: numeric
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            learning_rate: 0.5
+            n_estimators: 200
+            random_state: 42
     outs:
     - path: data/model.pkl
-      md5: 208665c3df54b554c86d6d8af50c3037
-      size: 5440826
+      md5: 5b4c7fb4e75c3445fc0c15c35d385a62
+      size: 132793
     - path: data/output_test.csv
-      md5: c9a22b0d2a1bfdc4e7f2da72e7591563
+      md5: 2933187d76d588942b0a983d3771acd2
       size: 6804
     - path: dvclive/metrics.json
-      md5: dd73dcdfb481d6aa4f81039e6a4979bb
-      size: 141
+      md5: d2f4e143d720ebd1b4dc5c7b51f5f436
+      size: 170
     - path: dvclive/plots
-      md5: d7440eb7bd03af4841ed706e85562bcf.dir
-      size: 134
+      md5: a96d12b8f80f47c8e87a18808cd52a15.dir
+      size: 164
       nfiles: 4
   correlations_pearson:
     cmd: python src/correlations.py correlations_pearson data/segmentate_5s.dill data/correlations_pearson.parquet
@@ -868,15 +846,15 @@ stages:
     cmd: python src/evaluate.py evaluate data/output_test.csv evaluation/confusion_matrix.png
     deps:
     - path: data/output_test.csv
-      md5: c9a22b0d2a1bfdc4e7f2da72e7591563
-      size: 8500
+      md5: 2933187d76d588942b0a983d3771acd2
+      size: 6804
     - path: src/evaluate.py
       md5: 1d1a8fa2598be16d9b78212e528e284f
       size: 982
     outs:
     - path: evaluation/confusion_matrix.png
-      md5: 58ad4d3f9d3a7e1ab3522eaea359d404
-      size: 39804
+      md5: d87997484500d1093ab3f66be91a9364
+      size: 41336
   stft:
     cmd: python src/stft.py stft data/segmentate_5s.dill data/stft.dill
     deps:
