@@ -39,7 +39,7 @@ class MLP(IModel):
         Returns:
             torch.Tensor: Ausgabe des Modells.
         """
-        # Bestimmung der Batch-Größe
+        # Bestimmung der Batch-Grösse
         batch_size, _, _, _ = x.size()
 
         # Ändern der Form der Eingabe auf ein eindimensionales Tensor
