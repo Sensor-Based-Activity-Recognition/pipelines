@@ -9,5 +9,5 @@ Dieser Runner wird von Gabriel betrieben und läuft in einer Docker-Umgebung. Di
 ## Konfigurierte Workflows
 Hier werden die konfigurierten Workflows aufgelistet.
 ### run_pipelines.yaml
-Dieser Workflow wird automatisch nach jedem Commit durchgeführt. Seine Aufgabe besteht darin, eine Umgebung für die Ausführung der Pipelines zu erstellen, die Pipelines auszuführen und bei Änderungen in den Modellmetriken oder Parametern einen Bericht zu erstellen. Zudem werden die Metriken anschließend auf DVC hochgeladen und ein Pull Request erstellt, falls die Änderungen angenommen werden sollen.
+Dieser Workflow wird automatisch nach jedem Commit durchgeführt. Seine Aufgabe besteht darin, eine Umgebung für die Ausführung der Pipelines zu erstellen, die Pipelines auszuführen und bei Änderungen in den Modellmetriken oder Parametern einen Bericht zu erstellen. Zudem werden die Metriken anschliessend auf DVC hochgeladen und ein Pull Request erstellt, falls die Änderungen angenommen werden sollen.
 Dieser Workflow greift auf den Runner "amd-ryzen9-7900x-nvidia-rtx-4070ti-gabo" zu.
