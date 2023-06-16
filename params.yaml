@@ -66,17 +66,15 @@ transform_pca:
   transformation_params:
     n_components: null
 
-# HistGradientBoostingClassifier model
+# AdaBoostStumpClassifier model
 dvclive:
-  model: HistGradientBoostingClassifier
-  seed: 42
+  model: AdaBoostStumpClassifier
+  seed: 43
   data:
     type: Sklearn_Segments
     params:
-      columns: numeric
+      columns: "numeric"
   model_hparams:
-    learning_rate: 0.2
-    max_iter: 2000
-    max_leaf_nodes: 31
-    min_samples_leaf: 20
-    max_bins: 255
+    learning_rate: 0.5
+    n_estimators: 200
+    random_state: 42
