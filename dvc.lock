@@ -167,7 +167,7 @@ stages:
       params.yaml:
         dvclive:
           model: AdaBoostStumpClassifier
-          seed: 42
+          seed: 43
           data:
             type: Sklearn_Segments
             params:
@@ -215,7 +215,7 @@ stages:
       params.yaml:
         dvclive:
           model: AdaBoostStumpClassifier
-          seed: 42
+          seed: 43
           data:
             type: Sklearn_Segments
             params:
@@ -263,7 +263,7 @@ stages:
       params.yaml:
         dvclive:
           model: AdaBoostStumpClassifier
-          seed: 42
+          seed: 43
           data:
             type: Sklearn_Segments
             params:
@@ -311,7 +311,7 @@ stages:
       params.yaml:
         dvclive:
           model: AdaBoostStumpClassifier
-          seed: 42
+          seed: 43
           data:
             type: Sklearn_Segments
             params:
@@ -359,7 +359,7 @@ stages:
       params.yaml:
         dvclive:
           model: AdaBoostStumpClassifier
-          seed: 42
+          seed: 43
           data:
             type: Sklearn_Segments
             params:
@@ -407,7 +407,7 @@ stages:
       params.yaml:
         dvclive:
           model: AdaBoostStumpClassifier
-          seed: 42
+          seed: 43
           data:
             type: Sklearn_Segments
             params:
@@ -455,7 +455,7 @@ stages:
       params.yaml:
         dvclive:
           model: AdaBoostStumpClassifier
-          seed: 42
+          seed: 43
           data:
             type: Sklearn_Segments
             params:
@@ -503,7 +503,7 @@ stages:
       params.yaml:
         dvclive:
           model: AdaBoostStumpClassifier
-          seed: 42
+          seed: 43
           data:
             type: Sklearn_Segments
             params:
@@ -551,7 +551,7 @@ stages:
       params.yaml:
         dvclive:
           model: AdaBoostStumpClassifier
-          seed: 42
+          seed: 43
           data:
             type: Sklearn_Segments
             params:
@@ -599,7 +599,7 @@ stages:
       params.yaml:
         dvclive:
           model: AdaBoostStumpClassifier
-          seed: 42
+          seed: 43
           data:
             type: Sklearn_Segments
             params:
@@ -649,12 +649,12 @@ stages:
       md5: c68f4a880537e42d65c47731bcd62467
       size: 3412
     - path: src/evaluate_cv.py
-      md5: 2ecdd88c439b0a7272a6979843c18452
-      size: 2229
+      md5: 2f370e8a6aa4f9046bb6ece77b29e645
+      size: 2227
     outs:
     - path: evaluation/metrics_cv.png
-      md5: 23f354c91503adbf78c0dbb10d8831ec
-      size: 79173
+      md5: 2aba6da1747750399b7e46facc8986a5
+      size: 66487
   aggregate_mean_median_std:
     cmd: python src/aggregate.py aggregate_mean_median_std data/segmentate_5s.dill
       data/aggregate_mean_median_std.dill
@@ -755,7 +755,7 @@ stages:
       params.yaml:
         dvclive:
           model: AdaBoostStumpClassifier
-          seed: 42
+          seed: 43
           data:
             type: Sklearn_Segments
             params:
