@@ -74,6 +74,6 @@ ax.text(
     fontsize=8,
 )
 plt.tight_layout()
-plt.ylim(0.8, 1)
+plt.ylim(0, 1)
 plt.xticks(ticks=[0, 1], labels=["Accuracy", "F1 Macro Score"])
 plt.savefig(output_filename)
