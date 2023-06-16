@@ -69,7 +69,7 @@ transform_pca:
 # AdaBoostStumpClassifier model
 dvclive:
   model: AdaBoostStumpClassifier
-  seed: 42
+  seed: 43
   data:
     type: Sklearn_Segments
     params:
