@@ -136,545 +136,525 @@ stages:
       md5: 9c57c0ca1b1f6d5b38d4500e514cbb56
       size: 49755
   cross_validation_run_1:
-    cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_1.json
+    cmd: python src/model_runner.py dvclive data/stft.dill data/cross_validation_split_1.json
       data/model_cv_1.pkl data/output_test_cv_1.csv
     deps:
     - path: data/cross_validation_split_1.json
       md5: ae5c6fb9c562aabbb499a71303a76594
       size: 49755
-    - path: data/fft.dill
-      md5: 92743b085a4232b05d4e04fe1a467bbe
-      size: 67080904
+    - path: data/stft.dill
+      md5: cce57c6e443b6d328dcb5ebc3177a071
+      size: 794097681
     - path: src/model_runner.py
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
-    - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
-      size: 1637
+    - path: src/models/CNN.py
+      md5: 5eb55de88aeb13e2653d343935123edf
+      size: 2714
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
       size: 3530
-    - path: src/models/utils/DataLoaderSklearn.py
-      md5: ddbaaeab649b9e5b6dbc3f0bfd956f3d
-      size: 5932
-    - path: src/models/utils/DataLoaderTabular.py
-      md5: 37a3174034c054d9751693a46bd5f590
-      size: 2454
+    - path: src/models/utils/DataLoaderNDArray.py
+      md5: 066928f279651704547826182f8d691f
+      size: 2845
     - path: src/models/utils/DataSetTabular.py
       md5: 8768e0820fe948b7a54fa023798c5124
       size: 1438
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
-          seed: 42
+          model: CNN
+          seed: 40
           data:
-            type: Sklearn_Segments
-            params:
-              columns: numeric
+            type: NDArray
+            output_size: 6
+            num_workers: 0
+            train_val_split: 0.8
+            batch_size: 64
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            num_epochs: 15
+            learning_rate: 0.05
+            weight_decay: 0.0005
+            momentum: 0.9
     outs:
     - path: data/model_cv_1.pkl
-      md5: 69bfd16ac8e7c736146fac46c72e4914
-      size: 5455211
+      md5: 0633f0d25b20d2e184e18e17b32fd112
+      size: 989283
     - path: data/output_test_cv_1.csv
-      md5: 521c37a2e54c2b7e4bbd3b7fbd0fc629
+      md5: dff9fd51267fc1a987ac89a73294edae
       size: 3416
   cross_validation_run_2:
-    cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_2.json
+    cmd: python src/model_runner.py dvclive data/stft.dill data/cross_validation_split_2.json
       data/model_cv_2.pkl data/output_test_cv_2.csv
     deps:
     - path: data/cross_validation_split_2.json
       md5: ef64484027f3d8af4187e217e552e563
       size: 49755
-    - path: data/fft.dill
-      md5: 92743b085a4232b05d4e04fe1a467bbe
-      size: 67080904
+    - path: data/stft.dill
+      md5: cce57c6e443b6d328dcb5ebc3177a071
+      size: 794097681
     - path: src/model_runner.py
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
-    - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
-      size: 1637
+    - path: src/models/CNN.py
+      md5: 5eb55de88aeb13e2653d343935123edf
+      size: 2714
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
       size: 3530
-    - path: src/models/utils/DataLoaderSklearn.py
-      md5: ddbaaeab649b9e5b6dbc3f0bfd956f3d
-      size: 5932
-    - path: src/models/utils/DataLoaderTabular.py
-      md5: 37a3174034c054d9751693a46bd5f590
-      size: 2454
+    - path: src/models/utils/DataLoaderNDArray.py
+      md5: 066928f279651704547826182f8d691f
+      size: 2845
     - path: src/models/utils/DataSetTabular.py
       md5: 8768e0820fe948b7a54fa023798c5124
       size: 1438
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
-          seed: 42
+          model: CNN
+          seed: 40
           data:
-            type: Sklearn_Segments
-            params:
-              columns: numeric
+            type: NDArray
+            output_size: 6
+            num_workers: 0
+            train_val_split: 0.8
+            batch_size: 64
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            num_epochs: 15
+            learning_rate: 0.05
+            weight_decay: 0.0005
+            momentum: 0.9
     outs:
     - path: data/model_cv_2.pkl
-      md5: 2ce6a218ac2289c5f8a142c0ae598621
-      size: 5471584
+      md5: 1089e5073eed8fba0f7bc1374e446bef
+      size: 989283
     - path: data/output_test_cv_2.csv
-      md5: ca8352592130f8a20372f3f88f61c6f1
+      md5: d6a9fecf035fb09f8c4042c724224f83
       size: 3416
   cross_validation_run_3:
-    cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_3.json
+    cmd: python src/model_runner.py dvclive data/stft.dill data/cross_validation_split_3.json
       data/model_cv_3.pkl data/output_test_cv_3.csv
     deps:
     - path: data/cross_validation_split_3.json
       md5: 397de6b1d638c3a7dc2e9067e5c7a9ee
       size: 49755
-    - path: data/fft.dill
-      md5: 92743b085a4232b05d4e04fe1a467bbe
-      size: 67080904
+    - path: data/stft.dill
+      md5: cce57c6e443b6d328dcb5ebc3177a071
+      size: 794097681
     - path: src/model_runner.py
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
-    - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
-      size: 1637
+    - path: src/models/CNN.py
+      md5: 5eb55de88aeb13e2653d343935123edf
+      size: 2714
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
       size: 3530
-    - path: src/models/utils/DataLoaderSklearn.py
-      md5: ddbaaeab649b9e5b6dbc3f0bfd956f3d
-      size: 5932
-    - path: src/models/utils/DataLoaderTabular.py
-      md5: 37a3174034c054d9751693a46bd5f590
-      size: 2454
+    - path: src/models/utils/DataLoaderNDArray.py
+      md5: 066928f279651704547826182f8d691f
+      size: 2845
     - path: src/models/utils/DataSetTabular.py
       md5: 8768e0820fe948b7a54fa023798c5124
       size: 1438
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
-          seed: 42
+          model: CNN
+          seed: 40
           data:
-            type: Sklearn_Segments
-            params:
-              columns: numeric
+            type: NDArray
+            output_size: 6
+            num_workers: 0
+            train_val_split: 0.8
+            batch_size: 64
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            num_epochs: 15
+            learning_rate: 0.05
+            weight_decay: 0.0005
+            momentum: 0.9
     outs:
     - path: data/model_cv_3.pkl
-      md5: 9fd334d723b5978279d8bece4d7aae54
-      size: 5465959
+      md5: 3568546f30f92c1b1eea27e4f45abd20
+      size: 989283
     - path: data/output_test_cv_3.csv
-      md5: 36e6e01fa812d7e6dbc97f8adf6a6f69
+      md5: 1f5502d6a52148864ce4db2e14a89b06
       size: 3416
   cross_validation_run_4:
-    cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_4.json
+    cmd: python src/model_runner.py dvclive data/stft.dill data/cross_validation_split_4.json
       data/model_cv_4.pkl data/output_test_cv_4.csv
     deps:
     - path: data/cross_validation_split_4.json
       md5: 1191b9ccd87f2c70b9e62b47b8b30e3e
       size: 49755
-    - path: data/fft.dill
-      md5: 92743b085a4232b05d4e04fe1a467bbe
-      size: 67080904
+    - path: data/stft.dill
+      md5: cce57c6e443b6d328dcb5ebc3177a071
+      size: 794097681
     - path: src/model_runner.py
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
-    - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
-      size: 1637
+    - path: src/models/CNN.py
+      md5: 5eb55de88aeb13e2653d343935123edf
+      size: 2714
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
       size: 3530
-    - path: src/models/utils/DataLoaderSklearn.py
-      md5: ddbaaeab649b9e5b6dbc3f0bfd956f3d
-      size: 5932
-    - path: src/models/utils/DataLoaderTabular.py
-      md5: 37a3174034c054d9751693a46bd5f590
-      size: 2454
+    - path: src/models/utils/DataLoaderNDArray.py
+      md5: 066928f279651704547826182f8d691f
+      size: 2845
     - path: src/models/utils/DataSetTabular.py
       md5: 8768e0820fe948b7a54fa023798c5124
       size: 1438
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
-          seed: 42
+          model: CNN
+          seed: 40
           data:
-            type: Sklearn_Segments
-            params:
-              columns: numeric
+            type: NDArray
+            output_size: 6
+            num_workers: 0
+            train_val_split: 0.8
+            batch_size: 64
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            num_epochs: 15
+            learning_rate: 0.05
+            weight_decay: 0.0005
+            momentum: 0.9
     outs:
     - path: data/model_cv_4.pkl
-      md5: c42a57af7d3e1afc9445685e247f825b
-      size: 5469186
+      md5: d6ba91faaec00c4b2defc98311a5f2b8
+      size: 989283
     - path: data/output_test_cv_4.csv
-      md5: 1006bc4ff88f1b47d9e71b3870707266
+      md5: 17a85891ef7c3b6632cc9e82d9b6893c
       size: 3416
   cross_validation_run_5:
-    cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_5.json
+    cmd: python src/model_runner.py dvclive data/stft.dill data/cross_validation_split_5.json
       data/model_cv_5.pkl data/output_test_cv_5.csv
     deps:
     - path: data/cross_validation_split_5.json
       md5: 97c34f144398ca7291ce08a16b976ec7
       size: 49755
-    - path: data/fft.dill
-      md5: 92743b085a4232b05d4e04fe1a467bbe
-      size: 67080904
+    - path: data/stft.dill
+      md5: cce57c6e443b6d328dcb5ebc3177a071
+      size: 794097681
     - path: src/model_runner.py
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
-    - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
-      size: 1637
+    - path: src/models/CNN.py
+      md5: 5eb55de88aeb13e2653d343935123edf
+      size: 2714
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
       size: 3530
-    - path: src/models/utils/DataLoaderSklearn.py
-      md5: ddbaaeab649b9e5b6dbc3f0bfd956f3d
-      size: 5932
-    - path: src/models/utils/DataLoaderTabular.py
-      md5: 37a3174034c054d9751693a46bd5f590
-      size: 2454
+    - path: src/models/utils/DataLoaderNDArray.py
+      md5: 066928f279651704547826182f8d691f
+      size: 2845
     - path: src/models/utils/DataSetTabular.py
       md5: 8768e0820fe948b7a54fa023798c5124
       size: 1438
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
-          seed: 42
+          model: CNN
+          seed: 40
           data:
-            type: Sklearn_Segments
-            params:
-              columns: numeric
+            type: NDArray
+            output_size: 6
+            num_workers: 0
+            train_val_split: 0.8
+            batch_size: 64
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            num_epochs: 15
+            learning_rate: 0.05
+            weight_decay: 0.0005
+            momentum: 0.9
     outs:
     - path: data/model_cv_5.pkl
-      md5: c711f1e1634aef2dc815851d9174f365
-      size: 5476092
+      md5: 2873f2e601e379bdb1d68d5fdf51573a
+      size: 989283
     - path: data/output_test_cv_5.csv
-      md5: 6d6fd7b4cd3698d32919cdb0b8542fc9
+      md5: 3a8e0961147879ba2b71e7a68c05517d
       size: 3412
   cross_validation_run_6:
-    cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_6.json
+    cmd: python src/model_runner.py dvclive data/stft.dill data/cross_validation_split_6.json
       data/model_cv_6.pkl data/output_test_cv_6.csv
     deps:
     - path: data/cross_validation_split_6.json
       md5: 3a42369b74e2030b1ef175e56107fd91
       size: 49755
-    - path: data/fft.dill
-      md5: 92743b085a4232b05d4e04fe1a467bbe
-      size: 67080904
+    - path: data/stft.dill
+      md5: cce57c6e443b6d328dcb5ebc3177a071
+      size: 794097681
     - path: src/model_runner.py
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
-    - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
-      size: 1637
+    - path: src/models/CNN.py
+      md5: 5eb55de88aeb13e2653d343935123edf
+      size: 2714
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
       size: 3530
-    - path: src/models/utils/DataLoaderSklearn.py
-      md5: ddbaaeab649b9e5b6dbc3f0bfd956f3d
-      size: 5932
-    - path: src/models/utils/DataLoaderTabular.py
-      md5: 37a3174034c054d9751693a46bd5f590
-      size: 2454
+    - path: src/models/utils/DataLoaderNDArray.py
+      md5: 066928f279651704547826182f8d691f
+      size: 2845
     - path: src/models/utils/DataSetTabular.py
       md5: 8768e0820fe948b7a54fa023798c5124
       size: 1438
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
-          seed: 42
+          model: CNN
+          seed: 40
           data:
-            type: Sklearn_Segments
-            params:
-              columns: numeric
+            type: NDArray
+            output_size: 6
+            num_workers: 0
+            train_val_split: 0.8
+            batch_size: 64
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            num_epochs: 15
+            learning_rate: 0.05
+            weight_decay: 0.0005
+            momentum: 0.9
     outs:
     - path: data/model_cv_6.pkl
-      md5: 8ee003d280ab039a16bfce2edb5f003d
-      size: 5463769
+      md5: b1aa7cadf0ee44c7bc29f97ee8f5cf07
+      size: 989283
     - path: data/output_test_cv_6.csv
-      md5: a4a7d909f659b9dc6fa5a77f2e83b06c
+      md5: 4c0e68b7801d2e2e23c9e49860a45499
       size: 3412
   cross_validation_run_7:
-    cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_7.json
+    cmd: python src/model_runner.py dvclive data/stft.dill data/cross_validation_split_7.json
       data/model_cv_7.pkl data/output_test_cv_7.csv
     deps:
     - path: data/cross_validation_split_7.json
       md5: c1503dacb3ae7111b8f0592f7d5d656f
       size: 49755
-    - path: data/fft.dill
-      md5: 92743b085a4232b05d4e04fe1a467bbe
-      size: 67080904
+    - path: data/stft.dill
+      md5: cce57c6e443b6d328dcb5ebc3177a071
+      size: 794097681
     - path: src/model_runner.py
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
-    - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
-      size: 1637
+    - path: src/models/CNN.py
+      md5: 5eb55de88aeb13e2653d343935123edf
+      size: 2714
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
       size: 3530
-    - path: src/models/utils/DataLoaderSklearn.py
-      md5: ddbaaeab649b9e5b6dbc3f0bfd956f3d
-      size: 5932
-    - path: src/models/utils/DataLoaderTabular.py
-      md5: 37a3174034c054d9751693a46bd5f590
-      size: 2454
+    - path: src/models/utils/DataLoaderNDArray.py
+      md5: 066928f279651704547826182f8d691f
+      size: 2845
     - path: src/models/utils/DataSetTabular.py
       md5: 8768e0820fe948b7a54fa023798c5124
       size: 1438
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
-          seed: 42
+          model: CNN
+          seed: 40
           data:
-            type: Sklearn_Segments
-            params:
-              columns: numeric
+            type: NDArray
+            output_size: 6
+            num_workers: 0
+            train_val_split: 0.8
+            batch_size: 64
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            num_epochs: 15
+            learning_rate: 0.05
+            weight_decay: 0.0005
+            momentum: 0.9
     outs:
     - path: data/model_cv_7.pkl
-      md5: f22b916a62265c0f78eed9bdc4bc673a
-      size: 5468262
+      md5: e33b4a9dd155c429aff82b52199e05f7
+      size: 989283
     - path: data/output_test_cv_7.csv
-      md5: 2dd4ec47497eddb80f10197c9e4ba294
+      md5: 6800c1de18a2e30be0d0ae34ebdea4c1
       size: 3412
   cross_validation_run_8:
-    cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_8.json
+    cmd: python src/model_runner.py dvclive data/stft.dill data/cross_validation_split_8.json
       data/model_cv_8.pkl data/output_test_cv_8.csv
     deps:
     - path: data/cross_validation_split_8.json
       md5: 37b9b493a999f6d581adc9f4bd18103b
       size: 49755
-    - path: data/fft.dill
-      md5: 92743b085a4232b05d4e04fe1a467bbe
-      size: 67080904
+    - path: data/stft.dill
+      md5: cce57c6e443b6d328dcb5ebc3177a071
+      size: 794097681
     - path: src/model_runner.py
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
-    - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
-      size: 1637
+    - path: src/models/CNN.py
+      md5: 5eb55de88aeb13e2653d343935123edf
+      size: 2714
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
       size: 3530
-    - path: src/models/utils/DataLoaderSklearn.py
-      md5: ddbaaeab649b9e5b6dbc3f0bfd956f3d
-      size: 5932
-    - path: src/models/utils/DataLoaderTabular.py
-      md5: 37a3174034c054d9751693a46bd5f590
-      size: 2454
+    - path: src/models/utils/DataLoaderNDArray.py
+      md5: 066928f279651704547826182f8d691f
+      size: 2845
     - path: src/models/utils/DataSetTabular.py
       md5: 8768e0820fe948b7a54fa023798c5124
       size: 1438
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
-          seed: 42
+          model: CNN
+          seed: 40
           data:
-            type: Sklearn_Segments
-            params:
-              columns: numeric
+            type: NDArray
+            output_size: 6
+            num_workers: 0
+            train_val_split: 0.8
+            batch_size: 64
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            num_epochs: 15
+            learning_rate: 0.05
+            weight_decay: 0.0005
+            momentum: 0.9
     outs:
     - path: data/model_cv_8.pkl
-      md5: bfe4f97d82d4d9fab5fea807cd1a0063
-      size: 5471492
+      md5: bc609096010a647b85ee55847a4b1df2
+      size: 989283
     - path: data/output_test_cv_8.csv
-      md5: cddc19258974d33081ed5ff2e779a546
+      md5: 2242441ae702f1b32c958f41710c32df
       size: 3412
   cross_validation_run_9:
-    cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_9.json
+    cmd: python src/model_runner.py dvclive data/stft.dill data/cross_validation_split_9.json
       data/model_cv_9.pkl data/output_test_cv_9.csv
     deps:
     - path: data/cross_validation_split_9.json
       md5: 9c57c0ca1b1f6d5b38d4500e514cbb56
       size: 49755
-    - path: data/fft.dill
-      md5: 92743b085a4232b05d4e04fe1a467bbe
-      size: 67080904
+    - path: data/stft.dill
+      md5: cce57c6e443b6d328dcb5ebc3177a071
+      size: 794097681
     - path: src/model_runner.py
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
-    - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
-      size: 1637
+    - path: src/models/CNN.py
+      md5: 5eb55de88aeb13e2653d343935123edf
+      size: 2714
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
       size: 3530
-    - path: src/models/utils/DataLoaderSklearn.py
-      md5: ddbaaeab649b9e5b6dbc3f0bfd956f3d
-      size: 5932
-    - path: src/models/utils/DataLoaderTabular.py
-      md5: 37a3174034c054d9751693a46bd5f590
-      size: 2454
+    - path: src/models/utils/DataLoaderNDArray.py
+      md5: 066928f279651704547826182f8d691f
+      size: 2845
     - path: src/models/utils/DataSetTabular.py
       md5: 8768e0820fe948b7a54fa023798c5124
       size: 1438
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
-          seed: 42
+          model: CNN
+          seed: 40
           data:
-            type: Sklearn_Segments
-            params:
-              columns: numeric
+            type: NDArray
+            output_size: 6
+            num_workers: 0
+            train_val_split: 0.8
+            batch_size: 64
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            num_epochs: 15
+            learning_rate: 0.05
+            weight_decay: 0.0005
+            momentum: 0.9
     outs:
     - path: data/model_cv_9.pkl
-      md5: 419ba2cdaf9356df2715e5183c04bb5f
-      size: 5465739
+      md5: 58a4bc7c83650d0e77ddcf19f1d35fcb
+      size: 989283
     - path: data/output_test_cv_9.csv
-      md5: 74145ddfbad1927e63a09774f36e53f3
+      md5: 35d30f0bb8a75db83754756e03309192
       size: 3412
   cross_validation_run_10:
-    cmd: python src/model_runner.py dvclive data/fft.dill data/cross_validation_split_10.json
+    cmd: python src/model_runner.py dvclive data/stft.dill data/cross_validation_split_10.json
       data/model_cv_10.pkl data/output_test_cv_10.csv
     deps:
     - path: data/cross_validation_split_10.json
       md5: 4afb16fa991b5e9b1308b03d42a7e9e6
       size: 49755
-    - path: data/fft.dill
-      md5: 92743b085a4232b05d4e04fe1a467bbe
-      size: 67080904
+    - path: data/stft.dill
+      md5: cce57c6e443b6d328dcb5ebc3177a071
+      size: 794097681
     - path: src/model_runner.py
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
-    - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
-      size: 1637
+    - path: src/models/CNN.py
+      md5: 5eb55de88aeb13e2653d343935123edf
+      size: 2714
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
       size: 3530
-    - path: src/models/utils/DataLoaderSklearn.py
-      md5: ddbaaeab649b9e5b6dbc3f0bfd956f3d
-      size: 5932
-    - path: src/models/utils/DataLoaderTabular.py
-      md5: 37a3174034c054d9751693a46bd5f590
-      size: 2454
+    - path: src/models/utils/DataLoaderNDArray.py
+      md5: 066928f279651704547826182f8d691f
+      size: 2845
     - path: src/models/utils/DataSetTabular.py
       md5: 8768e0820fe948b7a54fa023798c5124
       size: 1438
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
-          seed: 42
+          model: CNN
+          seed: 40
           data:
-            type: Sklearn_Segments
-            params:
-              columns: numeric
+            type: NDArray
+            output_size: 6
+            num_workers: 0
+            train_val_split: 0.8
+            batch_size: 64
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            num_epochs: 15
+            learning_rate: 0.05
+            weight_decay: 0.0005
+            momentum: 0.9
     outs:
     - path: data/model_cv_10.pkl
-      md5: a1b2e4a5c09dc2a613a644e8ee399aad
-      size: 5476261
+      md5: 91c49003890b7a0bf001cb7946d36275
+      size: 989283
     - path: data/output_test_cv_10.csv
-      md5: c0688b911ccab1752c4353c7f77c9540
+      md5: 329f6ada1846666455771e21d4e66a03
       size: 3412
   evaluate_cv:
     cmd: python src/evaluate_cv.py evaluate_cv data/output_test_cv_ evaluation/metrics_cv.png
     deps:
     - path: data/output_test_cv_1.csv
-      md5: 521c37a2e54c2b7e4bbd3b7fbd0fc629
+      md5: dff9fd51267fc1a987ac89a73294edae
       size: 3416
     - path: data/output_test_cv_10.csv
-      md5: c0688b911ccab1752c4353c7f77c9540
+      md5: 329f6ada1846666455771e21d4e66a03
       size: 3412
     - path: data/output_test_cv_2.csv
-      md5: ca8352592130f8a20372f3f88f61c6f1
+      md5: d6a9fecf035fb09f8c4042c724224f83
       size: 3416
     - path: data/output_test_cv_3.csv
-      md5: 36e6e01fa812d7e6dbc97f8adf6a6f69
+      md5: 1f5502d6a52148864ce4db2e14a89b06
       size: 3416
     - path: data/output_test_cv_4.csv
-      md5: 1006bc4ff88f1b47d9e71b3870707266
+      md5: 17a85891ef7c3b6632cc9e82d9b6893c
       size: 3416
     - path: data/output_test_cv_5.csv
-      md5: 6d6fd7b4cd3698d32919cdb0b8542fc9
+      md5: 3a8e0961147879ba2b71e7a68c05517d
       size: 3412
     - path: data/output_test_cv_6.csv
-      md5: a4a7d909f659b9dc6fa5a77f2e83b06c
+      md5: 4c0e68b7801d2e2e23c9e49860a45499
       size: 3412
     - path: data/output_test_cv_7.csv
-      md5: 2dd4ec47497eddb80f10197c9e4ba294
+      md5: 6800c1de18a2e30be0d0ae34ebdea4c1
       size: 3412
     - path: data/output_test_cv_8.csv
-      md5: cddc19258974d33081ed5ff2e779a546
+      md5: 2242441ae702f1b32c958f41710c32df
       size: 3412
     - path: data/output_test_cv_9.csv
-      md5: 74145ddfbad1927e63a09774f36e53f3
+      md5: 35d30f0bb8a75db83754756e03309192
       size: 3412
     - path: src/evaluate_cv.py
       md5: 2ecdd88c439b0a7272a6979843c18452
       size: 2229
     outs:
     - path: evaluation/metrics_cv.png
-      md5: d441b946d9d38e44004ee96c2755b2f5
-      size: 80252
+      md5: 89d0eea7781542e3e46c69f246f71499
+      size: 82059
   aggregate_mean_median_std:
     cmd: python src/aggregate.py aggregate_mean_median_std data/segmentate_5s.dill
       data/aggregate_mean_median_std.dill
@@ -744,62 +724,60 @@ stages:
       md5: 4ef37b374addf2185c30bb76095a08c3
       size: 1331
   dvclive:
-    cmd: python src/model_runner.py dvclive data/fft.dill data/train_test_split_ratio02.json
+    cmd: python src/model_runner.py dvclive data/stft.dill data/train_test_split_ratio02.json
       data/model.pkl data/output_test.csv
     deps:
-    - path: data/fft.dill
-      md5: 92743b085a4232b05d4e04fe1a467bbe
-      size: 67080904
+    - path: data/stft.dill
+      md5: cce57c6e443b6d328dcb5ebc3177a071
+      size: 794097681
     - path: data/train_test_split_ratio02.json
       md5: 1babc49cc8fcdded8c99ef9980407f17
       size: 49755
     - path: src/model_runner.py
       md5: d1aee4d739ec2c92ab5e477e3b25628a
       size: 6020
-    - path: src/models/MLP.py
-      md5: 250ab3240b8da98a98f41d8b60a9107d
-      size: 1637
+    - path: src/models/CNN.py
+      md5: 5eb55de88aeb13e2653d343935123edf
+      size: 2714
     - path: src/models/__IModel.py
       md5: d937fe84196fb9f7c5bd0d60b85567a5
       size: 3530
-    - path: src/models/utils/DataLoaderSklearn.py
-      md5: ddbaaeab649b9e5b6dbc3f0bfd956f3d
-      size: 5932
-    - path: src/models/utils/DataLoaderTabular.py
-      md5: 37a3174034c054d9751693a46bd5f590
-      size: 2454
+    - path: src/models/utils/DataLoaderNDArray.py
+      md5: 066928f279651704547826182f8d691f
+      size: 2845
     - path: src/models/utils/DataSetTabular.py
       md5: 8768e0820fe948b7a54fa023798c5124
       size: 1438
     params:
       params.yaml:
         dvclive:
-          model: HistGradientBoostingClassifier
-          seed: 42
+          model: CNN
+          seed: 40
           data:
-            type: Sklearn_Segments
-            params:
-              columns: numeric
+            type: NDArray
+            output_size: 6
+            num_workers: 0
+            train_val_split: 0.8
+            batch_size: 64
           model_hparams:
-            learning_rate: 0.2
-            max_iter: 2000
-            max_leaf_nodes: 31
-            min_samples_leaf: 20
-            max_bins: 255
+            num_epochs: 15
+            learning_rate: 0.05
+            weight_decay: 0.0005
+            momentum: 0.9
     outs:
     - path: data/model.pkl
-      md5: 208665c3df54b554c86d6d8af50c3037
-      size: 5440826
+      md5: ca564ccc6e02f684b8257c9ff1866b61
+      size: 989283
     - path: data/output_test.csv
-      md5: c9a22b0d2a1bfdc4e7f2da72e7591563
+      md5: 4ee698c3b75b4a4b2f57662ee8e2c32c
       size: 6804
     - path: dvclive/metrics.json
-      md5: dd73dcdfb481d6aa4f81039e6a4979bb
-      size: 141
+      md5: e562f99159dda53d392f7a6359b9becf
+      size: 878
     - path: dvclive/plots
-      md5: d7440eb7bd03af4841ed706e85562bcf.dir
-      size: 134
-      nfiles: 4
+      md5: 7e434fcb924500c87bb5557ea2e3c449.dir
+      size: 86600
+      nfiles: 17
   correlations_pearson:
     cmd: python src/correlations.py correlations_pearson data/segmentate_5s.dill data/correlations_pearson.parquet
     deps:
@@ -868,15 +846,15 @@ stages:
     cmd: python src/evaluate.py evaluate data/output_test.csv evaluation/confusion_matrix.png
     deps:
     - path: data/output_test.csv
-      md5: c9a22b0d2a1bfdc4e7f2da72e7591563
-      size: 8500
+      md5: 4ee698c3b75b4a4b2f57662ee8e2c32c
+      size: 6804
     - path: src/evaluate.py
       md5: 1d1a8fa2598be16d9b78212e528e284f
       size: 982
     outs:
     - path: evaluation/confusion_matrix.png
-      md5: 58ad4d3f9d3a7e1ab3522eaea359d404
-      size: 39804
+      md5: ba3701e01b2b120d0bacb22c61fb154d
+      size: 40313
   stft:
     cmd: python src/stft.py stft data/segmentate_5s.dill data/stft.dill
     deps:
